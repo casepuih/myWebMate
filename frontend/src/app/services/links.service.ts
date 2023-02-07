@@ -1,0 +1,79 @@
+import { Injectable } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {Observable, Subject, tap} from "rxjs";
+import {LinksGroups} from "../models/groupLinksModel";
+import {environment} from "../../environments/environment";
+import {Links} from "../models/linksModel";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LinksService {
+  api:string = environment.api;
+  private linksUpdated = new Subject<any>();
+
+  constructor(
+    private _client : HttpClient
+  ) { }
+
+  getLinksUpdateEmitter() {
+    return this.linksUpdated.asObservable();
+  }
+
+  getGroupLinksList () : Observable<LinksGroups> {
+    return this._client.get<LinksGroups>(this.api + "linksgroup");
+  }
+
+  getLinksList () : Observable<Links> {
+    return this._client.get<Links>(this.api + "links");
+  }
+
+  createGroupLinks(name:string) : Observable<any> {
+    return this._client.post<any>(this.api + "linksgroup", {
+      "name" : name,
+      "description" : ""
+    }).pipe(tap(updatedLinks => {
+      this.linksUpdated.next(updatedLinks);
+    }))
+  }
+
+  createLink(name:string, link: string, linksGroupId: number) : Observable<any> {
+    return  this._client.post<any>(this.api + "links", {
+      "name" : name,
+      "link": link,
+      "linksGroupId": linksGroupId
+    }).pipe(tap(updatedLinks => {
+      this.linksUpdated.next(updatedLinks);
+    }))
+  }
+
+  updateLink(id:number, name:string, link: string) : Observable<any> {
+    return this._client.put<any>(this.api + "links/" + id, {
+      "name": name,
+      "link": link
+    }).pipe(tap(updatedLinks => {
+        this.linksUpdated.next(updatedLinks);
+    }))
+  }
+
+  deleteLink(id:number) : Observable<any> {
+    return this._client.delete<any>(this.api + "links/" + id).pipe(tap(updatedLinks => {
+      this.linksUpdated.next(updatedLinks);
+    }))
+  }
+
+  updateGroupLinksName(id:number, name:string) : Observable<any> {
+    return this._client.put<any>(this.api + "linksgroup/" + id, {
+      "name": name,
+      "description": ""
+    }).pipe(tap(updatedLinks => {
+      this.linksUpdated.next(updatedLinks);
+    }))
+  }
+
+  deleteGroupLinks(id:number) : Observable<any> {
+    return this._client.delete<any>(this.api + "linksgroup/" + id).pipe(tap(updatedLinks => {
+      this.linksUpdated.next(updatedLinks);
+    }))
+  }
+}

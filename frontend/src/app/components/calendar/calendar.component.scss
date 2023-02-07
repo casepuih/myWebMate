@@ -1,0 +1,286 @@
+@mixin mediaQueryWidthModal {
+  @media (min-width: 0) {
+    margin: 0 auto;
+    width: 95%;
+  }
+  @media (min-width: 500px) {
+    margin: 0 auto;
+    width: 90%;
+  }
+  @media (min-width: 1400px) {
+    margin: 0 auto;
+    width: 80%;
+  }
+}
+
+.menu {
+  display:flex;
+  border:1px solid #3A406E;
+  height:60px;
+  line-height: 60px;
+  padding-left: 20px;
+  border-radius: 10px 10px 0 0;
+  .leftMenu {
+    display: flex;
+    width:40%;
+    .today {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-right: 1.5rem;
+      font-weight: bold;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      border: 1px solid #3A406E;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        background-color: #dcdcdc;
+      }
+    }
+
+    .navigate {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-right: 1.5rem;
+      width: 40px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        background-color: #dcdcdc;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .centerMenu {
+    width:20%;
+    .currentYear{
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
+  .rightMenu {
+    width:40%;
+    display: flex;
+    justify-content: flex-end;
+    .addPlan {
+      margin-right:1.5rem;
+      position: relative;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding-left: 1.2rem;
+      padding-right: 1.2rem;
+      border: 1px solid #3A406E;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .textAddPlan {
+        font-weight: bold;
+      }
+      &:hover {
+        background-color: #dcdcdc;
+      }
+    }
+    .chooseDisplayBy {
+      margin-right: 1rem;
+      select {
+        height: 40px;
+        width: 140px;
+        padding-left: 0.5rem;
+      }
+    }
+  }
+}
+
+.modalMiddleScreen {
+  .contentModalMiddleScreen{
+    .titleContainer {
+      width:100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height:40px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      input{
+        @media (min-width: 0) {
+          margin: 0 auto;
+          width: 90%;
+        }
+        @media (min-width: 1400px) {
+          margin: 0 auto;
+          width: 80%;
+        }
+        font-size: 1.2rem;
+      }
+    }
+    .chooseEvent {
+      @include mediaQueryWidthModal;
+      margin-bottom: 1rem !important;
+      display: flex;
+      div{
+        margin-right: 1rem;
+        padding:0.5rem;
+        border: 1px solid #2a2a2a;
+        &.selected {
+          background-color: #3793AF;
+          color:white;
+        }
+      }
+    }
+    .descriptionContainer {
+      @include mediaQueryWidthModal;
+      margin-bottom: 1rem !important;
+      textarea {
+        width:100%;
+        height:110px;
+      }
+    }
+
+    .dateContainer{
+      @include mediaQueryWidthModal;
+      margin-bottom: 1rem !important;
+      display: flex;
+      align-items: center;
+      @media (min-width: 0) {
+        font-size: 0.7rem;
+      }
+      @media (min-width: 340px) {
+        font-size: 0.8rem;
+      }
+      @media (min-width: 540px) {
+        font-size: 1rem;
+      }
+      .titleDateTask {
+        @media (min-width: 0) {
+          width:40px;
+        }
+        @media (min-width: 540px) {
+          width:60px;
+        }
+      }
+      .titleDateMeet {
+        @media (min-width: 0) {
+          width:45px;
+        }
+        @media (min-width: 540px) {
+          width:120px;
+        }
+        .shortText {
+          @media (min-width: 0) {
+            display:block;
+          }
+          @media (min-width: 540px) {
+            display: none;
+          }
+        }
+        .longText {
+          @media (min-width: 0) {
+            display:none;
+          }
+          @media (min-width: 540px) {
+            display:block;
+          }
+        }
+      }
+      select{
+        @media (min-width: 0) {
+          margin-left:0.1rem;
+        }
+        @media (min-width: 340px) {
+          margin-left:0.2rem;
+        }
+
+        &:nth-child(4) {
+          @media (min-width: 0) {
+            margin-left: 10px;
+          }
+          @media (min-width: 450px) {
+            margin-left: 20px;
+          }
+        }
+      }
+    }
+
+    .recurrentContainer {
+      @include mediaQueryWidthModal;
+      display: flex;
+      margin-bottom: 1.5rem !important;
+      flex-flow: row wrap;
+      select {
+        margin-right: 5px;
+        margin-left: 10px;
+      }
+    }
+
+    .addRelationContainer{
+      @include mediaQueryWidthModal;
+      display:flex;
+      align-items: center;
+      img {
+        width:17px;
+        height:17px;
+        margin-right: 5px;
+      }
+    }
+
+    .relationContainer {
+      @include mediaQueryWidthModal;
+      display: flex;
+      margin-bottom: 1.5rem !important;
+      .listParticipant {
+        .participant{
+          margin-right: 7px;
+          background-color: #6BDBCB55;
+          padding: 0.2rem;
+          border-radius: 5%;
+        }
+      }
+    }
+
+    .buttonContainer {
+      @include mediaQueryWidthModal;
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+.modalFriendsPicker {
+  .contentModalFriendsPicker {
+    h1 {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      height:1.2rem;
+    }
+    ul {
+      height: calc(94vh - 30px - 1.2rem  - 1.5rem - 30px);
+      overflow: auto;
+      li {
+        display: flex;
+        align-items: center;
+        margin-left: 5px;
+        input {
+          margin-right: 5px;
+        }
+        img {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}

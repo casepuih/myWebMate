@@ -1,0 +1,8 @@
+<div class="calendarDate">
+  <ul>
+    <li *ngFor="let date of week">
+      <div>{{date.theDay}}</div>
+      <div>{{date.day}} {{date.month | numberToWordMonth}}</div>
+    </li>
+  </ul>
+</div>

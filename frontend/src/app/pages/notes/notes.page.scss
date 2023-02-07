@@ -1,0 +1,35 @@
+a {
+  margin-left: 1rem;
+}
+h3 {
+  margin:1rem auto;
+  width:95%;
+  font-size: 1.2rem;
+}
+.titleContainer {
+  margin:1rem auto;
+  width:95%;
+  input {
+    width:100%;
+  }
+}
+.textContainer {
+  margin:1rem auto;
+  width:95%;
+  textarea {
+    min-height:600px;
+    width:100%;
+  }
+}
+
+.deleteNote {
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4rem;
+  button {
+
+    font-weight: bold;
+    border:1px solid #CA4E70;
+  }
+}

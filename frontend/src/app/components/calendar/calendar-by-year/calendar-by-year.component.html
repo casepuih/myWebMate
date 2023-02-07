@@ -1,0 +1,16 @@
+<div class="calendarDate">
+  <div class="currentYear">{{currentYear}}</div>
+  <div class="month" *ngFor="let month of year; index as i">
+    <h2>{{i+1 | numberToWordMonth}}</h2>
+    <ul class="weekDay">
+      <li *ngFor="let i of [0, 1, 2, 3, 4, 5, 6]">
+        {{month[i].theDay | wordToLetterDayOfWeek}}</li>
+    </ul>
+
+    <ul>
+      <li *ngFor="let date of month">
+        <span class="pointer">{{date.day <10 ? date.day : date.day}}</span>
+      </li>
+    </ul>
+  </div>
+</div>
