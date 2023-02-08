@@ -239,7 +239,7 @@ export class CalendarComponent implements OnInit {
       this.listHour.push(i);
     }
 
-    for (let i=0; i<61; i++) {
+    for (let i=0; i<60; i++) {
       this.listMinute.push(i);
     }
 

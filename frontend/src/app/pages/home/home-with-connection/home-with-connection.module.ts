@@ -20,6 +20,9 @@ import {CalendarByYearComponent} from "../../../components/calendar/calendar-by-
 import {WordToLetterDayOfWeekPipe} from "../../../pipe/word-to-letter-day-of-week.pipe";
 import {ZerotagePipe} from "../../../pipe/zerotage.pipe";
 import {CommaSeparatorPipe} from "../../../pipe/comma-separator.pipe";
+import {
+    CalendarByPlanningComponent
+} from "../../../components/calendar/calendar-by-planning/calendar-by-planning.component";
 
 @NgModule({
     imports: [
@@ -34,8 +37,8 @@ import {CommaSeparatorPipe} from "../../../pipe/comma-separator.pipe";
     FilterLinksByGroupPipe
   ],
     declarations: [HomeWithConnectionPage, NotesMenuComponent, NotepadComponent, LinksMenuComponent, NoteResumePipe,
-      FilterLinksByGroupPipe, SearchEnginesComponent, CalendarComponent, NumberToWordMonthPipe, CalendarByWeekComponent,
-      CalendarByDayComponent, CalendarByMonthComponent, CalendarByYearComponent, WordToLetterDayOfWeekPipe, ZerotagePipe,
-      CommaSeparatorPipe]
+        FilterLinksByGroupPipe, SearchEnginesComponent, CalendarComponent, NumberToWordMonthPipe, CalendarByWeekComponent,
+        CalendarByDayComponent, CalendarByMonthComponent, CalendarByYearComponent, WordToLetterDayOfWeekPipe, ZerotagePipe,
+        CommaSeparatorPipe, CalendarByPlanningComponent]
 })
 export class HomeWithConnectionPageModule {}

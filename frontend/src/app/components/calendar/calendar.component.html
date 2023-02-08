@@ -30,6 +30,7 @@
   <app-calendar-by-day *ngIf="displayBy === 'day'" [day]="day"></app-calendar-by-day>
   <app-calendar-by-month *ngIf="displayBy === 'month'" [month]="month"></app-calendar-by-month>
   <app-calendar-by-year *ngIf="displayBy === 'year'" [year]="year"></app-calendar-by-year>
+  <app-calendar-by-planning *ngIf="displayBy === 'planning'"></app-calendar-by-planning>
 </div>
 
 <div class="modalMiddleScreen" *ngIf="displayScrollAddMenu">
