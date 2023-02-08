@@ -10,8 +10,6 @@ import {FooterComponent} from "../../shared/footer/footer.component";
 import {NavbarComponent} from "../../shared/navbar/navbar.component";
 import {HomeWithoutConnectionPageModule} from "./home-without-connection/home-without-connection.module";
 import {HomeWithConnectionPageModule} from "./home-with-connection/home-with-connection.module";
-import {NoteResumePipe} from "../../pipe/note-resume.pipe";
-
 
 @NgModule({
   imports: [

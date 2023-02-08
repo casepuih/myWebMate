@@ -23,6 +23,7 @@ import {CommaSeparatorPipe} from "../../../pipe/comma-separator.pipe";
 import {
     CalendarByPlanningComponent
 } from "../../../components/calendar/calendar-by-planning/calendar-by-planning.component";
+import {DatePlanningPipe} from "../../../pipe/date-planning.pipe";
 
 @NgModule({
     imports: [
@@ -39,6 +40,6 @@ import {
     declarations: [HomeWithConnectionPage, NotesMenuComponent, NotepadComponent, LinksMenuComponent, NoteResumePipe,
         FilterLinksByGroupPipe, SearchEnginesComponent, CalendarComponent, NumberToWordMonthPipe, CalendarByWeekComponent,
         CalendarByDayComponent, CalendarByMonthComponent, CalendarByYearComponent, WordToLetterDayOfWeekPipe, ZerotagePipe,
-        CommaSeparatorPipe, CalendarByPlanningComponent]
+        CommaSeparatorPipe, CalendarByPlanningComponent, DatePlanningPipe]
 })
 export class HomeWithConnectionPageModule {}
