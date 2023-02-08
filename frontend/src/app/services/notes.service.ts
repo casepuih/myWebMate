@@ -24,7 +24,6 @@ export class NotesService {
   }
 
   getOneNote (id: number) : Observable<any> {
-    console.log("pass");
     return this._client.get<any>(this.api + "notes/" + id);
   }
 

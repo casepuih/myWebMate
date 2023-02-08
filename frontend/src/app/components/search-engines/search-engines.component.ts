@@ -15,4 +15,8 @@ export class SearchEnginesComponent implements OnInit {
   loadSearch(){
     window.open("https://www.google.com/search?q=" + this.search, "_blank");
   }
+
+  emptySearch() {
+    this.search = "";
+  }
 }

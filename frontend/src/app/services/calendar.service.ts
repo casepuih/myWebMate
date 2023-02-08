@@ -133,14 +133,7 @@ export class CalendarService {
   private _pushTasksWithoutReccurenceInMonthWithEvent(task : Task, monthWithEvent : any, dateBegin : Date) {
     if (!task.isRecurring && dateBegin.getFullYear() === monthWithEvent[0].year &&
       dateBegin.getMonth() + 1 === monthWithEvent[0].month) {
-      monthWithEvent[dateBegin.getDate() - 1].events.push({
-        id: task.id,
-        title: task.title,
-        description: task.description,
-        dateBegin: task.dateBegin,
-        isRecurring: task.isRecurring,
-        recurrence: task.recurrence
-      })
+      this._pushOneTaskInMonthWithEvent(task, monthWithEvent, dateBegin);
     }
 
     return monthWithEvent;
@@ -158,14 +151,7 @@ export class CalendarService {
     upperLimitDate.setDate(0);
 
     for (let date = lowerLimitDate; date <= upperLimitDate; date.setDate(date.getDate() + 1)) {
-      monthWithEvent[date.getDate() - 1].events.push({
-        id: task.id,
-        title: task.title,
-        description: task.description,
-        dateBegin: task.dateBegin,
-        isRecurring: task.isRecurring,
-        recurrence: task.recurrence
-      })
+      this._pushOneTaskInMonthWithEvent(task, monthWithEvent, date);
     }
 
     return monthWithEvent;
@@ -183,14 +169,7 @@ export class CalendarService {
     upperLimitDate.setDate(0);
 
     for (let date = lowerLimitDate; date <= upperLimitDate; date.setDate(date.getDate() + 7)) {
-      monthWithEvent[date.getDate() - 1].events.push({
-        id: task.id,
-        title: task.title,
-        description: task.description,
-        dateBegin: task.dateBegin,
-        isRecurring: task.isRecurring,
-        recurrence: task.recurrence
-      })
+      this._pushOneTaskInMonthWithEvent(task, monthWithEvent, date);
     }
 
     return monthWithEvent;
@@ -203,7 +182,21 @@ export class CalendarService {
       dateBegin.setDate(upperLimit);
     }
 
-    monthWithEvent[dateBegin.getDate() - 1].events.push({
+    this._pushOneTaskInMonthWithEvent(task, monthWithEvent, dateBegin);
+
+    return monthWithEvent;
+  }
+
+  private _pushTasksWithAnnualReccurenceInMonthWithEvent(task : Task, monthWithEvent : any, dateBegin : Date) {
+    if (dateBegin.getMonth() + 1 === monthWithEvent[0].month) {
+      this._pushOneTaskInMonthWithEvent(task, monthWithEvent, dateBegin);
+    }
+
+    return monthWithEvent;
+  }
+
+  private _pushOneTaskInMonthWithEvent(task : Task, monthWithEvent : any, date : Date) {
+    monthWithEvent[date.getDate() - 1].events.push({
       id: task.id,
       title: task.title,
       description: task.description,
@@ -211,23 +204,6 @@ export class CalendarService {
       isRecurring: task.isRecurring,
       recurrence: task.recurrence
     })
-
-    return monthWithEvent;
-  }
-
-  private _pushTasksWithAnnualReccurenceInMonthWithEvent(task : Task, monthWithEvent : any, dateBegin : Date) {
-    if (dateBegin.getMonth() + 1 === monthWithEvent[0].month) {
-      monthWithEvent[dateBegin.getDate() - 1].events.push({
-        id: task.id,
-        title: task.title,
-        description: task.description,
-        dateBegin: task.dateBegin,
-        isRecurring: task.isRecurring,
-        recurrence: task.recurrence
-      })
-    }
-
-    return monthWithEvent;
   }
 
   private _findTheFirstTheDayOfTheMonth (monthWithEvent : any, dateBegin : Date) {
@@ -249,7 +225,7 @@ export class CalendarService {
   }
 
   private _pushMeetsInMonthWithEvent(meets : Meet[], monthWithEvent : any, month: Day[]) {
-    const firstDay = new Date(month[0].year, month[0].month -1, 1, 0, 0);
+    let firstDay = new Date(month[0].year, month[0].month -1, 1, 0, 0, 0);
     const lastDay = new Date(month[0].year, month[0].month, 1, 23, 59, 59);
     lastDay.setDate(0);
 
@@ -259,30 +235,34 @@ export class CalendarService {
     let dateEndingTime = 0;
     let dateTime = 0;
 
-    console.log("LENGTH", meets.length);
     for (let i = 0; i < meets.length; i++) {
-      console.log("BEGINBOUCLE OF MEETS", firstDay, lastDay);
+      firstDay = new Date(month[0].year, month[0].month -1, 1, 0, 0, 0);
       dateBegin = new Date (meets[i].dateBegin);
       dateBeginTime = dateBegin.getTime();
       dateEnding = new Date (meets[i].dateEnding);
       dateEndingTime = dateEnding.getTime();
 
       for (let date = firstDay; date <= lastDay; date.setDate(date.getDate() + 1)) {
-        dateTime = date.getTime();
+        dateTime = date.getTime() +86399000;
 
-        console.log("FOR : ",meets[i].title, date," if (", dateTime, " >= ",dateBeginTime," && ",dateTime," <= ",dateEndingTime,")");
         if (dateTime >= dateBeginTime && dateTime <= dateEndingTime) {
-          console.log(meets[i].title, date);
+          monthWithEvent[date.getDate() - 1].events.push({
+            id: meets[i].id,
+            title: meets[i].title,
+            description: meets[i].description,
+            dateBegin: meets[i].dateBegin,
+            dateEnding: meets[i].dateEnding,
+            isRecurring: meets[i].isRecurring,
+            recurrence: meets[i].recurrence
+          })
         }
       }
-
-      console.log("IIIIIIIIIIIIIIII",i);
-
     }
-
 
     return monthWithEvent;
   }
+
+  
 
   private _getAllTasks() : Observable<ResAllTask> {
     return this._client.get<ResAllTask>(this.api + "tasks");

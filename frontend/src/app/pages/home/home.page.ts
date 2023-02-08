@@ -11,7 +11,6 @@ export class HomePage {
   isConnected!: boolean;
 
   constructor(
-    private _memberService: MemberService,
     private ar : ActivatedRoute,
   ) {}
 

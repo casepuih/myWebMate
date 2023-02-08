@@ -23,7 +23,7 @@ export class CalendarByMonthComponent implements OnInit {
   ngOnInit() {
     this.getAllPlanned();
     this.getEmitter();
-    this.getMonthChangeEmitter()
+    this.getMonthChangeEmitter();
   }
 
   getEmitter() {

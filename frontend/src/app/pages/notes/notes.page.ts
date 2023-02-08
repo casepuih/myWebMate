@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NotesService} from "../../services/notes.service";
 import {MemberService} from "../../services/member.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {ErrorService} from "../../services/error.service";
 
 @Component({
   selector: 'app-notes',
@@ -16,7 +17,8 @@ export class NotesPage implements OnInit {
     private ar : ActivatedRoute,
     private _notesService : NotesService,
     private _memberService : MemberService,
-    private _router : Router
+    private _router : Router,
+    private _errorService : ErrorService
   ) { }
 
   ngOnInit() {
@@ -35,7 +37,7 @@ export class NotesPage implements OnInit {
         this.note = data.result.notes;
       },
       error: (error) => {
-        console.log(error);
+        this._errorService.errorHandler(error);
       }
     })
   }
