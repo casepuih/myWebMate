@@ -88,7 +88,7 @@ export class CalendarComponent implements OnInit {
     }
 
     if (this.classMeetChoose === "selected") {
-      this._calendarService.createMeet(this.titleEvent, this.descriptionEvent, this.dateBegin, this.dateEnd, this.recurrence,
+      this._calendarService.createMeet(this.titleEvent, this.descriptionEvent, this.dateBegin, this.dateEnd,
         this.participant).subscribe({
         next: ()=> {
           this.clearFormAddEvent();

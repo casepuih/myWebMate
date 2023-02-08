@@ -56,11 +56,10 @@ export class CalendarService {
     }))
   }
 
-  createMeet(title:string, description:string, dateBeginObjet:DateEvent, dateEndObjet:DateEvent, recurrence:string,
-             participant:Relation[]) :Observable<any> {
+  createMeet(title:string, description:string, dateBeginObjet:DateEvent, dateEndObjet:DateEvent, participant:Relation[]) :Observable<any> {
     const dateBegin : string = this._dateConstructorForAPI(dateBeginObjet);
     const dateEnding : string = this._dateConstructorForAPI(dateEndObjet);
-    const isRecurring = recurrence !== "";
+    const isRecurring = false;
     const MemberId = this._getUserId();
     const MemberIdArray = this._fillMemberIdArray(MemberId, participant);
 
@@ -70,7 +69,7 @@ export class CalendarService {
       dateBegin,
       dateEnding,
       isRecurring,
-      recurrence,
+      recurrence : "",
       MemberIdArray
     }).pipe(tap(updatedCalendar => {
       this.calendarUpdated.next(updatedCalendar);
@@ -262,7 +261,7 @@ export class CalendarService {
     return monthWithEvent;
   }
 
-  
+
 
   private _getAllTasks() : Observable<ResAllTask> {
     return this._client.get<ResAllTask>(this.api + "tasks");

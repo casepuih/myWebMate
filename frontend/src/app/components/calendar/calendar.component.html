@@ -106,7 +106,7 @@
       <textarea placeholder="Ajouter une description" [(ngModel)]="descriptionEvent"></textarea>
     </div>
 
-    <div class="recurrentContainer">
+    <div class="recurrentContainer" *ngIf="classTaskChoose==='selected'">
       <div>Récurrence : </div>
       <div>
         <select [(ngModel)]="recurrence">
