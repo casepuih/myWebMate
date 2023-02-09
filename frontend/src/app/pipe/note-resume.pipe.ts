@@ -6,8 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class NoteResumePipe implements PipeTransform {
 
   transform(value: string): string {
-    if (value.length > 120) {
-      return value.substring(0, 120) + "......";
+    if (value.length > 150) {
+      return value.substring(0, 150) + "......";
     }
 
     return value;
