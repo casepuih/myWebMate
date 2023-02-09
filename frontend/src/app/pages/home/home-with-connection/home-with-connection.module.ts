@@ -24,6 +24,7 @@ import {
     CalendarByPlanningComponent
 } from "../../../components/calendar/calendar-by-planning/calendar-by-planning.component";
 import {DatePlanningPipe} from "../../../pipe/date-planning.pipe";
+import {DescriptionPlanningResumePipe} from "../../../pipe/description-planning-resume.pipe";
 
 @NgModule({
     imports: [
@@ -37,9 +38,9 @@ import {DatePlanningPipe} from "../../../pipe/date-planning.pipe";
     NoteResumePipe,
     FilterLinksByGroupPipe
   ],
-    declarations: [HomeWithConnectionPage, NotesMenuComponent, NotepadComponent, LinksMenuComponent, NoteResumePipe,
-        FilterLinksByGroupPipe, SearchEnginesComponent, CalendarComponent, NumberToWordMonthPipe, CalendarByWeekComponent,
-        CalendarByDayComponent, CalendarByMonthComponent, CalendarByYearComponent, WordToLetterDayOfWeekPipe, ZerotagePipe,
-        CommaSeparatorPipe, CalendarByPlanningComponent, DatePlanningPipe]
+  declarations: [HomeWithConnectionPage, NotesMenuComponent, NotepadComponent, LinksMenuComponent, NoteResumePipe,
+    FilterLinksByGroupPipe, SearchEnginesComponent, CalendarComponent, NumberToWordMonthPipe, CalendarByWeekComponent,
+    CalendarByDayComponent, CalendarByMonthComponent, CalendarByYearComponent, WordToLetterDayOfWeekPipe, ZerotagePipe,
+    CommaSeparatorPipe, CalendarByPlanningComponent, DatePlanningPipe, DescriptionPlanningResumePipe, DescriptionPlanningResumePipe]
 })
 export class HomeWithConnectionPageModule {}
