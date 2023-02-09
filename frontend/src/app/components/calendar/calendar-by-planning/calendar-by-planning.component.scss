@@ -1,0 +1,24 @@
+ul {
+  display: flex;
+  flex-direction: column;
+  border:1px solid #3A406E;
+  li {
+    display: flex;
+    align-items: center;
+    height:60px;
+    &:nth-child(even) {
+      background-color: #eeeeee;
+    }
+    .date{
+      margin-left: 1rem;
+      width:200px;
+      font-size: 0.9rem;
+    }
+    .title{
+      width:30%;
+    }
+    .description{
+      flex:1;
+    }
+  }
+}

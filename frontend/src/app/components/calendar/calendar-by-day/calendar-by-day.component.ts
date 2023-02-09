@@ -12,6 +12,7 @@ import {ErrorService} from "../../../services/error.service";
 export class CalendarByDayComponent implements OnInit {
   @Input() day!: Day;
   allPlanned!: { tasks : Task[], meets : Meet[]};
+  planning!:any;
 
   constructor(
     private _calendarService : CalendarService,
@@ -19,8 +20,9 @@ export class CalendarByDayComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getEmitter();
     this.getAllPlanned();
+    this.getEmitter();
+    this.getDayChangeEmitter();
   }
 
   getEmitter() {
@@ -34,15 +36,46 @@ export class CalendarByDayComponent implements OnInit {
     })
   }
 
-  getAllPlanned() {
-    this._calendarService.getAllPlanned().subscribe({
-      next: (data) => {
-        this.allPlanned = { tasks : data[0].result.tasks, meets : data[1].result.meets };
+  getDayChangeEmitter() {
+    this._calendarService.getDayChangeEmitter().subscribe( {
+      next: () => {
+        this.filterAllPlanned();
       },
       error: (error) => {
         this._errorService.errorHandler(error);
       }
     })
+  }
+
+  getAllPlanned() {
+    this._calendarService.getAllPlanned().subscribe({
+      next: (data) => {
+        this.allPlanned = { tasks : data[0].result.tasks, meets : data[1].result.meets };
+        this.filterAllPlanned();
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    })
+  }
+
+  filterAllPlanned() {
+    this._calendarService.filterEventForThisDay(this.allPlanned, this.day).subscribe({
+      next: (data) => {
+        this.planning = data;
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    })
+  }
+
+  eventClass(i : number) {
+    if (i === 0) {
+      return "eventHide";
+    }
+
+    return "event";
   }
 
 }

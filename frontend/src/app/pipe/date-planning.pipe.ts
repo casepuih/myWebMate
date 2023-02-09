@@ -6,10 +6,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class DatePlanningPipe implements PipeTransform {
 
-  transform(value: string): string {
+  transform(value: string, type? : string): string {
     const dateEvent = new Date(value);
+
     const date = `${this.zerotage(dateEvent.getDate())}/${this.zerotage(dateEvent.getMonth()+1)}/${this.zerotage(dateEvent.getFullYear())}`;
     const hours = `${this.zerotage(dateEvent.getHours())}H${this.zerotage(dateEvent.getMinutes())}`;
+
+    if (type && type === "hour") {
+      return `${hours}`;
+    }
 
     return `${date} ${hours}`;
   }

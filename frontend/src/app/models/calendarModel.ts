@@ -3,7 +3,7 @@ export interface Task {
   title: string;
   description: string;
   dateBegin: Date;
-  isRecurring: number;
+  isRecurring: boolean;
   recurrence: string;
 }
 
@@ -22,7 +22,7 @@ export interface Meet {
   description: string;
   dateBegin: Date;
   dateEnding: Date;
-  isRecurring: number;
+  isRecurring: boolean;
   recurrence: string;
 }
 

@@ -133,6 +133,8 @@ export class CalendarComponent implements OnInit {
   getNext(){
     if (this.displayBy === "day") {
       this.day = this._dateService.getNextDay();
+      this.cdr.detectChanges();
+      this._calendarService.emitDayChange();
       this.currentYear = this.day.year;
     }
 
@@ -157,6 +159,8 @@ export class CalendarComponent implements OnInit {
   getPrevious(){
     if (this.displayBy === "day") {
       this.day = this._dateService.getPreviousDay();
+      this.cdr.detectChanges();
+      this._calendarService.emitDayChange();
       this.currentYear = this.day.year;
     }
 
@@ -181,6 +185,8 @@ export class CalendarComponent implements OnInit {
   getReturnToday(){
     if (this.displayBy === "day") {
       this.day = this._dateService.getReturnTodayForDay();
+      this.cdr.detectChanges();
+      this._calendarService.emitDayChange();
     }
 
     if (this.displayBy === "week") {
