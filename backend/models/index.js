@@ -20,6 +20,7 @@ db.Tasks = require('./tasksModel')(sequelize);
 db.Meets = require('./meetsModel')(sequelize);
 db.Invitation = require('./invitationModel')(sequelize);
 db.Projects = require('./projectsModel')(sequelize); //
+db.Labels = require('./labelsModel')(sequelize); //
 
 db.Tasks.belongsToMany(db.Member, { through: 'MemberTasks' });
 db.Member.belongsToMany(db.Tasks, { through: 'MemberTasks' });
@@ -67,6 +68,22 @@ db.Notepad.belongsTo(db.Member);
 
 db.Projects.belongsTo(db.Member); //
 db.Member.hasMany(db.Projects, {
+    foreignKey: {
+        allowNull: false
+    },
+    onDelete: 'NO ACTION'
+});
+
+db.Labels.belongsTo(db.Projects);
+db.Projects.hasMany(db.Labels, {
+    foreignKey: {
+        allowNull: false
+    },
+    onDelete: 'NO ACTION'
+});
+
+db.Labels.belongsTo(db.Member);
+db.Member.hasMany(db.Labels, {
     foreignKey: {
         allowNull: false
     },

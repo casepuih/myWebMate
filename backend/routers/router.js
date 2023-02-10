@@ -8,6 +8,7 @@ const friendsRouter = require("./friendsRouter");
 const memberRouter = require("./memberRouter");
 const meetsRouter = require("./meetsRouter");
 const projectsRouter = require("./projectsRouter");
+const labelsRouter = require("./labelsRouter");
 
 const router = require('express').Router();
 
@@ -21,5 +22,6 @@ router.use('/friends', friendsRouter);
 router.use('/member', memberRouter);
 router.use('/meets', meetsRouter);
 router.use('/projects', projectsRouter);
+router.use('/labels', labelsRouter);
 
 module.exports = router;
