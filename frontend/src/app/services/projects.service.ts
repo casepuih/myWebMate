@@ -27,10 +27,12 @@ export class ProjectsService {
     return this._client.get<any>(this.api + "projects/" + id);
   }
 
-  updateProject(title: string, content: string, id: number): Observable<any> {
+  updateProject(title: string, content: string, dateBegin: Date, dateEnding: Date, id: number): Observable<any> {
     return this._client.put<any>(this.api + "projects/" + id, {
       title: title,
-      description: content
+      description: content,
+      dateBegin: dateBegin,
+      dateEnding: dateEnding
     }).pipe(tap(updatedProject => {
       this.projectUpdated.next(updatedProject);
     }));

@@ -18,6 +18,15 @@ module.exports = (sequelize) => {
             type: DataTypes.TEXT(),
             allowNull: true,
         },
+        dateBegin: {
+            type: DataTypes.DATE(),
+            allowNull: false,
+            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        },
+        dateEnding: {
+            type: DataTypes.DATE(),
+            allowNull: true,
+        },
     }, {
         tableName: 'project'
     });

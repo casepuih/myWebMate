@@ -8,6 +8,19 @@
     <input *ngIf="project" [(ngModel)]="project.title" (ngModelChange)="changeProject()">
   </div>
 
+  <div>
+    <div>
+      Date debut du project :
+      <input *ngIf="project" type="date" [(ngModel)]="project.dateBegin" (ngModelChange)="changeProject()"
+        name="dateBegin" id="dateBegin">
+    </div>
+    <div>
+      Date fin du project :
+      <input *ngIf="project" type="date" [(ngModel)]="project.dateEnding" (ngModelChange)="changeProject()"
+        name="dateEnding" id="dateEnding">
+    </div>
+  </div>
+
   <div class="textContainer">
     Description :
     <textarea *ngIf="project" [(ngModel)]="project.description" (ngModelChange)="changeProject()"></textarea>

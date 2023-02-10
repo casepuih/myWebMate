@@ -25,6 +25,8 @@ export class ProjectDetailsPage implements OnInit {
     this.id = this.ar.snapshot.params['id'];
     this.isConnectedResolver();
     this.getProject();
+    console.log(this.project);
+
   }
 
   isConnectedResolver() {
@@ -43,7 +45,7 @@ export class ProjectDetailsPage implements OnInit {
   }
 
   changeProject() {
-    this._projectsService.updateProject(this.project.title, this.project.description, this.id).subscribe({});
+    this._projectsService.updateProject(this.project.title, this.project.description, this.project.dateBegin, this.project.dateEnding, this.id).subscribe({});
   }
 
   deleteProject() {
