@@ -30,7 +30,7 @@ export class ProjectsService {
   updateProject(title: string, content: string, id: number): Observable<any> {
     return this._client.put<any>(this.api + "projects/" + id, {
       title: title,
-      content: content
+      description: content
     }).pipe(tap(updatedProject => {
       this.projectUpdated.next(updatedProject);
     }));
