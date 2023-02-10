@@ -141,6 +141,7 @@
 
     <div class="buttonContainer" *ngIf="isEventUpdate">
       <button (click)="updateEvent()">Mettre à jour</button>
+      <button (click)="deleteEvent()" class="deleteButton">Supprimer</button>
     </div>
 
   </div>
@@ -155,7 +156,7 @@
     <ul *ngIf="relation.length > 0">
       <li *ngFor="let friend of relation; let i = index">
         <div>
-          <input type="checkbox" [(ngModel)]="participant[i].isChecked">
+          <input type="checkbox" [(ngModel)]="participant[i].isChecked" [disabled]="participant[i].isCheckedBlock">
         </div>
         <div>
           <img src="/assets/image/profilOld.png" alt="photo">

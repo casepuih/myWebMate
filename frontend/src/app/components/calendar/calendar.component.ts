@@ -37,6 +37,7 @@ export class CalendarComponent implements OnInit {
   dateEnd!:DateEvent;
   currentYear!: number;
   isEventUpdate!:boolean;
+  idForUpdate!:number;
 
 
   constructor(
@@ -73,6 +74,7 @@ export class CalendarComponent implements OnInit {
         this.participant = data.result.friends;
         for (let i=0; i<this.participant.length; i++) {
           this.participant[0].isChecked = false;
+          this.participant[i].isCheckedBlock = false;
         }
       },
       error: (error) =>{
@@ -116,7 +118,81 @@ export class CalendarComponent implements OnInit {
   }
 
   updateEvent() {
-    console.log("request update");
+    if (this.titleEvent === "" || !this.titleEvent) {
+      this._alertService.alerte("Titre manquant","Vous devez entrer un titre");
+
+      return;
+    }
+
+    if (this.idForUpdate === 0 || !this.idForUpdate) {
+      this._alertService.alerte("Id inexistant","Cet événement n'existe pas !!!");
+
+      return;
+    }
+
+    if (this.classTaskChoose === "selected") {
+      this._calendarService.updateTask(this.titleEvent, this.descriptionEvent, this.dateBegin, this.recurrence,
+        this.participant, this.idForUpdate).subscribe({
+        next: ()=> {
+          this.clearFormAddEvent();
+        },
+        error: (error)=> {
+          this._errorService.errorHandler(error);
+        }
+      })
+
+    }
+
+    if (this.classMeetChoose === "selected") {
+      this._calendarService.updateMeet(this.titleEvent, this.descriptionEvent, this.dateBegin, this.dateEnd,
+        this.participant, this.idForUpdate).subscribe({
+        next: ()=> {
+          this.clearFormAddEvent();
+        },
+        error: (error)=> {
+          this._errorService.errorHandler(error);
+        }
+      })
+
+    }
+  }
+
+  deleteEvent() {
+    if (this.idForUpdate === 0 || !this.idForUpdate) {
+      this._alertService.alerte("Id inexistant","Cet événement n'existe pas !!!");
+
+      return;
+    }
+
+    if (this.classTaskChoose === "selected") {
+      this._calendarService.deleteTask(this.idForUpdate).subscribe({
+        next: ()=> {
+          this.clearFormAddEvent();
+          this._alertService.alerte("Tâche supprimée","Cette tâche a bien été supprimée pour vous. Si d'autres " +
+            "personnes partageaient cette tâche avec vous, elle existe toujours pour eux.");
+          this.clearFormAddEvent();
+        },
+        error: (error)=> {
+          this._errorService.errorHandler(error);
+        }
+      })
+
+    }
+
+    if (this.classMeetChoose === "selected") {
+      this._calendarService.deleteMeet(this.idForUpdate).subscribe({
+        next: ()=> {
+          this.clearFormAddEvent();
+          this._alertService.alerte("Evènement supprimée","Cet évènement a bien été supprimée pour vous. Si d'autres " +
+            "personnes partageaient cet évènement avec vous, il existe toujours pour eux.");
+          this.clearFormAddEvent();
+        },
+        error: (error)=> {
+          this._errorService.errorHandler(error);
+        }
+      })
+
+    }
   }
 
   callUpdateEvent(id : number, dateEnding : any) {
@@ -132,16 +208,25 @@ export class CalendarComponent implements OnInit {
         next: (tasks) => {
           const task = tasks.result.task[0];
           const dateBegin = new Date (task.dateBegin)
+          this.idForUpdate = task.id;
           this.titleEvent = task.title;
           this.dateBegin.day = dateBegin.getDate();
           this.dateBegin.month = dateBegin.getMonth() + 1;
           this.dateBegin.year = dateBegin.getFullYear();
-          this.dateBegin.hours = dateBegin.getHours();
+          this.dateBegin.hours = dateBegin.getHours() + 1;
           this.dateBegin.minutes = dateBegin.getMinutes();
           this.isEventUpdate = true;
           this.descriptionEvent = task.description;
           this.recurrence = task.recurrence;
+          this.participant.forEach(function(obj) {
+            if (task.MemberId!.includes(obj.id)) {
+              obj.isChecked = true;
+              obj.isCheckedBlock = true;
+            }
+          });
 
+          console.log(this.participant);
+          console.log(task.MemberId);
           this.displayAddMenu();
         }
       })
@@ -156,11 +241,12 @@ export class CalendarComponent implements OnInit {
           const meet = meets.result.meet[0];
           const dateBegin = new Date (meet.dateBegin)
           const dateEnding = new Date (meet.dateEnding)
+          this.idForUpdate = meet.id;
           this.titleEvent = meet.title;
           this.dateBegin.day = dateBegin.getDate();
           this.dateBegin.month = dateBegin.getMonth() + 1;
           this.dateBegin.year = dateBegin.getFullYear();
-          this.dateBegin.hours = dateBegin.getHours();
+          this.dateBegin.hours = dateBegin.getHours() + 1;
           this.dateBegin.minutes = dateBegin.getMinutes();
           this.dateEnd.day = dateEnding.getDate();
           this.dateEnd.month = dateEnding.getMonth() + 1;
@@ -170,6 +256,12 @@ export class CalendarComponent implements OnInit {
           this.isEventUpdate = true;
           this.descriptionEvent = meet.description;
           this.recurrence = meet.recurrence;
+          this.participant.forEach(function(obj) {
+            if (meet.MemberId!.includes(obj.id)) {
+              obj.isChecked = true;
+              obj.isCheckedBlock = true;
+            }
+          });
 
           this.displayAddMenu();
         }
@@ -184,6 +276,11 @@ export class CalendarComponent implements OnInit {
     this.titleEvent = "";
     this.descriptionEvent = "";
     this.recurrence = "";
+    this.idForUpdate = 0;
+    this.isEventUpdate = false;
+    this.participant.forEach(function(obj) {
+      obj.isChecked = false;
+    });
     this.getAllRelation();
   }
 
@@ -359,6 +456,10 @@ export class CalendarComponent implements OnInit {
   hideAddMenu() {
     this.displayScrollAddMenu = false;
     this.isEventUpdate = false;
+    this.participant.forEach(function(obj) {
+        obj.isChecked = false;
+    });
+    this.idForUpdate = 0;
   }
 
   hideFriendsPicker() {

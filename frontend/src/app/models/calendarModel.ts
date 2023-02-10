@@ -5,6 +5,7 @@ export interface Task {
   dateBegin: Date;
   isRecurring: boolean;
   recurrence: string;
+  MemberId?:number[];
 }
 
 export interface Tasks {
@@ -33,6 +34,7 @@ export interface Meet {
   dateEnding: Date;
   isRecurring: boolean;
   recurrence: string;
+  MemberId?:number[];
 }
 
 export interface Meets {

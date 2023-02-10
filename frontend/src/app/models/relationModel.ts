@@ -5,6 +5,7 @@ export interface Relation {
   lastname: string;
   isAdmin: number;
   isChecked?:boolean;
+  isCheckedBlock:boolean;
 }
 
 export interface Relations {

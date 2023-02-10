@@ -252,6 +252,11 @@
       @include mediaQueryWidthModal;
       display: flex;
       justify-content: center;
+      .deleteButton {
+        margin-left: 3rem;
+        background-color: red;
+        color:white;
+      }
     }
   }
 }
