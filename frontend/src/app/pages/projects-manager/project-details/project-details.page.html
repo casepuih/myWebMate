@@ -13,8 +13,8 @@
     <textarea *ngIf="project" [(ngModel)]="project.description" (ngModelChange)="changeProject()"></textarea>
   </div>
 
-  <div class="deleteNote">
-    <button (click)="deleteProject()">Supprimer définitivement cette note</button>
+  <div class="deleteProject">
+    <button (click)="deleteProject()">Supprimer définitivement cette project</button>
   </div>
 
   <app-footer></app-footer>

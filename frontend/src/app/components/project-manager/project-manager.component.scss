@@ -1,4 +1,4 @@
-.notesContainer {
+.projectsContainer {
     border: 1px solid #3A406E;
     border-radius: 5px;
 
@@ -9,11 +9,11 @@
         margin-left: 0.5rem;
     }
 
-    .notesList {
+    .projectsList {
         display: flex;
         overflow-x: auto;
 
-        .noteCard {
+        .projectCard {
             min-width: 200px;
             max-width: 200px;
             height: 250px;
@@ -57,7 +57,7 @@
 
         }
 
-        .addNoteCard {
+        .addProjectCard {
             min-width: 200px;
             max-width: 200px;
             height: 250px;

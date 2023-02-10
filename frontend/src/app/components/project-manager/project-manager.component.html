@@ -1,8 +1,8 @@
-<div class="notesContainer">
+<div class="projectsContainer">
   <h2>MES PROJETS</h2>
-  <div class="notesList">
+  <div class="projectsList">
 
-    <div [ngClass]="addNoteClass" (click)="createForm()">
+    <div [ngClass]="addProjectClass" (click)="createForm()">
       <h4 *ngIf="!isCreateForm">Crée un projet</h4>
       <img src="assets/image/add.png" alt="add" *ngIf="!isCreateForm" />
 
@@ -12,7 +12,7 @@
         [disabled]="!createProjectTitle">Créer</button>
     </div>
 
-    <div *ngFor="let project of projectsList" class="noteCard">
+    <div *ngFor="let project of projectsList" class="projectCard">
       <h3>{{project.title}}</h3>
       <p>{{project.description | noteResume}}</p>
     </div>

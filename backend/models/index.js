@@ -19,14 +19,15 @@ db.Notes = require('./notesModel')(sequelize);
 db.Tasks = require('./tasksModel')(sequelize);
 db.Meets = require('./meetsModel')(sequelize);
 db.Invitation = require('./invitationModel')(sequelize);
+db.Projects = require('./projectsModel')(sequelize); //
 
-db.Tasks.belongsToMany(db.Member, {through: 'MemberTasks'});
-db.Member.belongsToMany(db.Tasks, {through: 'MemberTasks'});
+db.Tasks.belongsToMany(db.Member, { through: 'MemberTasks' });
+db.Member.belongsToMany(db.Tasks, { through: 'MemberTasks' });
 
-db.Meets.belongsToMany(db.Member, {through: 'MemberMeets'});
-db.Member.belongsToMany(db.Meets, {through: 'MemberMeets'});
+db.Meets.belongsToMany(db.Member, { through: 'MemberMeets' });
+db.Member.belongsToMany(db.Meets, { through: 'MemberMeets' });
 
-db.Member.belongsToMany(db.Member, {through: 'Friends', as: 'Friendship'});
+db.Member.belongsToMany(db.Member, { through: 'Friends', as: 'Friendship' });
 
 db.Links.belongsTo(db.LinksGroup);
 db.LinksGroup.hasMany(db.Links, {
@@ -63,5 +64,13 @@ db.Member.hasMany(db.LinksGroup, {
 
 db.Member.hasOne(db.Notepad);
 db.Notepad.belongsTo(db.Member);
+
+db.Projects.belongsTo(db.Member); //
+db.Member.hasMany(db.Projects, {
+    foreignKey: {
+        allowNull: false
+    },
+    onDelete: 'NO ACTION'
+});
 
 module.exports = db;

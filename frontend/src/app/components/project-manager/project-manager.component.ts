@@ -11,7 +11,7 @@ import { ProjectsService } from 'src/app/services/projects.service';
 })
 export class ProjectManagerComponent implements OnInit {
   projectsList!: Array<Project>;
-  addNoteClass: string = "noteCard";
+  addProjectClass: string = "projectCard";
   isCreateForm: boolean = false;
   createProjectTitle!: string;
 
@@ -50,7 +50,7 @@ export class ProjectManagerComponent implements OnInit {
 
   createForm() {
     this.isCreateForm = true;
-    this.addNoteClass = "addNoteCard";
+    this.addProjectClass = "addProjectCard";
   }
 
   addProject() {
@@ -59,8 +59,8 @@ export class ProjectManagerComponent implements OnInit {
         const id = data.result.id;
         this.isCreateForm = false;
         this.createProjectTitle = "";
-        this.addNoteClass = "noteCard";
-        this._router.navigate(['projects/' + id]);
+        this.addProjectClass = "projectCard";
+        this._router.navigate(['project/' + id]);
       },
       error: (error) => {
         this._errorService.errorHandler(error);
