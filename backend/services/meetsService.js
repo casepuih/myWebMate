@@ -58,8 +58,41 @@ const meetsService = {
                                          LEFT JOIN membermeets ON membermeets.taskId = meets.id
                                          WHERE membermeets.MemberId= ? AND meets.id = ?`, [userId, id]);
 
+        const meetsClear = meets.map(a => new MeetsDTO(a));
+
+        let meetArray = [];
+        meetsClear.forEach( meet => meetArray.push(meet.id));
+
+        if (meetArray.length === 0) {
+            meetArray.push(0);
+        }
+
+        const [meetsId] = await (await sql).query(`SELECT taskId, MemberId FROM membermeets
+                                                   WHERE taskId IN (?)`, [meetArray]);
+
+        const grouped = {};
+
+        meetsId.forEach(item => {
+            if (!grouped[item.taskId]) {
+                grouped[item.taskId] = {
+                    taskId: item.taskId,
+                    MemberId: [item.MemberId]
+                };
+            } else {
+                grouped[item.taskId].MemberId.push(item.MemberId);
+            }
+        });
+
+        const arrayToAdd = Object.values(grouped);
+
+        const meetsWithMember = meetsClear.map(a => {
+            const matchedData = arrayToAdd.find(data => data.taskId === a.id);
+            a.MemberId = matchedData ? matchedData.MemberId : [];
+            return a;
+        });
+
         return {
-            meet: meets.map(a => new MeetsDTO(a))
+            meet: meetsWithMember
         };
     },
 

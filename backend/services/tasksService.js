@@ -58,8 +58,41 @@ const tasksService = {
                                          LEFT JOIN membertasks ON membertasks.taskId = tasks.id
                                          WHERE membertasks.MemberId= ? AND tasks.id = ?`, [userId, id]);
 
+        const tasksClear = tasks.map(a => new TasksDTO(a));
+
+        let taskArray = [];
+        tasksClear.forEach( task => taskArray.push(task.id));
+
+        if (taskArray.length === 0) {
+            taskArray.push(0);
+        }
+
+        const [tasksId] = await (await sql).query(`SELECT taskId, MemberId FROM membertasks
+                                         WHERE taskId IN (?)`, [taskArray]);
+
+        const grouped = {};
+
+        tasksId.forEach(item => {
+            if (!grouped[item.taskId]) {
+                grouped[item.taskId] = {
+                    taskId: item.taskId,
+                    MemberId: [item.MemberId]
+                };
+            } else {
+                grouped[item.taskId].MemberId.push(item.MemberId);
+            }
+        });
+
+        const arrayToAdd = Object.values(grouped);
+
+        const tasksWithMember = tasksClear.map(a => {
+            const matchedData = arrayToAdd.find(data => data.taskId === a.id);
+            a.MemberId = matchedData ? matchedData.MemberId : [];
+            return a;
+        });
+
         return {
-            task: tasks.map(a => new TasksDTO(a))
+            task: tasksWithMember
         };
     },
 
