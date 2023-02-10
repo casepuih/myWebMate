@@ -12,6 +12,7 @@ import {ErrorService} from "../../../services/error.service";
 export class CalendarByWeekComponent implements OnInit {
   @Input() week!: Day[];
   allPlanned!: { tasks : Task[], meets : Meet[]};
+  planning!:any;
 
   constructor(
     private _calendarService : CalendarService,
@@ -21,6 +22,7 @@ export class CalendarByWeekComponent implements OnInit {
   ngOnInit() {
     this.getAllPlanned();
     this.getEmitter();
+    this.getWeekChangeEmitter();
   }
 
   getEmitter() {
@@ -34,10 +36,10 @@ export class CalendarByWeekComponent implements OnInit {
     })
   }
 
-  getAllPlanned() {
-    this._calendarService.getAllPlanned().subscribe({
-      next: (data) => {
-        this.allPlanned = { tasks : data[0].result.tasks, meets : data[1].result.meets };
+  getWeekChangeEmitter() {
+    this._calendarService.getWeekChangeEmitter().subscribe( {
+      next: () => {
+        this.filterAllPlanned();
       },
       error: (error) => {
         this._errorService.errorHandler(error);
@@ -45,4 +47,42 @@ export class CalendarByWeekComponent implements OnInit {
     })
   }
 
+  getAllPlanned() {
+    this._calendarService.getAllPlanned().subscribe({
+      next: (data) => {
+        this.allPlanned = { tasks : data[0].result.tasks, meets : data[1].result.meets };
+        this.filterAllPlanned();
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    })
+  }
+
+  filterAllPlanned() {
+    this._calendarService.filterEventForThisWeek(this.allPlanned, this.week).subscribe({
+      next: (data) => {
+        this.planning = data;
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    })
+  }
+
+  eventClass(i : number, j:number) {
+    if (i === 0) {
+      return "oneEventHide";
+    }
+
+    if (j % 2 === 0) {
+      return "oneEventOdd";
+    }
+
+    return "oneEventEven";
+  }
+
+  callUpdateEvent(id : number, dateEnding : any) {
+    this._calendarService.callUpdateEventEmit(id, dateEnding);
+  }
 }

@@ -35,9 +35,67 @@
         width: 14%;
         margin-bottom: 0.7rem;
         text-align: center;
+        .date {
+          &:hover {
+            background-color: #dedddd;
+            border-radius: 50%;
+          }
+        }
       }
       &.weekDay {
         margin-bottom: 0.7rem;
+      }
+    }
+  }
+}
+
+.modalMiddleScreen {
+  .calendarDate {
+    display:flex;
+    flex-direction: column;
+    width:100%;
+    margin-bottom: 4rem;
+    .titleContainer{
+      display: flex;
+      width:100%;
+      height: 70px;
+      border:1px solid #3A406E;
+      justify-content: center;
+      align-items: center;
+      .title{
+        list-style: none;
+        width:100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-weight: bold;
+      }
+    }
+    .dayContainer {
+      display: flex;
+      flex-direction: column;
+      border:1px solid #3A406E;
+      min-height: 500px;
+      .event {
+        display: flex;
+        align-items: center;
+        height:60px;
+        &:nth-child(even) {
+          background-color: #eeeeee;
+        }
+        .date{
+          margin-left: 1rem;
+          width:200px;
+          font-size: 0.9rem;
+        }
+        .title{
+          width:30%;
+        }
+        .description{
+          flex:1;
+        }
       }
     }
   }

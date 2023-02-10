@@ -16,6 +16,15 @@ export interface ResAllTask {
   status: number;
 }
 
+export interface ResultOneTask {
+  task: Task[];
+}
+
+export interface ResOneTask {
+  result: ResultOneTask;
+  status: number;
+}
+
 export interface Meet {
   id: number;
   title: string;
@@ -32,5 +41,14 @@ export interface Meets {
 
 export interface ResAllMeet {
   result: Meets;
+  status: number;
+}
+
+export interface ResultOneMeet {
+  meet: Meet[];
+}
+
+export interface ResOneMeet {
+  result: ResultOneMeet;
   status: number;
 }

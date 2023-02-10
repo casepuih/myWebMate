@@ -64,8 +64,6 @@ export class CalendarByMonthComponent implements OnInit {
     this._calendarService.filterEventForThisMonth(this.allPlanned, this.month).subscribe({
       next: (data) => {
         this.monthWithEvent = data;
-        console.log(this.monthWithEvent);
-        console.log(this.allPlanned);
       },
       error: (error) => {
         this._errorService.errorHandler(error);
@@ -73,4 +71,7 @@ export class CalendarByMonthComponent implements OnInit {
     })
   }
 
+  callUpdateEvent(id : number, dateEnding : any) {
+    this._calendarService.callUpdateEventEmit(id, dateEnding);
+  }
 }

@@ -36,6 +36,8 @@ export class CalendarComponent implements OnInit {
   dateBegin!:DateEvent;
   dateEnd!:DateEvent;
   currentYear!: number;
+  isEventUpdate!:boolean;
+
 
   constructor(
     private _dateService: DateService,
@@ -50,6 +52,18 @@ export class CalendarComponent implements OnInit {
     this.getWeek();
     this.fillFormAddEvent();
     this.getAllRelation();
+    this.getUpdateEventEmitter();
+  }
+
+  getUpdateEventEmitter() {
+    this._calendarService.getCallUpdateEventEmitter().subscribe( {
+      next: (data) => {
+        this.callUpdateEvent(data[0], data[1]);
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    })
   }
 
   getAllRelation() {
@@ -101,6 +115,70 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  updateEvent() {
+    console.log("request update");
+  }
+
+  callUpdateEvent(id : number, dateEnding : any) {
+    let typeEvent!:string;
+    if (dateEnding === undefined) typeEvent = "task";
+    if (dateEnding !== undefined) typeEvent = "meet";
+
+    if (typeEvent === "task") {
+      this.classTaskChoose = "selected";
+      this.classMeetChoose = "pointer";
+
+      this._calendarService.getOneTask(id).subscribe({
+        next: (tasks) => {
+          const task = tasks.result.task[0];
+          const dateBegin = new Date (task.dateBegin)
+          this.titleEvent = task.title;
+          this.dateBegin.day = dateBegin.getDate();
+          this.dateBegin.month = dateBegin.getMonth() + 1;
+          this.dateBegin.year = dateBegin.getFullYear();
+          this.dateBegin.hours = dateBegin.getHours();
+          this.dateBegin.minutes = dateBegin.getMinutes();
+          this.isEventUpdate = true;
+          this.descriptionEvent = task.description;
+          this.recurrence = task.recurrence;
+
+          this.displayAddMenu();
+        }
+      })
+    }
+
+    if (typeEvent === "meet") {
+      this.classTaskChoose = "pointer";
+      this.classMeetChoose = "selected";
+
+      this._calendarService.getOneMeet(id).subscribe({
+        next: (meets) => {
+          const meet = meets.result.meet[0];
+          const dateBegin = new Date (meet.dateBegin)
+          const dateEnding = new Date (meet.dateEnding)
+          this.titleEvent = meet.title;
+          this.dateBegin.day = dateBegin.getDate();
+          this.dateBegin.month = dateBegin.getMonth() + 1;
+          this.dateBegin.year = dateBegin.getFullYear();
+          this.dateBegin.hours = dateBegin.getHours();
+          this.dateBegin.minutes = dateBegin.getMinutes();
+          this.dateEnd.day = dateEnding.getDate();
+          this.dateEnd.month = dateEnding.getMonth() + 1;
+          this.dateEnd.year = dateEnding.getFullYear();
+          this.dateEnd.hours = dateEnding.getHours();
+          this.dateEnd.minutes = dateEnding.getMinutes();
+          this.isEventUpdate = true;
+          this.descriptionEvent = meet.description;
+          this.recurrence = meet.recurrence;
+
+          this.displayAddMenu();
+        }
+      })
+    }
+
+
+  }
+
   clearFormAddEvent() {
     this.displayScrollAddMenu = false;
     this.titleEvent = "";
@@ -140,6 +218,8 @@ export class CalendarComponent implements OnInit {
 
     if (this.displayBy === "week") {
       this.week = this._dateService.getNextWeek();
+      this.cdr.detectChanges();
+      this._calendarService.emitWeekChange();
       this.currentYear = this.week[0].year;
     }
 
@@ -166,6 +246,8 @@ export class CalendarComponent implements OnInit {
 
     if (this.displayBy === "week") {
       this.week = this._dateService.getPreviousWeek();
+      this.cdr.detectChanges();
+      this._calendarService.emitWeekChange();
       this.currentYear = this.week[0].year;
     }
 
@@ -191,6 +273,8 @@ export class CalendarComponent implements OnInit {
 
     if (this.displayBy === "week") {
       this.week = this._dateService.getReturnTodayForWeek();
+      this.cdr.detectChanges();
+      this._calendarService.emitWeekChange();
     }
 
     if (this.displayBy === "month") {
@@ -211,6 +295,7 @@ export class CalendarComponent implements OnInit {
     if (this.displayBy === "year") this.getYear();
 
     this.displayBy = value;
+    document.querySelector('.scrollToMe')!.scrollIntoView({behavior: 'smooth', block: 'start'});
   }
 
   // display
@@ -273,6 +358,7 @@ export class CalendarComponent implements OnInit {
 
   hideAddMenu() {
     this.displayScrollAddMenu = false;
+    this.isEventUpdate = false;
   }
 
   hideFriendsPicker() {

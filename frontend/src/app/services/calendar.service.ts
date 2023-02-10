@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {forkJoin, Observable, of, Subject, tap} from "rxjs";
-import {Meet, ResAllMeet, ResAllTask, Task} from "../models/calendarModel";
+import {Meet, ResAllMeet, ResAllTask, ResOneMeet, ResOneTask, Task} from "../models/calendarModel";
 import {environment} from "../../environments/environment";
 import {DateEvent, Day} from "../models/dateModel";
 import {Relation} from "../models/relationModel";
 import {MemberService} from "./member.service";
 import {ErrorService} from "./error.service";
+import {DateService} from "./date.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +16,24 @@ export class CalendarService {
   api:string = environment.api;
   private calendarUpdated = new Subject<any>();
   private dayChange = new Subject<any>();
+  private weekChange = new Subject<any>();
   private monthChange = new Subject<boolean>();
+  private updateEventEmit = new Subject<[number, any]>();
 
   constructor(
     private _client : HttpClient,
     private _memberService : MemberService,
-    private _errorService : ErrorService
+    private _errorService : ErrorService,
+    private _dateService : DateService
   ) { }
+
+  getCallUpdateEventEmitter() : Observable<[number, any]> {
+    return this.updateEventEmit.asObservable();
+  }
+
+  callUpdateEventEmit(id : number, dateEnding : any) {
+    this.updateEventEmit.next([id, dateEnding]);
+  }
 
   getCalendarUpdateEmitter() {
     return this.calendarUpdated.asObservable();
@@ -41,6 +53,14 @@ export class CalendarService {
 
   emitDayChange() {
     this.dayChange.next(!this.dayChange);
+  }
+
+  getWeekChangeEmitter() {
+    return this.weekChange.asObservable();
+  }
+
+  emitWeekChange() {
+    this.weekChange.next(!this.weekChange);
   }
 
   getAllPlanned() : Observable<[ResAllTask, ResAllMeet]> {
@@ -105,8 +125,53 @@ export class CalendarService {
     let dayWithEvent : [{}] = [{}];
     dayWithEvent = this._pushTasksInDayWithEvent(planned.tasks, day, dayWithEvent);
     dayWithEvent = this._pushMeetsInDayWithEvent(planned.meets, dayWithEvent, day);
+    dayWithEvent.sort((a : any, b : any) => a.dateTime - b.dateTime);
 
     return of(dayWithEvent);
+  }
+
+  filterEventForThisWeek (planned : { tasks : Task[], meets : Meet[]}, week : Day[]) {
+    let weekWithEvent = this._createWeekWithEvent(week);
+    const dateBeginWeek = new Date (weekWithEvent[0].year, weekWithEvent[0].month - 1, weekWithEvent[0].day);
+    const dateEndingWeek = new Date (weekWithEvent[6].year, weekWithEvent[6].month - 1, weekWithEvent[6].day);
+
+    let i = 0;
+    for (let date = dateBeginWeek; date <= dateEndingWeek; date.setDate(date.getDate() + 1)) {
+      weekWithEvent = this._fillOneDayInOneWeek(planned, date, weekWithEvent, i);
+      i++;
+    }
+
+    return of(weekWithEvent);
+  }
+
+  private _filterEventForOneDay (planned : { tasks : Task[], meets : Meet[]}, day : Day) {
+    let dayWithEvent : [{}] = [{}];
+    dayWithEvent = this._pushTasksInDayWithEvent(planned.tasks, day, dayWithEvent);
+    dayWithEvent = this._pushMeetsInDayWithEvent(planned.meets, dayWithEvent, day);
+    dayWithEvent.sort((a : any, b : any) => a.dateTime - b.dateTime);
+
+    return dayWithEvent;
+  }
+
+  getOneTask(id : number) : Observable<ResOneTask> {
+    return this._client.get<ResOneTask>(this.api + "tasks/" + id);
+  }
+
+  getOneMeet(id : number) : Observable<ResOneMeet> {
+    return this._client.get<ResOneMeet>(this.api + "meets/" + id);
+  }
+
+  private _fillOneDayInOneWeek(planned : { tasks : Task[], meets : Meet[]}, oneDay : Date, weekWithEvent : any, indexWeek : number) {
+    const day = {
+      day: oneDay.getDate(),
+      month: oneDay.getMonth() + 1,
+      year: oneDay.getFullYear(),
+      theDay: this._dateService.makeTheDay(oneDay.getDay())
+    }
+
+    weekWithEvent[indexWeek].events = this._filterEventForOneDay(planned, day);
+
+    return weekWithEvent;
   }
 
   private _pushTasksInDayWithEvent(tasks : Task[], day : Day, dayWithEvent : any) {
@@ -119,7 +184,7 @@ export class CalendarService {
       let dateBeginTime = dateBegin.getTime();
 
       if (!tasks[i].isRecurring && (dateTimeDown <= dateBeginTime) && (dateTimeUp >= dateBeginTime)) {
-        dayWithEvent = this._pushOneTaskInDayWithEvent(dayWithEvent, tasks[i], dateBeginTime);
+        dayWithEvent = this._pushOneTaskInDayWithEvent(dayWithEvent, tasks[i], day);
       }
 
       if (tasks[i].isRecurring) {
@@ -130,7 +195,11 @@ export class CalendarService {
     return dayWithEvent
   }
 
-  private _pushOneTaskInDayWithEvent(dayWithEvent : any, task : Task, dateTime : number) {
+  private _pushOneTaskInDayWithEvent(dayWithEvent : any, task : Task, day : Day) {
+    const dateBegin = new Date(task.dateBegin);
+    const date = new Date(day.year, day.month, day.day, dateBegin.getHours(), dateBegin.getMinutes());
+    const dateTimeEvent = date.getTime();
+
     dayWithEvent.push({
       id: task.id,
       title: task.title,
@@ -138,7 +207,7 @@ export class CalendarService {
       dateBegin: task.dateBegin,
       isRecurring: task.isRecurring,
       recurrence: task.recurrence,
-      dateTime: dateTime
+      dateTime: dateTimeEvent
     })
 
     return dayWithEvent;
@@ -167,52 +236,52 @@ export class CalendarService {
     return planningWithEvent;
   }
 
-  _createRecurrentTaskForDay(dayWithEvent : any , task : Task, day : Day){
+  private _createRecurrentTaskForDay(dayWithEvent : any , task : Task, day : Day){
     const date = new Date(day.year, day.month - 1, day.day);
     const dateTimeDown = date.getTime();
     const dateBegin = new Date(task.dateBegin);
     const dateBeginTime = dateBegin.getTime() - 86400000;
 
     if (task.recurrence === "daily") {
-      dayWithEvent = this._createDailyRecurrentTaskForDay(dateTimeDown, dateBeginTime, dayWithEvent, task);
+      dayWithEvent = this._createDailyRecurrentTaskForDay(dateTimeDown, dateBeginTime, dayWithEvent, task, day);
     }
 
     if (task.recurrence === "weekly") {
-      dayWithEvent = this._createWeekRecurrentTaskForDay(date, dateBegin, dayWithEvent, task, dateBeginTime);
+      dayWithEvent = this._createWeekRecurrentTaskForDay(date, dateBegin, dayWithEvent, task, dateBeginTime, day);
 
     }
 
     if (task.recurrence === "monthly") {
-      dayWithEvent = this._createMonthRecurrentTaskForDay(date, dateBegin, dayWithEvent, task, dateBeginTime);
+      dayWithEvent = this._createMonthRecurrentTaskForDay(date, dateBegin, dayWithEvent, task, dateBeginTime, day);
     }
 
     if (task.recurrence === "annual") {
-      dayWithEvent = this._createAnnualRecurrentTaskForDay(date, dateBegin, dayWithEvent, task, dateBeginTime);
+      dayWithEvent = this._createAnnualRecurrentTaskForDay(date, dateBegin, dayWithEvent, task, dateBeginTime, day);
     }
 
     return dayWithEvent;
   }
 
-  private _createDailyRecurrentTaskForDay(dateTimeDown : number, dateBeginTime : number, dayWithEvent : any, task : Task) {
+  private _createDailyRecurrentTaskForDay(dateTimeDown : number, dateBeginTime : number, dayWithEvent : any, task : Task, day : Day) {
     if ((dateTimeDown >= dateBeginTime)) {
-      dayWithEvent = this._pushOneTaskInDayWithEvent(dayWithEvent, task, dateBeginTime);
+      dayWithEvent = this._pushOneTaskInDayWithEvent(dayWithEvent, task, day);
     }
 
     return dayWithEvent;
   }
 
-  private _createWeekRecurrentTaskForDay(date : Date, dateBegin : Date, dayWithEvent : any, task : Task, dateBeginTime : number) {
+  private _createWeekRecurrentTaskForDay(date : Date, dateBegin : Date, dayWithEvent : any, task : Task, dateBeginTime : number, day : Day) {
     const dayDifference = this._dayDifference(date, dateBegin);
     if (dayDifference % 7 === 0) {
-      dayWithEvent = this._pushOneTaskInDayWithEvent(dayWithEvent, task, dateBeginTime);
+      dayWithEvent = this._pushOneTaskInDayWithEvent(dayWithEvent, task, day);
     }
 
     return dayWithEvent;
   }
 
-  private _createMonthRecurrentTaskForDay(date : Date, dateBegin : Date, dayWithEvent : any, task : Task, dateBeginTime : number) {
+  private _createMonthRecurrentTaskForDay(date : Date, dateBegin : Date, dayWithEvent : any, task : Task, dateBeginTime : number, day : Day) {
     if (date.getDate() === dateBegin.getDate()) {
-      dayWithEvent = this._pushOneTaskInDayWithEvent(dayWithEvent, task, dateBeginTime);
+      dayWithEvent = this._pushOneTaskInDayWithEvent(dayWithEvent, task, day);
     }
 
       let targetDate = dateBegin.getDate();
@@ -223,16 +292,16 @@ export class CalendarService {
 
       if (targetDate > daysInTargetMonth) {
         if (date.getDate() === daysInTargetMonth) {
-          dayWithEvent = this._pushOneTaskInDayWithEvent(dayWithEvent, task, dateBeginTime);
+          dayWithEvent = this._pushOneTaskInDayWithEvent(dayWithEvent, task, day);
         }
       }
 
     return dayWithEvent;
   }
 
-  private _createAnnualRecurrentTaskForDay(date : Date, dateBegin : Date, dayWithEvent : any, task : Task, dateBeginTime : number) {
+  private _createAnnualRecurrentTaskForDay(date : Date, dateBegin : Date, dayWithEvent : any, task : Task, dateBeginTime : number, day : Day) {
     if (date.getDate() === dateBegin.getDate() && date.getMonth() == dateBegin.getMonth()) {
-      dayWithEvent = this._pushOneTaskInDayWithEvent(dayWithEvent, task, dateBeginTime);
+      dayWithEvent = this._pushOneTaskInDayWithEvent(dayWithEvent, task, day);
     }
 
     return dayWithEvent;
@@ -421,6 +490,22 @@ export class CalendarService {
     return monthWithEvent;
   }
 
+  private _createWeekWithEvent(week: Day[]) {
+    const weekWithEvent = [];
+
+    for (let i = 0; i < week.length; i++) {
+      weekWithEvent.push({
+        day: week[i].day,
+        month: week[i].month,
+        year: week[i].year,
+        theDay: week[i].theDay,
+        events: [{}]
+      });
+    }
+
+    return weekWithEvent;
+  }
+
   private _pushTasksInMonthWithEvent(tasks : Task[], monthWithEvent : any) {
     for (let i = 0; i < tasks.length; i++) {
       const dateBegin = new Date(tasks[i].dateBegin);
@@ -551,14 +636,17 @@ export class CalendarService {
     let endingTime!:Date;
     let beginTimespan!:number;
     let endingTimespan!:number;
+    let date!:Date;
+    let dateTime!:number;
 
     for (let i = 0; i < meets.length; i++) {
       beginTime = new Date(meets[i].dateBegin);
       endingTime = new Date(meets[i].dateEnding);
       beginTimespan = beginTime.getTime() - 86400000;
       endingTimespan = endingTime.getTime();
-      console.log(meets[i].title, thisDayTime, " >= ", beginTimespan, " && ", thisDayTime, " <= ", endingTimespan);
-      if (thisDayTime >= beginTimespan && thisDayTime <= endingTimespan) {
+      date = new Date(day.year, day.month, day.day, beginTime.getHours(), beginTime.getMinutes());
+      dateTime = date.getTime();
+      if (thisDayTime > beginTimespan && thisDayTime <= endingTimespan) {
         dayWithEvent.push({
           id: meets[i].id,
           title: meets[i].title,
@@ -566,7 +654,8 @@ export class CalendarService {
           dateBegin: meets[i].dateBegin,
           dateEnding: meets[i].dateEnding,
           isRecurring: meets[i].isRecurring,
-          recurrence: meets[i].recurrence
+          recurrence: meets[i].recurrence,
+          dateTime: dateTime
         })
       }
     }

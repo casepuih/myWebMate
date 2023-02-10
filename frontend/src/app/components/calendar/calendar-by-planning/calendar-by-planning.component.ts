@@ -56,4 +56,8 @@ export class CalendarByPlanningComponent implements OnInit {
     })
   }
 
+  callUpdateEvent(id : number, dateEnding : any) {
+    this._calendarService.callUpdateEventEmit(id, dateEnding);
+  }
+
 }

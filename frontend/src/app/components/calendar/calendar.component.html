@@ -1,8 +1,8 @@
-<div class="menu">
+<div class="menu scrollToMe">
   <div class="leftMenu">
     <div class="today pointer" (click)="getReturnToday()">Aujourd'hui</div>
-    <div class="navigate pointer" (click)="getPrevious()"> < </div>
-    <div class="navigate pointer" (click)="getNext()"> > </div>
+    <div class="navigate pointer" (click)="getPrevious()" *ngIf="displayBy!=='planning'"> < </div>
+    <div class="navigate pointer" (click)="getNext()" *ngIf="displayBy!=='planning'"> > </div>
   </div>
 
   <div class="centerMenu">
@@ -41,7 +41,7 @@
     <div class="titleContainer">
       <input type="text" placeholder="Votre titre" class="title" [(ngModel)]="titleEvent">
     </div>
-    <div class="chooseEvent">
+    <div class="chooseEvent" *ngIf="!isEventUpdate">
       <div [class]="classTaskChoose" (click)="chooseAddTask()">Tâche</div>
       <div [class]="classMeetChoose" (click)="chooseAddMeet()">Evènement</div>
     </div>
@@ -135,8 +135,12 @@
       </div>
     </div>
 
-    <div class="buttonContainer">
+    <div class="buttonContainer" *ngIf="!isEventUpdate">
       <button (click)="createEvent()">Créer</button>
+    </div>
+
+    <div class="buttonContainer" *ngIf="isEventUpdate">
+      <button (click)="updateEvent()">Mettre à jour</button>
     </div>
 
   </div>

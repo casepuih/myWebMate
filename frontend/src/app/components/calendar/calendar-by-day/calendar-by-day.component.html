@@ -5,7 +5,7 @@
     </li>
   </ul>
   <ul class="dayContainer">
-    <li *ngFor="let event of planning; let i = index" [class]="eventClass(i)">
+    <li *ngFor="let event of planning; let i = index" [class]="eventClass(i)" (click)="callUpdateEvent(event.id, event.dateEnding)">
       <div *ngIf="!event.dateEnding && event.dateBegin" class="date">
         {{event.dateBegin | datePlanning : "hour"}}
       </div>

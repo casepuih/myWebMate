@@ -122,7 +122,7 @@ export class DateService{
           "day": datePlus0[0],
           "month": datePlus0[1],
           "year": datePlus0[2],
-          "theDay": this._makeTheDay(this.theDay)
+          "theDay": this.makeTheDay(this.theDay)
         }
   }
 
@@ -140,43 +140,43 @@ export class DateService{
         "day": dateMinus2[0],
         "month": dateMinus2[1],
         "year": dateMinus2[2],
-        "theDay": this._makeTheDay(dateMinus2[3])
+        "theDay": this.makeTheDay(dateMinus2[3])
       },
       {
         "day": dateMinus1[0],
         "month": dateMinus1[1],
         "year": dateMinus1[2],
-        "theDay": this._makeTheDay(dateMinus1[3])
+        "theDay": this.makeTheDay(dateMinus1[3])
       },
       {
         "day": datePlus0[0],
         "month": datePlus0[1],
         "year": datePlus0[2],
-        "theDay": this._makeTheDay(this.theDay)
+        "theDay": this.makeTheDay(datePlus0[3])
       },
       {
         "day": datePlus1[0],
         "month": datePlus1[1],
         "year": datePlus1[2],
-        "theDay": this._makeTheDay(datePlus1[3])
+        "theDay": this.makeTheDay(datePlus1[3])
       },
       {
         "day": datePlus2[0],
         "month": datePlus2[1],
         "year": datePlus2[2],
-        "theDay": this._makeTheDay(datePlus2[3])
+        "theDay": this.makeTheDay(datePlus2[3])
       },
       {
         "day": datePlus3[0],
         "month": datePlus3[1],
         "year": datePlus3[2],
-        "theDay": this._makeTheDay(datePlus3[3])
+        "theDay": this.makeTheDay(datePlus3[3])
       },
       {
         "day": datePlus4[0],
         "month": datePlus4[1],
         "year": datePlus4[2],
-        "theDay": this._makeTheDay(datePlus4[3])
+        "theDay": this.makeTheDay(datePlus4[3])
       }
     ]
   }
@@ -374,7 +374,7 @@ export class DateService{
     return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
   }
 
-  private _makeTheDay(theDay:number) :string {
+  makeTheDay(theDay:number) :string {
     if (theDay === 0 || theDay === 7) return "Dimanche";
     if (theDay === 1 || theDay === 8) return "Lundi";
     if (theDay === 2 || theDay === 9) return "Mardi";

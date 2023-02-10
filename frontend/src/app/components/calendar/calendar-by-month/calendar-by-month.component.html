@@ -5,7 +5,7 @@
       <div class="textCenter">{{date.day}} {{date.month | numberToWordMonth}}</div>
       <div *ngIf="allPlanned" class="allEventForOneDay">
         <ul>
-          <li *ngFor="let events of date.events" class="oneEvent">
+          <li *ngFor="let events of date.events" class="oneEvent" (click)="callUpdateEvent(events.id, events.dateEnding)">
             {{events.title}}
           </li>
         </ul>

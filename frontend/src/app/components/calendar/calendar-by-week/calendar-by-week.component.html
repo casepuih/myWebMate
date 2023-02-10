@@ -1,8 +1,24 @@
 <div class="calendarDate">
-  <ul>
-    <li *ngFor="let date of week">
+  <ul class="titleContainer">
+    <li *ngFor="let date of week" class="title">
       <div>{{date.theDay}}</div>
       <div>{{date.day}} {{date.month | numberToWordMonth}}</div>
     </li>
   </ul>
+
+  <ul class="eventContainer">
+    <li *ngFor="let date of planning; let j = index" class="oneDate">
+      <div *ngIf="allPlanned" class="allEventForOneDay">
+        <ul>
+          <li *ngFor="let events of date.events; let i = index" [class]="eventClass(i, j)"(click)="callUpdateEvent(events.id, events.dateEnding)">
+            <span *ngIf="events.dateBegin" class="date">{{events.dateBegin | datePlanning : "hour"}} : </span>
+            <span>{{events.title}}</span>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
 </div>
+
+<div class="bottom"> .</div>
+

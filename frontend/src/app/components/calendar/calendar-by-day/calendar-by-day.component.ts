@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Day} from "../../../models/dateModel";
 import {Meet, Task} from "../../../models/calendarModel";
 import {CalendarService} from "../../../services/calendar.service";
@@ -24,6 +24,7 @@ export class CalendarByDayComponent implements OnInit {
     this.getEmitter();
     this.getDayChangeEmitter();
   }
+
 
   getEmitter() {
     this._calendarService.getCalendarUpdateEmitter().subscribe( {
@@ -76,6 +77,10 @@ export class CalendarByDayComponent implements OnInit {
     }
 
     return "event";
+  }
+
+  callUpdateEvent(id : number, dateEnding : any) {
+    this._calendarService.callUpdateEventEmit(id, dateEnding);
   }
 
 }

@@ -1,5 +1,5 @@
 <ul class="calendarDate">
-  <li *ngFor="let event of planning" class="event">
+  <li *ngFor="let event of planning" class="event" (click)="callUpdateEvent(event.id, event.dateEnding)">
     <div *ngIf="!event.dateEnding" class="date">
       {{event.dateBegin | datePlanning}}
     </div>
