@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable, Subject, tap} from "rxjs";
+import {Observable, of, Subject, tap} from "rxjs";
 import {LinksGroups} from "../models/groupLinksModel";
 import {environment} from "../../environments/environment";
-import {Links} from "../models/linksModel";
+import {Link, Links} from "../models/linksModel";
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +18,6 @@ export class LinksService {
 
   getLinksUpdateEmitter() {
     return this.linksUpdated.asObservable();
-  }
-
-  getGroupLinksList () : Observable<LinksGroups> {
-    return this._client.get<LinksGroups>(this.api + "linksgroup");
-  }
-
-  getLinksList () : Observable<Links> {
-    return this._client.get<Links>(this.api + "links");
   }
 
   createGroupLinks(name:string) : Observable<any> {
@@ -47,18 +39,20 @@ export class LinksService {
     }))
   }
 
+  getGroupLinksList () : Observable<LinksGroups> {
+    return this._client.get<LinksGroups>(this.api + "linksgroup");
+  }
+
+  getLinksList () : Observable<Links> {
+    return this._client.get<Links>(this.api + "links");
+  }
+
   updateLink(id:number, name:string, link: string) : Observable<any> {
     return this._client.put<any>(this.api + "links/" + id, {
       "name": name,
       "link": link
     }).pipe(tap(updatedLinks => {
         this.linksUpdated.next(updatedLinks);
-    }))
-  }
-
-  deleteLink(id:number) : Observable<any> {
-    return this._client.delete<any>(this.api + "links/" + id).pipe(tap(updatedLinks => {
-      this.linksUpdated.next(updatedLinks);
     }))
   }
 
@@ -71,8 +65,26 @@ export class LinksService {
     }))
   }
 
+  deleteLink(id:number) : Observable<any> {
+    return this._client.delete<any>(this.api + "links/" + id).pipe(tap(updatedLinks => {
+      this.linksUpdated.next(updatedLinks);
+    }))
+  }
+
   deleteGroupLinks(id:number) : Observable<any> {
     return this._client.delete<any>(this.api + "linksgroup/" + id).pipe(tap(updatedLinks => {
+      this.linksUpdated.next(updatedLinks);
+    }))
+  }
+
+  filterHotLinkList(linkList : Link[]) : Observable<any> {
+    linkList.sort((a : any, b : any) => b.clickedCounter - a.clickedCounter);
+    linkList = linkList.slice(0, 10);
+    return of(linkList);
+  }
+
+  clickOnLink(id : number) : Observable<any> {
+    return this._client.post<any>(this.api + "links/" + id, {}).pipe(tap(updatedLinks => {
       this.linksUpdated.next(updatedLinks);
     }))
   }

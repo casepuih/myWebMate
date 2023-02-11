@@ -24,6 +24,10 @@ module.exports = (sequelize) => {
         description: {
             type: DataTypes.STRING(300),
             allowNull: true
+        },
+        clickedCounter: {
+            type: DataTypes.INTEGER(),
+            default : 0
         }
     }, {
         tableName: 'links'

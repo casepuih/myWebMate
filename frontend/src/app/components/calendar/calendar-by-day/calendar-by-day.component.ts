@@ -38,7 +38,7 @@ export class CalendarByDayComponent implements OnInit {
   }
 
   getDayChangeEmitter() {
-    this._calendarService.getDayChangeEmitter().subscribe( {
+    this._calendarService.getCalendarDateChangeEmitter().subscribe( {
       next: () => {
         this.filterAllPlanned();
       },

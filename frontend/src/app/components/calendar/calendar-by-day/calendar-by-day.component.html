@@ -10,9 +10,7 @@
         {{event.dateBegin | datePlanning : "hour"}}
       </div>
       <div *ngIf="event.dateEnding" class="date">
-        du {{event.dateBegin | datePlanning : "hour"}}
-        <br/>
-        au {{event.dateEnding | datePlanning : "hour"}}
+        {{event.dateBegin | datePlanning : "hour" : event : day }}
       </div>
 
       <div class="title">{{event.title}}</div>

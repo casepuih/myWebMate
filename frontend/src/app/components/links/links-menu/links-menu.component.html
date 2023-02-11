@@ -17,6 +17,16 @@
       <button *ngIf="isCreateForm" (click)="addGroupLinks()" class="buttonCreate" [disabled]="!createGroupLinksTitle">Créer</button>
     </div>
 
+    <div class="groupLinksCard">
+      <div class="titleGroupLink">
+        <h3>Hotlink</h3>
+      </div>
+
+      <ul *ngFor="let link of hotLinkList" class="linksContainer">
+        <li><a href="{{link.link}}" (click)="clickOnLink(link.id)" target="_blank">{{link.name}}</a></li>
+      </ul>
+    </div>
+
     <div *ngFor="let groupLinks of groupLinksList" class="groupLinksCard">
       <div class="titleGroupLink">
         <h3>{{groupLinks.name}}</h3>
@@ -36,7 +46,7 @@
       </div>
 
       <ul *ngFor="let link of linksList | filterLinksByGroup:groupLinks.id" class="linksContainer">
-        <li><a href="{{link.link}}" target="_blank">{{link.name}}</a></li>
+        <li><a href="{{link.link}}" (click)="clickOnLink(link.id)" target="_blank">{{link.name}}</a></li>
       </ul>
     </div>
 

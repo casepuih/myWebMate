@@ -15,9 +15,7 @@ import {DateService} from "./date.service";
 export class CalendarService {
   api:string = environment.api;
   private calendarUpdated = new Subject<any>();
-  private dayChange = new Subject<any>();
-  private weekChange = new Subject<any>();
-  private monthChange = new Subject<boolean>();
+  private calendarDateChange = new Subject<boolean>();
   private updateEventEmit = new Subject<[number, any]>();
 
   constructor(
@@ -27,6 +25,10 @@ export class CalendarService {
     private _dateService : DateService
   ) { }
 
+  getCalendarUpdateEmitter() {
+    return this.calendarUpdated.asObservable();
+  }
+
   getCallUpdateEventEmitter() : Observable<[number, any]> {
     return this.updateEventEmit.asObservable();
   }
@@ -35,44 +37,12 @@ export class CalendarService {
     this.updateEventEmit.next([id, dateEnding]);
   }
 
-  getCalendarUpdateEmitter() {
-    return this.calendarUpdated.asObservable();
+  getCalendarDateChangeEmitter() {
+    return this.calendarDateChange.asObservable();
   }
 
-  getMonthChangeEmitter() {
-    return this.monthChange.asObservable();
-  }
-
-  emitMonthChange() {
-    this.monthChange.next(!this.monthChange);
-  }
-
-  getDayChangeEmitter() {
-    return this.dayChange.asObservable();
-  }
-
-  emitDayChange() {
-    this.dayChange.next(!this.dayChange);
-  }
-
-  getWeekChangeEmitter() {
-    return this.weekChange.asObservable();
-  }
-
-  emitWeekChange() {
-    this.weekChange.next(!this.weekChange);
-  }
-
-  getAllPlanned() : Observable<[ResAllTask, ResAllMeet]> {
-    return forkJoin([this._getAllTasks(), this._getAllMeets()]);
-  }
-
-  getOneTask(id : number) : Observable<ResOneTask> {
-    return this._client.get<ResOneTask>(this.api + "tasks/" + id);
-  }
-
-  getOneMeet(id : number) : Observable<ResOneMeet> {
-    return this._client.get<ResOneMeet>(this.api + "meets/" + id);
+  emitCalendarDateChange() {
+    this.calendarDateChange.next(!this.calendarDateChange);
   }
 
   createTask(title:string, description:string, dateBeginObjet:DateEvent, recurrence:string, participant:Relation[]) :Observable<any> {
@@ -111,6 +81,18 @@ export class CalendarService {
     }).pipe(tap(updatedCalendar => {
       this.calendarUpdated.next(updatedCalendar);
     }))
+  }
+
+  getAllPlanned() : Observable<[ResAllTask, ResAllMeet]> {
+    return forkJoin([this._getAllTasks(), this._getAllMeets()]);
+  }
+
+  getOneTask(id : number) : Observable<ResOneTask> {
+    return this._client.get<ResOneTask>(this.api + "tasks/" + id);
+  }
+
+  getOneMeet(id : number) : Observable<ResOneMeet> {
+    return this._client.get<ResOneMeet>(this.api + "meets/" + id);
   }
 
   updateTask(title:string, description:string, dateBeginObjet:DateEvent, recurrence:string, participant:Relation[],

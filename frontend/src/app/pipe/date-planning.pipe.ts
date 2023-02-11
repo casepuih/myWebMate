@@ -6,13 +6,36 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class DatePlanningPipe implements PipeTransform {
 
-  transform(value: string, type? : string): string {
+  transform(value: string, type? : string, event? : any, dateToday? : any): string {
     const dateEvent = new Date(value);
 
     const date = `${this.zerotage(dateEvent.getDate())}/${this.zerotage(dateEvent.getMonth()+1)}/${this.zerotage(dateEvent.getFullYear())}`;
     const hours = `${this.zerotage(dateEvent.getHours())}H${this.zerotage(dateEvent.getMinutes())}`;
 
     if (type && type === "hour") {
+      if (event && event.dateEnding) {
+        const today = new Date(dateToday.year, dateToday.month - 1, dateToday.day);
+        const dateEnd = new Date(event.dateEnding);
+
+        if ( ( today.getDate() === dateEvent.getDate() && today.getMonth() === dateEvent.getMonth() &&
+          today.getFullYear() === dateEvent.getFullYear() ) && ( today.getDate() === dateEnd.getDate() &&
+          today.getMonth() === dateEnd.getMonth() && today.getFullYear() === dateEnd.getFullYear() ) ) {
+          return `De ${hours} à ${this.zerotage(dateEnd.getHours())}H${this.zerotage(dateEnd.getMinutes())}`;
+        }
+
+        if (today.getDate() === dateEvent.getDate() && today.getMonth() === dateEvent.getMonth() &&
+          today.getFullYear() === dateEvent.getFullYear()) {
+          return `A partir de ${hours}`;
+        }
+
+        if (today.getDate() === dateEnd.getDate() && today.getMonth() === dateEnd.getMonth() &&
+          today.getFullYear() === dateEnd.getFullYear()) {
+          return `Jusqu'à ${this.zerotage(dateEnd.getHours())}H${this.zerotage(dateEnd.getMinutes())}`;
+        }
+
+        return `Toute la journée`;
+      }
+
       return `${hours}`;
     }
 

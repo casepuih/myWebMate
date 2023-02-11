@@ -78,6 +78,23 @@ const linksService = {
 
         return dataUpdatedReturning.links;
     },
+    clickOnLink: async (id) => {
+        const link = await db.Links.findOne({
+            where: {
+                id: id
+            }
+        });
+
+        if (!link) {
+            throw new Error('Link not found');
+        }
+
+        link.clickedCounter += 1;
+
+        await link.save();
+
+        return link;
+    },
     delete : async (id) => {
         const nbRowDeleted = await db.Links.destroy({
             where: { id }

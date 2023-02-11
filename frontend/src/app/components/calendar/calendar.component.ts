@@ -267,8 +267,6 @@ export class CalendarComponent implements OnInit {
         }
       })
     }
-
-
   }
 
   clearFormAddEvent() {
@@ -309,21 +307,21 @@ export class CalendarComponent implements OnInit {
     if (this.displayBy === "day") {
       this.day = this._dateService.getNextDay();
       this.cdr.detectChanges();
-      this._calendarService.emitDayChange();
+      this._calendarService.emitCalendarDateChange();
       this.currentYear = this.day.year;
     }
 
     if (this.displayBy === "week") {
       this.week = this._dateService.getNextWeek();
       this.cdr.detectChanges();
-      this._calendarService.emitWeekChange();
+      this._calendarService.emitCalendarDateChange();
       this.currentYear = this.week[0].year;
     }
 
     if (this.displayBy === "month") {
       this.month = this._dateService.getNextMonth();
       this.cdr.detectChanges();
-      this._calendarService.emitMonthChange();
+      this._calendarService.emitCalendarDateChange();
       this.currentYear = this.month[0].year;
     }
 
@@ -337,21 +335,21 @@ export class CalendarComponent implements OnInit {
     if (this.displayBy === "day") {
       this.day = this._dateService.getPreviousDay();
       this.cdr.detectChanges();
-      this._calendarService.emitDayChange();
+      this._calendarService.emitCalendarDateChange();
       this.currentYear = this.day.year;
     }
 
     if (this.displayBy === "week") {
       this.week = this._dateService.getPreviousWeek();
       this.cdr.detectChanges();
-      this._calendarService.emitWeekChange();
+      this._calendarService.emitCalendarDateChange();
       this.currentYear = this.week[0].year;
     }
 
     if (this.displayBy === "month") {
       this.month = this._dateService.getPreviousMonth();
       this.cdr.detectChanges();
-      this._calendarService.emitMonthChange();
+      this._calendarService.emitCalendarDateChange();
       this.currentYear = this.month[0].year;
     }
 
@@ -364,25 +362,26 @@ export class CalendarComponent implements OnInit {
   getReturnToday(){
     if (this.displayBy === "day") {
       this.day = this._dateService.getReturnTodayForDay();
-      this.cdr.detectChanges();
-      this._calendarService.emitDayChange();
+      this.currentYear = this.day.year;
     }
 
     if (this.displayBy === "week") {
       this.week = this._dateService.getReturnTodayForWeek();
-      this.cdr.detectChanges();
-      this._calendarService.emitWeekChange();
+      this.currentYear = this.week[0].year;
     }
 
     if (this.displayBy === "month") {
       this.month = this._dateService.getReturnTodayForMonth();
-      this.cdr.detectChanges();
-      this._calendarService.emitMonthChange();
+      this.currentYear = this.month[0].year;
     }
 
     if (this.displayBy === "year") {
       this.year = this._dateService.getReturnTodayForYear();
+      this.currentYear = this.year[0][0].year;
     }
+
+    this.cdr.detectChanges();
+    this._calendarService.emitCalendarDateChange();
   }
 
   updateDisplayBy(value: string) {

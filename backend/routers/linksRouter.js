@@ -13,6 +13,7 @@ linksRouter.route('/')
 linksRouter.route('/:id([0-9]+)')
     .put(authentificate(), bodyValidation(linksValidator), linksController.update)
     .delete(authentificate(), linksController.delete)
+    .post(authentificate(), linksController.clickOnLink)
     .all((req, res) => res.sendStatus(405));
 
 module.exports = linksRouter;

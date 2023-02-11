@@ -6,7 +6,7 @@
       <h3>{{groupLinks.name}}</h3>
       <ul>
         <li *ngFor="let link of linksList | filterLinksByGroup:groupLinks.id">
-          <a href="{{link.link}}" target="_blank">{{link.name}}</a>
+          <a href="{{link.link}}" (click)="clickOnLink(link.id)" target="_blank">{{link.name}}</a>
         </li>
       </ul>
     </section>

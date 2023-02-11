@@ -38,7 +38,7 @@ export class CalendarByMonthComponent implements OnInit {
   }
 
   getMonthChangeEmitter() {
-    this._calendarService.getMonthChangeEmitter().subscribe( {
+    this._calendarService.getCalendarDateChangeEmitter().subscribe( {
       next: () => {
         this.filterAllPlanned();
       },

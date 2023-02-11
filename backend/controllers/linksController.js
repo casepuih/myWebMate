@@ -68,6 +68,23 @@ const linksController = {
         }
         res.sendStatus(204);
     },
+    clickOnLink : async (req,res) => {
+        const id = req.params.id;
+
+        const member = await linksService.getMemberIdFromOneLink(id);
+
+        if (member.links.MemberId !== req.user.id) {
+            res.status(403).json(new ErrorResponse(
+                `This is not your link !!`
+            ))
+
+            return;
+        }
+
+        const link = await linksService.clickOnLink(id);
+
+        res.status(200).json(new SuccessCollectionResponse(link));
+    },
     delete: async (req, res) => {
         const id = req.params.id;
 

@@ -4,6 +4,7 @@ import {MemberService} from "../../services/member.service";
 import {LinksGroup} from "../../models/groupLinksModel";
 import {Link} from "../../models/linksModel";
 import {ActivatedRoute} from "@angular/router";
+import {ErrorService} from "../../services/error.service";
 
 @Component({
   selector: 'app-my-links',
@@ -17,7 +18,8 @@ export class MyLinksPage implements OnInit {
   constructor(
     private _linksService : LinksService,
     private _memberService : MemberService,
-    private ar : ActivatedRoute
+    private ar : ActivatedRoute,
+    private _errorService : ErrorService
   ) { }
 
   ngOnInit() {
@@ -68,4 +70,11 @@ export class MyLinksPage implements OnInit {
     })
   }
 
+  clickOnLink(id : number) {
+    this._linksService.clickOnLink(id).subscribe({
+      error : (error) => {
+        this._errorService.errorHandler(error);
+      }
+    });
+  }
 }

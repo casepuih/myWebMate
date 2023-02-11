@@ -19,6 +19,7 @@ export class LinksMenuComponent implements OnInit {
   createGroupLinksTitle!:string;
   groupLinksList!:LinksGroup[];
   linksList!:Link[];
+  hotLinkList!:Link[];
   isMenuDisplay:MenuDisplay[] = [];
   isTryToAddALink:TryToAddALink[] = [];
   addLink:AddALink[] = [];
@@ -70,6 +71,7 @@ export class LinksMenuComponent implements OnInit {
     this._linksService.getLinksList().subscribe({
       next: (data) => {
         this.linksList = data.results.links;
+        this.filterHotLinkList();
       },
       error: (error) => {
         this._errorService.errorHandler(error);
@@ -182,6 +184,25 @@ export class LinksMenuComponent implements OnInit {
         }
       })
     }
+  }
+
+  filterHotLinkList() {
+    this._linksService.filterHotLinkList(this.linksList).subscribe({
+      next: (data) => {
+        this.hotLinkList = data;
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    })
+  }
+
+  clickOnLink(id : number) {
+    this._linksService.clickOnLink(id).subscribe({
+      error : (error) => {
+        this._errorService.errorHandler(error);
+      }
+    });
   }
 
   adminGroupLinks(id:number) {

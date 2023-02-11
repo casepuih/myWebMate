@@ -11,7 +11,7 @@
       <div *ngIf="allPlanned" class="allEventForOneDay">
         <ul>
           <li *ngFor="let events of date.events; let i = index" [class]="eventClass(i, j)"(click)="callUpdateEvent(events.id, events.dateEnding)">
-            <span *ngIf="events.dateBegin" class="date">{{events.dateBegin | datePlanning : "hour"}} : </span>
+            <span *ngIf="events.dateBegin" class="date">{{events.dateBegin | datePlanning : "hour" : events : date}} : </span>
             <span>{{events.title}}</span>
           </li>
         </ul>

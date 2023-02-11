@@ -37,7 +37,7 @@ export class CalendarByWeekComponent implements OnInit {
   }
 
   getWeekChangeEmitter() {
-    this._calendarService.getWeekChangeEmitter().subscribe( {
+    this._calendarService.getCalendarDateChangeEmitter().subscribe( {
       next: () => {
         this.filterAllPlanned();
       },
