@@ -27,6 +27,20 @@ h3 {
     }
 }
 
+.dateContainer {
+    margin: 1rem auto;
+    width: 95%;
+}
+
+.labelContainer {
+    margin: 1rem auto;
+    width: 95%;
+
+    .label-div {
+        margin: 5px;
+    }
+}
+
 .deleteProject {
     margin-top: 4rem;
     display: flex;

@@ -8,12 +8,13 @@
     <input *ngIf="project" [(ngModel)]="project.title" (ngModelChange)="changeProject()">
   </div>
 
-  <div>
+  <div class="dateContainer">
+    Date :
     <div>
       Date debut du project :
       <input *ngIf="project" type="date" [(ngModel)]="project.dateBegin" (ngModelChange)="changeProject()"
         name="dateBegin" id="dateBegin">
-    </div>
+    </div><br>
     <div>
       Date fin du project :
       <input *ngIf="project" type="date" [(ngModel)]="project.dateEnding" (ngModelChange)="changeProject()"
@@ -21,18 +22,18 @@
     </div>
   </div>
 
-  <div>
+  <div class="labelContainer">
     <div>
-      <label for="color-select">Choisir une couleur :</label>
-      <select name="colors" id="color-select" [(ngModel)]="newLabel.color">
+      <label for="color-select" class="label-div">Choisir une couleur :</label>
+      <select name="colors" id="color-select" [(ngModel)]="newLabel.color" class="label-div">
         <option value="">--Choisir une couleur--</option>
         <option value="red">Rouge</option>
         <option value="blue">Bleu</option>
         <option value="khaki">Khaki</option>
         <option value="pink">Rose</option>
       </select>
-      <input type="text" [(ngModel)]="newLabel.title">
-      <button (click)="createLabel()"></button>
+      <input type="text" [(ngModel)]="newLabel.title" class="label-div">
+      <button (click)="createLabel()" class="label-div">Ajouter un label</button>
     </div>
     <div>
       <app-project-labels *ngFor="let label of labels" [label]="label"></app-project-labels>

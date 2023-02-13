@@ -32,13 +32,25 @@ export class ProjectDetailsPage implements OnInit {
     this.id = this.ar.snapshot.params['id'];
     this.isConnectedResolver();
     this.getProject();
-    this.getLabelsFromProject()
+    this.getLabelsFromProject();
+    this.getEmitter();
     console.log(this.project);
 
   }
 
   isConnectedResolver() {
     this.ar.data.subscribe(({ isConnectedResolver }) => { });
+  }
+
+  getEmitter() {
+    this._labelsService.getLabelUpdateEmitter().subscribe({
+      next: () => {
+        this.getLabelsFromProject()
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    })
   }
 
   getProject() {
@@ -65,9 +77,17 @@ export class ProjectDetailsPage implements OnInit {
   }
 
   createLabel() {
-    this._labelsService.createLabel(this.newLabel.title, this.newLabel.color, this.id).subscribe({});
-    this.newLabel.title = "";
-    this.newLabel.color = "";
+    this._labelsService.createLabel(this.newLabel.title, this.newLabel.color, this.id).subscribe({
+      next: (data: any) => {
+        const id = data.result.id;
+        this.newLabel.title = "";
+        this.newLabel.color = "";
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    });
+
   }
 
   getLabelsFromProject() {

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {MemberService} from "../../../services/member.service";
-import {NotesService} from "../../../services/notes.service";
-import {Note} from "../../../models/notesModel";
-import {Router} from "@angular/router";
-import {ErrorService} from "../../../services/error.service";
+import { MemberService } from "../../../services/member.service";
+import { NotesService } from "../../../services/notes.service";
+import { Note } from "../../../models/notesModel";
+import { Router } from "@angular/router";
+import { ErrorService } from "../../../services/error.service";
 
 @Component({
   selector: 'app-notes-menu',
@@ -11,17 +11,17 @@ import {ErrorService} from "../../../services/error.service";
   styleUrls: ['./notes-menu.component.scss'],
 })
 export class NotesMenuComponent implements OnInit {
-  notesList!:Array<Note>;
-  token!:string;
-  isCreateForm:boolean = false;
-  addNoteClass:string = "noteCard";
-  createNoteTitle!:string;
+  notesList!: Array<Note>;
+  token!: string;
+  isCreateForm: boolean = false;
+  addNoteClass: string = "noteCard";
+  createNoteTitle!: string;
 
   constructor(
-    private _notesService : NotesService,
-    private _memberService : MemberService,
-    private _router : Router,
-    private _errorService : ErrorService
+    private _notesService: NotesService,
+    private _memberService: MemberService,
+    private _router: Router,
+    private _errorService: ErrorService
   ) { }
 
   ngOnInit() {
@@ -41,7 +41,7 @@ export class NotesMenuComponent implements OnInit {
   }
 
   getEmitter() {
-    this._notesService.getNoteUpdateEmitter().subscribe( {
+    this._notesService.getNoteUpdateEmitter().subscribe({
       next: () => {
         this.getList()
       },
@@ -51,7 +51,7 @@ export class NotesMenuComponent implements OnInit {
     })
   }
 
-  goToNote(id:number) {
+  goToNote(id: number) {
     this._router.navigate(['notes/' + id]);
   }
 
@@ -62,7 +62,7 @@ export class NotesMenuComponent implements OnInit {
 
   addNote() {
     this._notesService.createNote(this.createNoteTitle).subscribe({
-      next: (data:any) => {
+      next: (data: any) => {
         const id = data.result.id;
         this.isCreateForm = false;
         this.createNoteTitle = "";
