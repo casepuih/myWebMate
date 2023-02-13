@@ -100,7 +100,9 @@ export class CalendarService {
     const dateBegin : string = this._dateConstructorForAPI(dateBeginObjet);
     const isRecurring = recurrence !== "";
     const MemberId = this._getUserId();
+    console.log(participant);
     const MemberIdArray = this._fillMemberIdArray(MemberId, participant);
+    console.log(MemberIdArray);
 
     return this._client.put<any>(this.api + "tasks/" + id, {
       title,
@@ -602,7 +604,7 @@ export class CalendarService {
     const MemberIdArray : number[] = []
     MemberIdArray.push(userId);
 
-    for (let i=0; i<relation.length - 1;i++){
+    for (let i=0; i<relation.length;i++){
       if (relation[i].isChecked) {
         MemberIdArray.push(relation[i].id);
       }

@@ -133,7 +133,16 @@ const tasksService = {
         });
 
         const dataUpdatedReturning = await tasksService.getOne(id, userId);
-        console.log(dataUpdatedReturning.task.id, "dddddd", Number(id));
+
+        const newGuest = data.MemberIdArray.filter(x => !dataUpdatedReturning.task[0].MemberId.includes(x));
+        console.log("NEW GUEST : ", newGuest);
+        newGuest.forEach( async (idMember)=> {
+                const relation = await (await sql).query(`INSERT INTO membertasks 
+                                                              (createdAt, updatedAt, taskId, MemberId)
+                                                              VALUES (NOW(), NOW(), ?, ?)`, [id, idMember]);
+            }
+        )
+
         if (dataUpdatedReturning.task[0].id !== Number(id)) {
             return null;
         }

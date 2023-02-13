@@ -7,8 +7,6 @@ const authService = {
             type: 2
         });
 
-        console.log("email : ", email, " hasspass : ", hashPassword, " firstname : ", firstname, "lastname : ", lastname);
-
         const member = await memberService.add({
             email,
             hashPassword,

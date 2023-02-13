@@ -75,4 +75,17 @@ export class MemberService {
       lastname
     })
   }
+
+  updateMyPassword(oldPassword : string, newPassword : string) : Observable<any> {
+    return this._client.post<any>(this.api + "member/" + this.id, {
+      oldPassword,
+      newPassword
+    })
+  }
+
+  updateMyMail(newMail : string) : Observable<any> {
+    return this._client.put<any>(this.api + "member/email/" + this.id, {
+      newEmail : newMail
+    })
+  }
 }

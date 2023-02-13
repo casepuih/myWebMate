@@ -1,6 +1,6 @@
 const meetsController = require('../controllers/meetsController');
 const bodyValidation = require('../middlewares/bodyValidation');
-const { meetsValidator, meetsAddValidator} = require('../validators/meetsValidator');
+const { meetsAddValidator} = require('../validators/meetsValidator');
 const authentificate = require('../middlewares/authentificate');
 
 const meetsRouter = require('express').Router();
@@ -12,7 +12,7 @@ meetsRouter.route('/')
 
 meetsRouter.route('/:id([0-9]+)')
     .get(authentificate(), meetsController.getOne)
-    .put(authentificate(), bodyValidation(meetsValidator), meetsController.update)
+    .put(authentificate(), bodyValidation(meetsAddValidator), meetsController.update)
     .delete(authentificate(), meetsController.delete)
     .all((req, res) => res.sendStatus(405));
 

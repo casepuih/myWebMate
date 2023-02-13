@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="59fa4454-d0bf-4e2a-ad28-e210e297b13c" name="Changes" comment="" />
+    <list default="true" id="59fa4454-d0bf-4e2a-ad28-e210e297b13c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routers/tasksRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routers/tasksRouter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/services/tasksService.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/services/tasksService.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,8 +34,9 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/backend" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="C:\Users\Lenovo\www\MyWebMate\frontend\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -50,6 +55,7 @@
       <updated>1673865113068</updated>
       <workItem from="1673865113721" duration="35864000" />
       <workItem from="1674553846691" duration="21000" />
+      <workItem from="1676234743603" duration="44000" />
     </task>
     <servers />
   </component>

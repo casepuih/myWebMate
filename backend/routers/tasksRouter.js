@@ -12,7 +12,7 @@ tasksRouter.route('/')
 
 tasksRouter.route('/:id([0-9]+)')
     .get(authentificate(), tasksController.getOne)
-    .put(authentificate(), bodyValidation(tasksValidator), tasksController.update)
+    .put(authentificate(), bodyValidation(tasksAddValidator), tasksController.update)
     .delete(authentificate(), tasksController.delete)
     .all((req, res) => res.sendStatus(405));
 

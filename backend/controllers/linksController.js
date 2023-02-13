@@ -11,7 +11,6 @@ const linksController = {
 
     add: async (req, res) => {
         const data = req.validateData;
-        console.log("dataaaaaaa ", data);
         data.MemberId = req.user.id;
 
         if (!data.name && !data.link) {

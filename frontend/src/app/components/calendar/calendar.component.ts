@@ -12,6 +12,7 @@ import {AlertService} from "../../services/alert.service";
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
+
 export class CalendarComponent implements OnInit {
   today!:string;
   day!:Day;
@@ -140,7 +141,6 @@ export class CalendarComponent implements OnInit {
           this._errorService.errorHandler(error);
         }
       })
-
     }
 
     if (this.classMeetChoose === "selected") {
@@ -200,6 +200,8 @@ export class CalendarComponent implements OnInit {
     if (dateEnding === undefined) typeEvent = "task";
     if (dateEnding !== undefined) typeEvent = "meet";
 
+    this.getAllRelation();
+
     if (typeEvent === "task") {
       this.classTaskChoose = "selected";
       this.classMeetChoose = "pointer";
@@ -207,6 +209,7 @@ export class CalendarComponent implements OnInit {
       this._calendarService.getOneTask(id).subscribe({
         next: (tasks) => {
           const task = tasks.result.task[0];
+          if (task.recurrence === null) task.recurrence="";
           const dateBegin = new Date (task.dateBegin)
           this.idForUpdate = task.id;
           this.titleEvent = task.title;
@@ -225,8 +228,6 @@ export class CalendarComponent implements OnInit {
             }
           });
 
-          console.log(this.participant);
-          console.log(task.MemberId);
           this.displayAddMenu();
         }
       })

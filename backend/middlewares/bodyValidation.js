@@ -18,7 +18,6 @@ const bodyValidation = (validator, errorCode = 422) => {
      */
     return (req, res, next) => {
         console.log("pass");
-        console.log(req);
         validator.noUnknown().validate(req.body, { abortEarly: false })
             .then((data) => {
                 req.validateData = data;

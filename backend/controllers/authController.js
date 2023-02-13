@@ -8,7 +8,6 @@ const authController = {
         const {email, password, firstname, lastname} = req.validateData;
 
         const data = await authService.register(email, password, firstname, lastname);
-        console.log("register data", data);
         if (!data) {
             res.sendStatus(400);
             return;

@@ -15,12 +15,14 @@ export class RelationService {
     private _client : HttpClient
   ) { }
 
-  getAllRelation() : Observable<ResRelation> {
-    return this._client.get<ResRelation>(this.api + "friends");
+  sendInvitation(email:string) : Observable<any> {
+    return this._client.post<any>(this.api + "friends/invitation", {
+      email
+    })
   }
 
-  deleteRelation(id: number) : Observable<any> {
-    return this._client.delete<any>(this.api + "friends/" + id);
+  getAllRelation() : Observable<ResRelation> {
+    return this._client.get<ResRelation>(this.api + "friends");
   }
 
   getAllInvitation() : Observable<ResInvitation> {
@@ -35,10 +37,8 @@ export class RelationService {
     return this._client.post<any>(this.api + "friends/invitation/" + id, {});
   }
 
-  sendInvitation(email:string) : Observable<any> {
-    return this._client.post<any>(this.api + "friends/invitation", {
-      email
-    })
+  deleteRelation(id: number) : Observable<any> {
+    return this._client.delete<any>(this.api + "friends/" + id);
   }
 
   deleteInvitation(id: number) : Observable<any> {

@@ -133,7 +133,16 @@ const meetsService = {
         });
 
         const dataUpdatedReturning = await meetsService.getOne(id, userId);
-        console.log(dataUpdatedReturning.meet.id, "dddddd", Number(id));
+
+        const newGuest = data.MemberIdArray.filter(x => !dataUpdatedReturning.meet[0].MemberId.includes(x));
+
+        newGuest.forEach( async (idMember)=> {
+                const relation = await (await sql).query(`INSERT INTO membermeets
+                                                              (createdAt, updatedAt, taskId, MemberId)
+                                                              VALUES (NOW(), NOW(), ?, ?)`, [id, idMember]);
+            }
+        )
+
         if (dataUpdatedReturning.meet[0].id !== Number(id)) {
             return null;
         }

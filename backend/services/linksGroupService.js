@@ -61,7 +61,6 @@ const linksGroupService = {
 
         const dataUpdatedReturning = await linksGroupService.getOne(id);
 
-        console.log(dataUpdatedReturning);
 
         if (dataUpdatedReturning.linksGroup.id !== Number(id)) {
             return null;

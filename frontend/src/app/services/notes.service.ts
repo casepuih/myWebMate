@@ -19,6 +19,24 @@ export class NotesService {
     return this.noteUpdated.asObservable();
   }
 
+  createNote(title:string) : Observable<any> {
+    return this._client.post<any>(this.api + "notes", {
+      "title" : title,
+      "content" : ""
+    }).pipe(tap(updatedNote => {
+      this.noteUpdated.next(updatedNote);
+    }));
+  }
+
+  createNoteFull(title:string, content:string) : Observable<any> {
+    return this._client.post<any>(this.api + "notes", {
+      "title" : title,
+      "content" : content
+    }).pipe(tap(updatedNote => {
+      this.noteUpdated.next(updatedNote);
+    }));
+  }
+
   getNotesList () : Observable<Notes> {
     return this._client.get<Notes>(this.api + "notes");
   }
@@ -41,23 +59,4 @@ export class NotesService {
       this.noteUpdated.next(updatedNote);
     }));
   }
-
-  createNote(title:string) : Observable<any> {
-    return this._client.post<any>(this.api + "notes", {
-      "title" : title,
-      "content" : ""
-    }).pipe(tap(updatedNote => {
-      this.noteUpdated.next(updatedNote);
-    }));
-  }
-
-  createNoteFull(title:string, content:string) : Observable<any> {
-    return this._client.post<any>(this.api + "notes", {
-      "title" : title,
-      "content" : content
-    }).pipe(tap(updatedNote => {
-      this.noteUpdated.next(updatedNote);
-    }));
-  }
-
 }

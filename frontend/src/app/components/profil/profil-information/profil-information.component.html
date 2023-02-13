@@ -8,4 +8,23 @@
     <div></div>
     <button (click)="updateMyName()">Modifier</button>
   </div>
+
+  <h2>Modification du mot de passe</h2>
+  <div class="nameInformation">
+    <div>Ancien mot de passe :</div>
+    <input type="text" [(ngModel)]="oldPassword">
+    <div>Nouveau mot de passe :</div>
+    <input type="text" [(ngModel)]="newPassword">
+    <div></div>
+    <button (click)="updateMyPassword()">Modifier</button>
+  </div>
+
+  <h2>Modification de votre email</h2>
+  <div class="nameInformation">
+    <div>Nouvelle email :</div>
+    <input type="text" [(ngModel)]="newEmail">
+    <div></div>
+    <button (click)="updateMyMail()">Modifier</button>
+  </div>
+  <br/><br/><br/><br/>
 </div>

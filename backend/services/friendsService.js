@@ -34,7 +34,6 @@ const friendsService = {
         const [invitationsSend] = await (await sql).query(`SELECT * FROM invitation
                                          WHERE senderInvitationId= ?`, [userId]);
 
-        console.log(invitationsReceive);
         return {
             receive: invitationsReceive.map(a => new MemberDTO(a)),
             send: invitationsSend.map(a => new InvitationDTO(a))

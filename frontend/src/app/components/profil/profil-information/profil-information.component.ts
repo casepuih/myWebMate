@@ -11,6 +11,9 @@ import {AlertService} from "../../../services/alert.service";
 export class ProfilInformationComponent implements OnInit {
   lastname!:string;
   firstname!:string;
+  oldPassword!:string;
+  newPassword!:string;
+  newEmail!:string;
 
   constructor(
     private _memberService : MemberService,
@@ -45,4 +48,31 @@ export class ProfilInformationComponent implements OnInit {
       }
     });
   }
+
+  updateMyPassword() {
+    this._memberService.updateMyPassword(this.oldPassword, this.newPassword).subscribe({
+      next: () => {
+        this._alertService.alerte("Mot de passe mis à jour", "Votre nouveau mot de passe a bien été mis à jour");
+        this.oldPassword = "";
+        this.newPassword = "";
+      },
+      error: (error) => {
+        console.log(error);
+        this._errorService.errorHandler(error);
+      }
+    })
+  }
+
+  updateMyMail() {
+    this._memberService.updateMyMail(this.newEmail).subscribe({
+      next: ()=> {
+        this._alertService.alerte("Email mis à jour", "Votre nouvelle email a bien été mis à jour");
+        this.oldPassword = "";
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    })
+  }
+
 }
