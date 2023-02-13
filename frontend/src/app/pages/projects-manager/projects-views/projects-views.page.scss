@@ -1,0 +1,17 @@
+.content {
+    display: flex;
+    margin: 1rem auto;
+    width: 95%;
+    min-height: 1000px;
+    border: 2px solid red;
+    border-radius: 5px;
+    padding: 0.5rem;
+}
+
+.board {
+    margin: 0 0.5rem;
+    width: 21%;
+    height: 400px;
+    border: 2px solid red;
+    border-radius: 5px;
+}
