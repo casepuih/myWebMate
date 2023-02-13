@@ -21,6 +21,7 @@ db.Meets = require('./meetsModel')(sequelize);
 db.Invitation = require('./invitationModel')(sequelize);
 db.Projects = require('./projectsModel')(sequelize); //
 db.Labels = require('./labelsModel')(sequelize); //
+db.Boards = require('./boardsModel')(sequelize); //
 
 db.Tasks.belongsToMany(db.Member, { through: 'MemberTasks' });
 db.Member.belongsToMany(db.Tasks, { through: 'MemberTasks' });
@@ -89,5 +90,8 @@ db.Member.hasMany(db.Labels, {
     },
     onDelete: 'NO ACTION'
 });
+
+db.Boards.belongsTo(db.Member);
+db.Projects.belongsTo(db.Boards);
 
 module.exports = db;
