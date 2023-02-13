@@ -26,6 +26,7 @@ import {
 import { DatePlanningPipe } from "../../../pipe/date-planning.pipe";
 import { DescriptionPlanningResumePipe } from "../../../pipe/description-planning-resume.pipe";
 import { ProjectManagerComponent } from "../../../components/project-manager/project-manager.component";
+import { ProjectsMenuComponent } from "../../../components/project-manager/projects-menu/projects-menu.component";
 
 @NgModule({
   exports: [
@@ -37,7 +38,7 @@ import { ProjectManagerComponent } from "../../../components/project-manager/pro
     FilterLinksByGroupPipe, SearchEnginesComponent, CalendarComponent, NumberToWordMonthPipe, CalendarByWeekComponent,
     CalendarByDayComponent, CalendarByMonthComponent, CalendarByYearComponent, WordToLetterDayOfWeekPipe, ZerotagePipe,
     CommaSeparatorPipe, CalendarByPlanningComponent, DatePlanningPipe, DescriptionPlanningResumePipe, DescriptionPlanningResumePipe,
-    ProjectManagerComponent
+    ProjectManagerComponent, ProjectsMenuComponent
   ],
   imports: [
     CommonModule,

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Label } from 'src/app/models/labelsModel';
 import { Project } from 'src/app/models/projectsModel';
 import { ErrorService } from 'src/app/services/error.service';
+import { LabelsService } from 'src/app/services/labels.service';
 import { ProjectsService } from 'src/app/services/projects.service';
 
 @Component({
@@ -12,10 +14,16 @@ import { ProjectsService } from 'src/app/services/projects.service';
 export class ProjectDetailsPage implements OnInit {
   project!: Project;
   id!: number;
+  labels?: Label[];
+  newLabel = {
+    color: "",
+    title: "",
+  }
 
   constructor(
     private ar: ActivatedRoute,
     private _projectsService: ProjectsService,
+    private _labelsService: LabelsService,
     private _router: Router,
     private _errorService: ErrorService
   ) { }
@@ -24,6 +32,7 @@ export class ProjectDetailsPage implements OnInit {
     this.id = this.ar.snapshot.params['id'];
     this.isConnectedResolver();
     this.getProject();
+    this.getLabelsFromProject()
     console.log(this.project);
 
   }
@@ -53,5 +62,23 @@ export class ProjectDetailsPage implements OnInit {
         this._router.navigate(['home']);
       }
     });
+  }
+
+  createLabel() {
+    this._labelsService.createLabel(this.newLabel.title, this.newLabel.color, this.id).subscribe({});
+    this.newLabel.title = "";
+    this.newLabel.color = "";
+  }
+
+  getLabelsFromProject() {
+    this._labelsService.getLabelsFromProject(this.id).subscribe({
+      next: (data) => {
+        this.labels = data;
+        console.log(data);
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    })
   }
 }

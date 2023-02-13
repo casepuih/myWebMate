@@ -21,6 +21,24 @@
     </div>
   </div>
 
+  <div>
+    <div>
+      <label for="color-select">Choisir une couleur :</label>
+      <select name="colors" id="color-select" [(ngModel)]="newLabel.color">
+        <option value="">--Choisir une couleur--</option>
+        <option value="red">Rouge</option>
+        <option value="blue">Bleu</option>
+        <option value="khaki">Khaki</option>
+        <option value="pink">Rose</option>
+      </select>
+      <input type="text" [(ngModel)]="newLabel.title">
+      <button (click)="createLabel()"></button>
+    </div>
+    <div>
+      <app-project-labels *ngFor="let label of labels" [label]="label"></app-project-labels>
+    </div>
+  </div>
+
   <div class="textContainer">
     Description :
     <textarea *ngIf="project" [(ngModel)]="project.description" (ngModelChange)="changeProject()"></textarea>

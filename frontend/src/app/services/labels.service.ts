@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, tap } from 'rxjs';
+import { map, Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Labels } from '../models/labelsModel';
 
@@ -27,6 +27,12 @@ export class LabelsService {
     return this._client.get<any>(this.api + "labels/" + id);
   }
 
+  getLabelsFromProject(projectId: number): Observable<any> {
+    return this._client.get<Labels>(this.api + "labels").pipe(map(labels => {
+      return labels.result.labels.filter(label => label.projectId == projectId)
+    }))
+  }
+
   updateLabel(title: string, content: string, id: number): Observable<any> {
     return this._client.put<any>(this.api + "labels/" + id, {
       title: title,
@@ -42,10 +48,11 @@ export class LabelsService {
     }));
   }
 
-  createLabel(title: string, color: string): Observable<any> {
+  createLabel(title: string, color: string, id: number): Observable<any> {
     return this._client.post<any>(this.api + "labels", {
       "title": title,
-      "color": color
+      "color": color,
+      "projectId": id
     }).pipe(tap(updatedLabel => {
       this.labelUpdated.next(updatedLabel);
     }));

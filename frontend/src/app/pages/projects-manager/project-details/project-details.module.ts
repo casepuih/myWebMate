@@ -8,15 +8,16 @@ import { ProjectDetailsPageRoutingModule } from './project-details-routing.modul
 
 import { ProjectDetailsPage } from './project-details.page';
 import { HomePageModule } from "../../home/home.module";
+import { ProjectLabelsComponent } from "../../../components/project-manager/project-labels/project-labels.component";
 
 @NgModule({
-  declarations: [ProjectDetailsPage],
+  declarations: [ProjectDetailsPage, ProjectLabelsComponent],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     ProjectDetailsPageRoutingModule,
-    HomePageModule
+    HomePageModule,
   ]
 })
 export class ProjectDetailsPageModule { }

@@ -1,0 +1,21 @@
+<div class="projectsContainer">
+  <h2>MES PROJETS</h2>
+  <div class="projectsList">
+
+    <div [ngClass]="addProjectClass" (click)="createForm()">
+      <h4 *ngIf="!isCreateForm">Crée un projet</h4>
+      <img src="assets/image/add.png" alt="add" *ngIf="!isCreateForm" />
+
+      <h4 *ngIf="isCreateForm">Titre de votre projet :</h4>
+      <input type="text" [(ngModel)]="createProjectTitle" *ngIf="isCreateForm" class="inputCreate">
+      <button *ngIf="isCreateForm" (click)="addProject()" class="buttonCreate"
+        [disabled]="!createProjectTitle">Créer</button>
+    </div>
+
+    <div *ngFor="let project of projectsList" class="projectCard" (click)="goToProject(project.id)">
+      <h3>{{project.title}}</h3>
+      <p>{{project.description | noteResume}}</p>
+    </div>
+
+  </div>
+</div>
