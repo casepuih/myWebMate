@@ -13,12 +13,29 @@ ul {
       margin-left: 1rem;
       width:200px;
       font-size: 0.9rem;
+      @media (min-width: 0) {
+        width:150px;
+      }
+      @media (min-width: 745px) {
+        width:200px;
+      }
     }
     .title{
-      width:30%;
+      @media (min-width: 0) {
+        flex:1;
+      }
+      @media (min-width: 745px) {
+        width:30%;
+      }
     }
     .description{
       flex:1;
+      @media (min-width: 0) {
+        display:none;
+      }
+      @media (min-width: 745px) {
+        display:block;
+      }
     }
   }
 }

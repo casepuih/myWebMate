@@ -1,10 +1,14 @@
 .calendarDate {
   display:flex;
   width:100%;
-  height: 70px;
   flex-direction: column;
   .titleContainer{
-    display: flex;
+    @media (min-width: 0) {
+      display: none;
+    }
+    @media (min-width: 1000px) {
+      display: flex;
+    }
     width:100%;
     border:1px solid #3A406E;
     padding-bottom: 1rem;
@@ -27,13 +31,49 @@
   .eventContainer{
     display: flex;
     width:100%;
-    min-height: 500px;
     border:1px solid #3A406E;
+    margin-bottom: 4rem;
+    @media (min-width: 0) {
+      flex-direction: column;
+    }
+    @media (min-width: 1000px) {
+      flex-direction: row;
+    }
     .oneDate {
-      width:14%;
+      @media (min-width: 0) {
+        width:96%;
+        margin : 0 auto;
+      }
+      @media (min-width: 1000px) {
+        width:14%;
+        margin : 0;
+      }
       display: flex;
       flex-direction: column;
       .allEventForOneDay {
+        @media (min-width: 0) {
+          width:96%;
+          margin : 0 auto;
+          border:1px solid #3A406E;
+          margin-top: 1rem;
+        }
+        @media (min-width: 1000px) {
+          width:100%;
+          margin : 0;
+          border: 0;
+        }
+        .titleContainerSmall {
+          @media (min-width: 0) {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #3A406E;
+          }
+          @media (min-width: 1000px) {
+            display: none;
+          }
+        }
         .oneEventOdd {
           height:60px;
           margin-bottom: 0.5rem;
@@ -67,5 +107,5 @@
 }
 
 .bottom {
-  min-height: 500px;
+  height: 500px;
 }

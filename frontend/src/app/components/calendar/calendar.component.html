@@ -3,6 +3,10 @@
     <div class="today pointer" (click)="getReturnToday()">Aujourd'hui</div>
     <div class="navigate pointer" (click)="getPrevious()" *ngIf="displayBy!=='planning'"> < </div>
     <div class="navigate pointer" (click)="getNext()" *ngIf="displayBy!=='planning'"> > </div>
+    <div class="navigateSmall">
+      <div class="navigate pointer" (click)="getPrevious()" *ngIf="displayBy!=='planning'"> < </div>
+      <div class="navigate pointer" (click)="getNext()" *ngIf="displayBy!=='planning'"> > </div>
+    </div>
   </div>
 
   <div class="centerMenu">

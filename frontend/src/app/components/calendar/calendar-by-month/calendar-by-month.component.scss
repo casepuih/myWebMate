@@ -7,12 +7,20 @@
     width:100%;
     .oneDate{
       list-style: none;
-      width:14.2857143%;
+
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       border:1px solid #3A406E;
       height:250px;
+      @media (min-width: 0) {
+        width:90%;
+        margin: 1rem auto 0;
+      }
+      @media (min-width: 1000px) {
+        width:14.2857143%;
+        margin: 0;
+      }
       div{
         &:first-child{
           margin-bottom: 0.3rem;
