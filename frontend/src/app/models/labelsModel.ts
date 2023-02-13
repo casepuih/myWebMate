@@ -2,6 +2,7 @@ export interface Label {
     id: number;
     title: string;
     color: string;
+    projectId: number;
 }
 
 export interface LabelsArray {
