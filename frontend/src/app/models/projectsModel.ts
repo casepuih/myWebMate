@@ -4,6 +4,7 @@ export interface Project {
     description: string;
     dateBegin: Date;
     dateEnding: Date;
+    boardId: number;
 }
 
 export interface ProjectsArray {
