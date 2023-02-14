@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, tap } from 'rxjs';
+import { map, Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Projects } from '../models/projectsModel';
 
@@ -25,6 +25,12 @@ export class ProjectsService {
 
   getOneProject(id: number): Observable<any> {
     return this._client.get<any>(this.api + "projects/" + id);
+  }
+
+  getProjectsByBoard(boardId: number): Observable<any> {
+    return this._client.get<Projects>(this.api + "projects").pipe(map(projects => {
+      return projects.result.projects.filter(project => project.boardId == boardId)
+    }))
   }
 
   updateProject(title: string, content: string, dateBegin: Date, dateEnding: Date, id: number): Observable<any> {

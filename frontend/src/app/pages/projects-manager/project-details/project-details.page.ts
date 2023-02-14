@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Board } from 'src/app/models/boardsModel';
 import { Label } from 'src/app/models/labelsModel';
 import { Project } from 'src/app/models/projectsModel';
+import { BoardsService } from 'src/app/services/boards.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { LabelsService } from 'src/app/services/labels.service';
 import { ProjectsService } from 'src/app/services/projects.service';
@@ -14,6 +16,7 @@ import { ProjectsService } from 'src/app/services/projects.service';
 export class ProjectDetailsPage implements OnInit {
   project!: Project;
   id!: number;
+  boardsList!: Array<Board>;
   labels?: Label[];
   newLabel = {
     color: "",
@@ -24,6 +27,7 @@ export class ProjectDetailsPage implements OnInit {
     private ar: ActivatedRoute,
     private _projectsService: ProjectsService,
     private _labelsService: LabelsService,
+    private _boardsService: BoardsService,
     private _router: Router,
     private _errorService: ErrorService
   ) { }
@@ -34,6 +38,7 @@ export class ProjectDetailsPage implements OnInit {
     this.getProject();
     this.getLabelsFromProject();
     this.getEmitter();
+    this.getBoards();
     console.log(this.project);
 
   }
@@ -94,7 +99,17 @@ export class ProjectDetailsPage implements OnInit {
     this._labelsService.getLabelsFromProject(this.id).subscribe({
       next: (data) => {
         this.labels = data;
-        console.log(data);
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    })
+  }
+
+  getBoards() {
+    this._boardsService.getBoardsList().subscribe({
+      next: (data) => {
+        this.boardsList = data.result.boards;
       },
       error: (error) => {
         this._errorService.errorHandler(error);

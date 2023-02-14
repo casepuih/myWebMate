@@ -1,0 +1,16 @@
+<div class="board-top">
+  <div class="board-title">
+    <h4>{{board.title}}</h4>
+  </div>
+  <div class="board-content">
+    <div *ngFor="let project of projectsList" class="projectCard" (click)="goToProject(project.id)">
+      <h3>{{project.title}}</h3>
+      <div *ngFor="let label of labels">
+        <div *ngIf="label.projectId == project.id">
+          <span [ngStyle]="{'background-color':label.color}">{{label.title}}</span>
+        </div>
+      </div>
+      <p>{{project.description}}</p>
+    </div>
+  </div>
+</div>
