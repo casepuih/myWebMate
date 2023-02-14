@@ -5,7 +5,8 @@ const projectsValidator = yup.object().shape({
     description: yup.string().trim().nullable(),
     dateBegin: yup.date().nullable(),
     dateEnding: yup.date().nullable().default(null),
-    MemberId: yup.number()
+    MemberId: yup.number(),
+    boardId: yup.number()
 });
 
 module.exports = {

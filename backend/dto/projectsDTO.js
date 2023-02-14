@@ -7,6 +7,7 @@ class ProjectsDTO {
         this.dateBegin = data.dateBegin;
         this.dateEnding = data.dateEnding;
         this.MemberId = data.MemberId;
+        this.boardId = data.boardId;
     }
 }
 
