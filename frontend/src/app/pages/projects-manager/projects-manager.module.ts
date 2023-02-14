@@ -8,16 +8,17 @@ import { ProjectsManagerPageRoutingModule } from './projects-manager-routing.mod
 
 import { ProjectsManagerPage } from './projects-manager.page';
 import { ProjectsViewsPage } from './projects-views/projects-views.page';
+import { BoardsComponent } from "../../components/boards/boards.component";
 
 
 
 @NgModule({
-  declarations: [ProjectsManagerPage, ProjectsViewsPage],
+  declarations: [ProjectsManagerPage, ProjectsViewsPage, BoardsComponent],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProjectsManagerPageRoutingModule
+    ProjectsManagerPageRoutingModule,
   ]
 })
 export class ProjectsManagerPageModule { }
