@@ -25,6 +25,8 @@ import {
 } from "../../../components/calendar/calendar-by-planning/calendar-by-planning.component";
 import {DatePlanningPipe} from "../../../pipe/date-planning.pipe";
 import {DescriptionPlanningResumePipe} from "../../../pipe/description-planning-resume.pipe";
+import {ToolsComponent} from "../../../components/tools/tools.component";
+import {CalculatorComponent} from "../../../components/tools/calculator/calculator.component";
 
 @NgModule({
     imports: [
@@ -38,9 +40,9 @@ import {DescriptionPlanningResumePipe} from "../../../pipe/description-planning-
     NoteResumePipe,
     FilterLinksByGroupPipe
   ],
-  declarations: [HomeWithConnectionPage, NotesMenuComponent, NotepadComponent, LinksMenuComponent, NoteResumePipe,
-    FilterLinksByGroupPipe, SearchEnginesComponent, CalendarComponent, NumberToWordMonthPipe, CalendarByWeekComponent,
-    CalendarByDayComponent, CalendarByMonthComponent, CalendarByYearComponent, WordToLetterDayOfWeekPipe, ZerotagePipe,
-    CommaSeparatorPipe, CalendarByPlanningComponent, DatePlanningPipe, DescriptionPlanningResumePipe, DescriptionPlanningResumePipe]
+    declarations: [HomeWithConnectionPage, NotesMenuComponent, NotepadComponent, LinksMenuComponent, NoteResumePipe,
+        FilterLinksByGroupPipe, SearchEnginesComponent, CalendarComponent, NumberToWordMonthPipe, CalendarByWeekComponent,
+        CalendarByDayComponent, CalendarByMonthComponent, CalendarByYearComponent, WordToLetterDayOfWeekPipe, ZerotagePipe,
+        CommaSeparatorPipe, CalendarByPlanningComponent, DatePlanningPipe, DescriptionPlanningResumePipe, DescriptionPlanningResumePipe, ToolsComponent, CalculatorComponent]
 })
 export class HomeWithConnectionPageModule {}
