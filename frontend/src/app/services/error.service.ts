@@ -40,6 +40,15 @@ export class ErrorService {
       }
     }
 
+    if (error.message !== undefined) {
+      if (error.message === "Http failure response for http://localhost:8080/api/auth/login: 0 Unknown Error" ||
+        "Http failure response for http://192.168.0.10:8080/api/auth/login: 0 Unknown Error") {
+        this._alert.alerte("Erreur de connexion serveur", "Le serveur backend ne repond pas");
+
+        return;
+      }
+    }
+
     this._alert.alerte("Erreur inconnue", `Une erreur inconnue vient de se dérouler, merci de prendre
         contact avec un administrateur.`);
   }

@@ -160,7 +160,6 @@
     <ul *ngIf="relation.length > 0">
       <li *ngFor="let friend of relation; let i = index">
         <div>
-          {{i}}
           <input type="checkbox" [(ngModel)]="participant[i].isChecked" [disabled]="participant[i].isCheckedBlock">
         </div>
         <div>

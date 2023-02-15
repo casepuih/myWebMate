@@ -10,7 +10,7 @@ import {AlertService} from "../../services/alert.service";
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
+  styleUrls: ['./calendar.component.scss', './calendar2.component.scss', './calendar3.component.scss'],
 })
 
 export class CalendarComponent implements OnInit {
