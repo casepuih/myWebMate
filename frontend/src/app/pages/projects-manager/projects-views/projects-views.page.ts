@@ -29,22 +29,23 @@ export class ProjectsViewsPage implements OnInit {
     this.isConnectedResolver();
     this.getBoardsList();
     this.getLabelsList();
+    this.getEmitter();
   }
 
   isConnectedResolver() {
     this.ar.data.subscribe(({ isConnectedResolver }) => { });
   }
 
-  // getEmitter() {
-  //   this._boardsService.getBoardUpdateEmitter().subscribe({
-  //     next: () => {
-  //       this.getLabelsFromProject()
-  //     },
-  //     error: (error) => {
-  //       this._errorService.errorHandler(error);
-  //     }
-  //   })
-  // }
+  getEmitter() {
+    this._boardsService.getBoardUpdateEmitter().subscribe({
+      next: () => {
+        this.getBoardsList()
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    })
+  }
 
   getLabelsList() {
     this._labelsService.getLabelsList().subscribe({

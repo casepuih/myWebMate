@@ -1,14 +1,12 @@
-<ion-content>
-  <div class="content">
-    <div class="board" *ngFor="let board of boardsList">
-      <app-boards [board]="board" [labels]="labelsList"></app-boards>
-    </div>
-    <div class="button">
-      <button *ngIf="!isCreateForm" (click)="createForm()">Ajouter un board</button>
-      <div *ngIf="isCreateForm">
-        <input type="text" [(ngModel)]="newBoard">
-        <button (click)="createBoard()">Créer board</button>
-      </div>
+<div class="content">
+  <div class="board" *ngFor="let board of boardsList">
+    <app-boards [board]="board" [labels]="labelsList"></app-boards>
+  </div>
+  <div class="button">
+    <button *ngIf="!isCreateForm" (click)="createForm()">Ajouter un board</button>
+    <div *ngIf="isCreateForm">
+      <input type="text" [(ngModel)]="newBoard">
+      <button (click)="createBoard()">Créer board</button>
     </div>
   </div>
-</ion-content>
+</div>

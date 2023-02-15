@@ -50,10 +50,11 @@ export class ProjectsService {
     }));
   }
 
-  createProject(title: string): Observable<any> {
+  createProject(title: string, boardId?: number): Observable<any> {
     return this._client.post<any>(this.api + "projects", {
       "title": title,
-      "description": ""
+      "description": "",
+      "boardId": boardId
     }).pipe(tap(updatedProject => {
       this.projectUpdated.next(updatedProject);
     }));

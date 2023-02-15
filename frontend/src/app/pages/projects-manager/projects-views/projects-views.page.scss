@@ -1,5 +1,6 @@
 .content {
     display: flex;
+    flex-wrap: wrap;
     margin: 1rem auto;
     width: 95%;
     min-height: 1000px;
@@ -9,9 +10,10 @@
 }
 
 .board {
-    margin: 0 0.5rem;
-    width: 21%;
-    height: 400px;
+    margin: 0.5rem 0.5rem;
+    width: 24%;
+    min-height: 400px;
+    height: 100%;
     border: 2px solid red;
     border-radius: 5px;
 }

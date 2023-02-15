@@ -16,10 +16,11 @@ export class BoardsComponent implements OnInit {
   @Input() board!: Board;
   @Input() labels!: Label[];
   projectsList!: Project[];
+  isCreateForm: boolean = false;
+  createProjectTitle!: string;
 
   constructor(
     private _projectsService: ProjectsService,
-    private _labelsService: LabelsService,
     private _router: Router,
     private _errorService: ErrorService
   ) { }
@@ -41,6 +42,23 @@ export class BoardsComponent implements OnInit {
 
   goToProject(id: number) {
     this._router.navigate(['project/' + id]);
+  }
+
+  createForm() {
+    this.isCreateForm = true;
+  }
+
+  createProject() {
+    this._projectsService.createProject(this.createProjectTitle, this.board.id).subscribe({
+      next: (data: any) => {
+        const id = data.result.id;
+        this.createProjectTitle = "";
+        this._router.navigate(['project/' + id]);
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    });
   }
 
 }

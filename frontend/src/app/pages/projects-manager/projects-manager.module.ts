@@ -9,6 +9,7 @@ import { ProjectsManagerPageRoutingModule } from './projects-manager-routing.mod
 import { ProjectsManagerPage } from './projects-manager.page';
 import { ProjectsViewsPage } from './projects-views/projects-views.page';
 import { BoardsComponent } from "../../components/boards/boards.component";
+import { HomePageModule } from "../home/home.module";
 
 
 
@@ -19,6 +20,7 @@ import { BoardsComponent } from "../../components/boards/boards.component";
     FormsModule,
     IonicModule,
     ProjectsManagerPageRoutingModule,
+    HomePageModule
   ]
 })
 export class ProjectsManagerPageModule { }
