@@ -28,12 +28,6 @@ export class BoardsService {
     return this._client.get<any>(this.api + "boards/" + id);
   }
 
-  // getBoardsFromProject(projectId: number): Observable<any> {
-  //   return this._client.get<Boards>(this.api + "boards").pipe(map(boards => {
-  //     return boards.result.boards.filter(board => board.projectId == projectId)
-  //   }))
-  // }
-
   updateBoard(title: string, content: string, id: number): Observable<any> {
     return this._client.put<any>(this.api + "boards/" + id, {
       title: title,
