@@ -12,9 +12,14 @@ const boardsService = {
                 ['id', 'DESC']
             ]
         });
-
         return {
             boards: board.map(a => new BoardsDTO(a))
+        };
+    },
+
+    getBoardsFromAll: async () => {
+        return {
+            boards: db.Boards.map(a => new BoardsDTO(a))
         };
     },
 

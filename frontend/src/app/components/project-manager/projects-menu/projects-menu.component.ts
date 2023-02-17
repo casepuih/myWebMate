@@ -26,6 +26,10 @@ export class ProjectsMenuComponent implements OnInit {
     this.getEmitter();
   }
 
+  allProjects() {
+    this._router.navigate(['/projects-manager']);
+  }
+
   getList() {
     this._projectsService.getProjectsList().subscribe({
       next: (data) => {

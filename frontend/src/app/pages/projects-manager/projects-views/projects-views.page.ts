@@ -5,7 +5,6 @@ import { Label } from 'src/app/models/labelsModel';
 import { BoardsService } from 'src/app/services/boards.service';
 import { ErrorService } from 'src/app/services/error.service';
 import { LabelsService } from 'src/app/services/labels.service';
-import { ProjectsService } from 'src/app/services/projects.service';
 
 @Component({
   selector: 'app-projects-views',

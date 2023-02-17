@@ -1,5 +1,9 @@
 <div class="projectsContainer">
-  <h2>MES PROJETS</h2>
+  <div class="projectsContainerTop">
+    <h2>MES PROJETS</h2>
+    <span (click)="allProjects()">Voir tous les projets</span>
+  </div>
+
   <div class="projectsList">
 
     <div [ngClass]="addProjectClass" (click)="createForm()">
