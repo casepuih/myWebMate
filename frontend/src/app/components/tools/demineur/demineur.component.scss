@@ -30,9 +30,14 @@
           }
         }
         .optionMenuHighScore{
-          color:white;
           margin-right: 25px;
           position:relative;
+          &.selected{
+            background-color: #3793AF;
+          }
+          h3 {
+            color:white;
+          }
         }
         .filesMenu {
           position:absolute;
@@ -92,6 +97,10 @@
         .smileys {
           width:53px;
           height:53px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-image: url("/assets/image/mineRestart.png");
         }
         .time {
           background-color: black;

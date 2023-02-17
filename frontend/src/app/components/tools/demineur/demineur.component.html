@@ -12,7 +12,19 @@
           </div>
         </div>
 
-        <div class="optionMenuHighScore pointer">High Score</div>
+        <div [class]="optionMenuHighScore">
+          <h3 class="pointer" (click)="toogleHighScoreMenu()">Highscore</h3>
+          <div class="filesMenu" *ngIf="highScoreMenu">
+            <h2>Personnel :</h2>
+            <div class="pointer" (click)="displayHighScore('allEasy')">Easy</div>
+            <div class="pointer" (click)="displayHighScore('allMedium')">Medium</div>
+            <div class="pointer" (click)="displayHighScore('allHard')">Hard</div>
+            <h2>Général :</h2>
+            <div class="pointer" (click)="displayHighScore('myEasy')">Easy</div>
+            <div class="pointer" (click)="displayHighScore('myMedium')">Medium</div>
+            <div class="pointer" (click)="displayHighScore('myHard')">Hard</div>
+          </div>
+        </div>
       </div>
       <span class="pointer" (click)="close()">X</span>
     </div>
@@ -24,7 +36,7 @@
           <img [src]="numberBombRemaining | demineurNumberToImage : 'unite'" alt="unité">
         </div>
         <div class="smileys" (click)="newGame()">
-          <img src="/assets/image/mineRestart.png" alt="restart">
+          <img [src]="smileys" alt="restart">
         </div>
         <div class="time">
           <img [src]="timer | demineurNumberToImage : 'centaine'" alt="centaine">
@@ -54,5 +66,21 @@
         </ul>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="modalHighScore" *ngIf="displayModalHighScore">
+  <div class="contentModalHighScore">
+    <div class="topBar">
+      <span class="pointer" (click)="closeHighScore()">X</span>
+    </div>
+    <h2>HIGH SCORES</h2>
+    <ul>
+      <li *ngFor="let infoScore of highscore; let i = index">
+        <div class="ranking">{{i + 1}})</div>
+        <div>{{infoScore.firstname}} {{infoScore.lastname}}</div>
+        <div class="score">{{infoScore.score}} secondes</div>
+      </li>
+    </ul>
   </div>
 </div>

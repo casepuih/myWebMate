@@ -5,9 +5,9 @@ class MineDTO {
         this.score = data.score;
         this.difficulty = data.difficulty;
         this.MemberId = data.MemberId;
-        this.highscore = data.highscore;
-        this.firstname = data.Member.firstname;
-        this.lastname = data.Member.lastname;
+        this.highscore = data?.highscore;
+        this.firstname = data.Member?.firstname;
+        this.lastname = data.Member?.lastname;
     }
 }
 

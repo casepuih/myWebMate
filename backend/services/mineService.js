@@ -13,7 +13,8 @@ const mineService = {
             include: {
                 model: db.Member,
                 attributes: ['firstname', 'lastname']
-            }
+            },
+            limit: 10
         });
 
         return {
@@ -27,7 +28,88 @@ const mineService = {
                 difficulty: "easy",
                 MemberId: MemberId
             },
-            order : [['score', 'ASC']]
+            order : [['score', 'ASC']],
+            include: {
+                model: db.Member,
+                attributes: ['firstname', 'lastname']
+            },
+            limit: 10
+        });
+
+        return {
+            highscore: score.map(a => new MineDTO(a))
+        };
+    },
+
+
+
+    getAllMedium: async () => {
+        const score = await db.Mine.findAll({
+            where: {
+                difficulty: "medium"
+            },
+            order : [['score', 'ASC']],
+            include: {
+                model: db.Member,
+                attributes: ['firstname', 'lastname']
+            },
+            limit: 10
+        });
+
+        return {
+            highscore: score.map(a => new MineDTO(a))
+        };
+    },
+
+    getAllMediumFromOneUser: async (MemberId) => {
+        const score = await db.Mine.findAll({
+            where: {
+                difficulty: "medium",
+                MemberId: MemberId
+            },
+            order : [['score', 'ASC']],
+            include: {
+                model: db.Member,
+                attributes: ['firstname', 'lastname']
+            },
+            limit: 10
+        });
+
+        return {
+            highscore: score.map(a => new MineDTO(a))
+        };
+    },
+
+    getAllHard: async () => {
+        const score = await db.Mine.findAll({
+            where: {
+                difficulty: "hard"
+            },
+            order : [['score', 'ASC']],
+            include: {
+                model: db.Member,
+                attributes: ['firstname', 'lastname']
+            },
+            limit: 10
+        });
+
+        return {
+            highscore: score.map(a => new MineDTO(a))
+        };
+    },
+
+    getAllHardFromOneUser: async (MemberId) => {
+        const score = await db.Mine.findAll({
+            where: {
+                difficulty: "hard",
+                MemberId: MemberId
+            },
+            order : [['score', 'ASC']],
+            include: {
+                model: db.Member,
+                attributes: ['firstname', 'lastname']
+            },
+            limit: 10
         });
 
         return {
@@ -51,50 +133,19 @@ const mineService = {
         highscore.highscore.sort((a, b) => b.score + a.score);
 
         if (data.score < highscore.highscore[9].score) {
-                const newScore = await db.Mine.create(data);
-                await mineService.delete(highscore.highscore[9].id);
-                newScore.highscore = true;
+            const newScore = await db.Mine.create(data);
+            await mineService.delete(highscore.highscore[9].id);
+            newScore.highscore = true;
 
-                return new MineDTO(newScore);
+            return new MineDTO(newScore);
         }
 
         return {
-                id: 0,
-                score: data.score,
-                difficulty: "easy",
-                MemberId: data.MemberId,
-                highscore: false
-        };
-    },
-
-    getAllMedium: async () => {
-        const score = await db.Mine.findAll({
-            where: {
-                difficulty: "medium"
-            },
-            order : [['score', 'ASC']],
-            include: {
-                model: db.Member,
-                attributes: ['firstname', 'lastname']
-            }
-        });
-
-        return {
-            highscore: score.map(a => new MineDTO(a))
-        };
-    },
-
-    getAllMediumFromOneUser: async (MemberId) => {
-        const score = await db.Mine.findAll({
-            where: {
-                difficulty: "medium",
-                MemberId: MemberId
-            },
-            order : [['score', 'ASC']]
-        });
-
-        return {
-            highscore: score.map(a => new MineDTO(a))
+            id: 0,
+            score: data.score,
+            difficulty: "easy",
+            MemberId: data.MemberId,
+            highscore: false
         };
     },
 
@@ -127,37 +178,6 @@ const mineService = {
             difficulty: "medium",
             MemberId: data.MemberId,
             highscore: false
-        };
-    },
-
-    getAllHard: async () => {
-        const score = await db.Mine.findAll({
-            where: {
-                difficulty: "hard"
-            },
-            order : [['score', 'ASC']],
-            include: {
-                model: db.Member,
-                attributes: ['firstname', 'lastname']
-            }
-        });
-
-        return {
-            highscore: score.map(a => new MineDTO(a))
-        };
-    },
-
-    getAllHardFromOneUser: async (MemberId) => {
-        const score = await db.Mine.findAll({
-            where: {
-                difficulty: "hard",
-                MemberId: MemberId
-            },
-            order : [['score', 'ASC']]
-        });
-
-        return {
-            highscore: score.map(a => new MineDTO(a))
         };
     },
 

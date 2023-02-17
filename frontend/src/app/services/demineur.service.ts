@@ -1,11 +1,15 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {AlertService} from "./alert.service";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment";
+import {ErrorService} from "./error.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DemineurService{
+  api:string = environment.api;
   isOpenDemineur : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   board!:Array<Array<string>> | null;
   allreadyCheck!:Array<Array<boolean>> | null;
@@ -15,6 +19,7 @@ export class DemineurService{
   firstClick!:boolean;
   bomb!:Array<Array<boolean>> | null;
   gameover!:boolean;
+  gameoverObservable : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   iMax!:number;
   jMax!:number;
   timer: BehaviorSubject<number> = new BehaviorSubject<number>(0);
@@ -23,8 +28,35 @@ export class DemineurService{
   timerInterval!:any;
 
   constructor(
-    private _alertService : AlertService
+    private _alertService : AlertService,
+    private _client : HttpClient,
+    private _errorService : ErrorService
   ) { }
+
+
+  getHighScoreEasy() : Observable<any> {
+    return this._client.get<any>(this.api + "mine/easy");
+  }
+
+  getHighScoreMedium() : Observable<any> {
+    return this._client.get<any>(this.api + "mine/medium");
+  }
+
+  getHighScoreHard() : Observable<any> {
+    return this._client.get<any>(this.api + "mine/hard");
+  }
+
+  getMyHighScoreEasy() : Observable<any> {
+    return this._client.get<any>(this.api + "mine/easy/user");
+  }
+
+  getMyHighScoreMedium() : Observable<any> {
+    return this._client.get<any>(this.api + "mine/medium/user");
+  }
+
+  getMyHighScoreHard() : Observable<any> {
+    return this._client.get<any>(this.api + "mine/hard/user");
+  }
 
   newBoard(difficulty:string) {
     if (difficulty === 'easy') {
@@ -56,6 +88,7 @@ export class DemineurService{
 
     this.firstClick = true;
     this.gameover = false;
+    this.gameoverObservable.next(false);
     this.timer.next(0);
     this.stopTimer();
     this.startTimer();
@@ -130,6 +163,7 @@ export class DemineurService{
 
     if (this.bomb![i][j] && clickActive) {
       this.gameover = true;
+      this.gameoverObservable.next(true);
       this.board![i][j] = "bomb";
       this.boardObservable!.next(this.board!);
       this.stopTimer();
@@ -307,6 +341,18 @@ export class DemineurService{
       }
     }
 
+    this.addHighScore().subscribe({
+      next: (data) => {
+        if (data.result.highscore) {
+          this._alertService.alerte("Bravo !", "vous venez de réaliser l'un de vos 10 meilleurs temps ! Votre " +
+            "score vient d'être ajouté à votre tableau de highscore !!")
+        }
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    })
+
     this.boardObservable.next(this.board!);
     this.numberBombRemaining.next(0);
   }
@@ -320,6 +366,13 @@ export class DemineurService{
   stopTimer() {
     clearInterval(this.timerInterval);
     this.timerInterval = null;
+  }
+
+  addHighScore() :Observable<any>{
+    return this._client.post<any>(this.api + "mine/" + this.currentDifficulty.value + "/user", {
+      difficulty : this.currentDifficulty.value,
+      score : this.timer.value
+    })
   }
 
   rand(number:number, base?:number) {
