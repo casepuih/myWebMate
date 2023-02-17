@@ -10,7 +10,7 @@ import {ErrorService} from "./error.service";
 })
 export class DemineurService{
   api:string = environment.api;
-  isOpenDemineur : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  isOpenDemineur : BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   board!:Array<Array<string>> | null;
   allreadyCheck!:Array<Array<boolean>> | null;
   boardObservable! : BehaviorSubject<Array<Array<string>>>;
@@ -103,7 +103,7 @@ export class DemineurService{
   }
 
   rightClick(i:number, j:number) {
-    if (!this.gameover) {
+    if (!this.gameover && !this.firstClick) {
       if (this.board![i][j] === "unknown") {
         this.board![i][j] = "flag";
         this.boardObservable!.next(this.board!);
@@ -157,7 +157,7 @@ export class DemineurService{
   }
 
   checkBomb(i:number, j:number, clickActive: boolean) {
-    if (!this.exist(i, j)) {
+    if (!this.isset(i, j)) {
       return;
     }
 
@@ -184,53 +184,14 @@ export class DemineurService{
 
     let count:number = 0;
 
-    if (this.exist(i-1, j-1)) {
-      if (this.bomb![i - 1][j - 1]) {
-        count++;
-      }
-    }
-
-    if (this.exist(i-1, j)) {
-      if (this.bomb![i - 1][j]) {
-        count++;
-      }
-    }
-
-    if (this.exist(i-1, j+1)) {
-      if (this.bomb![i - 1][j + 1]) {
-        count++;
-      }
-    }
-
-    if (this.exist(i, j-1)) {
-      if (this.bomb![i][j - 1]) {
-        count++;
-      }
-    }
-
-    if (this.exist(i, j+1)) {
-      if (this.bomb![i][j + 1]) {
-        count++;
-      }
-    }
-
-    if (this.exist(i+1, j-1)) {
-      if (this.bomb![i + 1][j - 1]) {
-        count++;
-      }
-    }
-
-    if (this.exist(i+1, j)) {
-      if (this.bomb![i + 1][j]) {
-        count++;
-      }
-    }
-
-    if (this.exist(i+1, j+1)) {
-      if (this.bomb![i + 1][j + 1]) {
-        count++;
-      }
-    }
+    this.checkNeighbor(i-1, j-1) && count++;
+    this.checkNeighbor(i-1, j) && count++;
+    this.checkNeighbor(i-1, j+1) && count++;
+    this.checkNeighbor(i, j-1) && count++;
+    this.checkNeighbor(i, j+1) && count++;
+    this.checkNeighbor(i+1, j-1) && count++;
+    this.checkNeighbor(i+1, j) && count++;
+    this.checkNeighbor(i+1, j+1) && count++;
 
     if (count > 0) {
       this.board![i][j] = "number" + count.toString();
@@ -240,57 +201,37 @@ export class DemineurService{
 
     if (count === 0) {
       this.board![i][j] = "number" + count.toString();
-      if (this.exist(i-1, j-1)) {
-        if (!this.allreadyCheck![i - 1][j - 1]) {
-          this.checkBomb(i - 1, j - 1, false);
-        }
-      }
 
-      if (this.exist(i-1, j)) {
-        if (!this.allreadyCheck![i - 1][j]) {
-          this.checkBomb(i - 1, j, false);
-        }
-      }
+      this.checkOtherBoxNeighbor(i-1, j-1);
+      this.checkOtherBoxNeighbor(i-1, j);
+      this.checkOtherBoxNeighbor(i-1, j+1);
+      this.checkOtherBoxNeighbor(i, j-1);
+      this.checkOtherBoxNeighbor(i, j+1);
+      this.checkOtherBoxNeighbor(i+1, j-1);
+      this.checkOtherBoxNeighbor(i+1, j);
+      this.checkOtherBoxNeighbor(i+1, j+1);
+    }
+  }
 
-      if (this.exist(i-1, j+1)) {
-        if (!this.allreadyCheck![i - 1][j + 1]) {
-          this.checkBomb(i - 1, j + 1, false);
-        }
+  checkNeighbor(i:number, j:number) {
+    if (this.isset(i, j)) {
+      if (this.bomb![i][j]) {
+        return true;
       }
+    }
 
-      if (this.exist(i, j-1)) {
-        if (!this.allreadyCheck![i][j - 1]) {
-          this.checkBomb(i, j - 1, false);
-        }
-      }
+    return false;
+  }
 
-      if (this.exist(i, j+1)) {
-        if (!this.allreadyCheck![i][j + 1]) {
-          this.checkBomb(i, j + 1, false);
-        }
-      }
-
-      if (this.exist(i+1, j-1)) {
-        if (!this.allreadyCheck![i + 1][j - 1]) {
-          this.checkBomb(i + 1, j - 1, false);
-        }
-      }
-
-      if (this.exist(i+1, j)) {
-        if (!this.allreadyCheck![i + 1][j]) {
-          this.checkBomb(i + 1, j, false);
-        }
-      }
-
-      if (this.exist(i+1, j+1)) {
-        if (!this.allreadyCheck![i + 1][j + 1]) {
-          this.checkBomb(i + 1, j + 1, false);
-        }
+  checkOtherBoxNeighbor(i:number, j:number) {
+    if (this.isset(i, j)) {
+      if (!this.allreadyCheck![i][j]) {
+        this.checkBomb(i, j, false);
       }
     }
   }
 
-  exist(i:number, j:number) {
+  isset(i:number, j:number) {
     return !(i < 0 || j < 0 || i > this.iMax || j > this.jMax);
   }
 
