@@ -7,6 +7,7 @@ const tasksRouter = require("./tasksRouter");
 const friendsRouter = require("./friendsRouter");
 const memberRouter = require("./memberRouter");
 const meetsRouter = require("./meetsRouter");
+const mineRouter = require("./mineRouter");
 
 const router = require('express').Router();
 
@@ -19,5 +20,6 @@ router.use('/tasks', tasksRouter);
 router.use('/friends', friendsRouter);
 router.use('/member', memberRouter);
 router.use('/meets', meetsRouter);
+router.use('/mine', mineRouter);
 
 module.exports = router;

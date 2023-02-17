@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {CalculatorService} from "../../services/calculator.service";
+import {DemineurService} from "../../services/demineur.service";
 
 @Component({
   selector: 'app-tools',
@@ -8,9 +9,11 @@ import {CalculatorService} from "../../services/calculator.service";
 })
 export class ToolsComponent implements OnInit {
   calculator!:boolean;
+  demineur!:boolean;
 
   constructor(
-    private _calculatorService : CalculatorService
+    private _calculatorService : CalculatorService,
+    private _demineurService :DemineurService
   ) { }
 
   ngOnInit() {
@@ -23,9 +26,19 @@ export class ToolsComponent implements OnInit {
         this.calculator = data;
       }
     })
+
+    this._demineurService.isOpenDemineur.subscribe({
+      next:(data) => {
+        this.demineur = data;
+      }
+    })
   }
 
   calculatorToogle() {
     this._calculatorService.toogleIsOpen();
+  }
+
+  demineurToogle() {
+    this._demineurService.toogleIsOpen();
   }
 }

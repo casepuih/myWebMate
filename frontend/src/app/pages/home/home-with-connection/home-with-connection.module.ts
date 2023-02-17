@@ -27,6 +27,8 @@ import {DatePlanningPipe} from "../../../pipe/date-planning.pipe";
 import {DescriptionPlanningResumePipe} from "../../../pipe/description-planning-resume.pipe";
 import {ToolsComponent} from "../../../components/tools/tools.component";
 import {CalculatorComponent} from "../../../components/tools/calculator/calculator.component";
+import {DemineurComponent} from "../../../components/tools/demineur/demineur.component";
+import {DemineurNumberToImage} from "../../../pipe/demineurNumberToImage";
 
 @NgModule({
     imports: [
@@ -43,6 +45,7 @@ import {CalculatorComponent} from "../../../components/tools/calculator/calculat
     declarations: [HomeWithConnectionPage, NotesMenuComponent, NotepadComponent, LinksMenuComponent, NoteResumePipe,
         FilterLinksByGroupPipe, SearchEnginesComponent, CalendarComponent, NumberToWordMonthPipe, CalendarByWeekComponent,
         CalendarByDayComponent, CalendarByMonthComponent, CalendarByYearComponent, WordToLetterDayOfWeekPipe, ZerotagePipe,
-        CommaSeparatorPipe, CalendarByPlanningComponent, DatePlanningPipe, DescriptionPlanningResumePipe, DescriptionPlanningResumePipe, ToolsComponent, CalculatorComponent]
+        CommaSeparatorPipe, CalendarByPlanningComponent, DatePlanningPipe, DescriptionPlanningResumePipe,
+        DescriptionPlanningResumePipe, ToolsComponent, CalculatorComponent, DemineurComponent, DemineurNumberToImage]
 })
 export class HomeWithConnectionPageModule {}
