@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GroupsService } from 'src/app/services/groups.service';
 
 @Component({
   selector: 'app-profil',
@@ -6,14 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profil.page.scss'],
 })
 export class ProfilPage implements OnInit {
-  menuChosen!:string;
+  menuChosen!: string;
+  groupName!: string;
 
-  constructor() { }
+  constructor(
+    private _groupsService: GroupsService,
+  ) { }
 
   ngOnInit() {
   }
 
-  onMenuChosen(target:string) {
+  onMenuChosen(target: string) {
     this.menuChosen = target;
   }
+
+
 }

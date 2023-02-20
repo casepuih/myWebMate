@@ -1,5 +1,5 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Router} from "@angular/router";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-profil-menu',
@@ -12,14 +12,15 @@ export class ProfilComponent implements OnInit {
   relationImg = "/assets/image/relation.png";
   linkInformation = "link";
   linkRelation = "link";
-  menuChosen!:string;
+  linkGroup = "link";
+  menuChosen!: string;
   @Output() menuChosenEvent = new EventEmitter<string>();
 
   constructor(
-    private _router : Router
+    private _router: Router
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   menuChoose(target: string) {
     if (target == "accueil") {
@@ -30,27 +31,28 @@ export class ProfilComponent implements OnInit {
 
     target == "information" ? this.linkInformation = "link selected" : this.linkInformation = "link";
     target == "relation" ? this.linkRelation = "link selected" : this.linkRelation = "link";
+    target == "group" ? this.linkGroup = "link selected" : this.linkGroup = "link";
 
     this.menuChosenEvent.emit(this.menuChosen);
   }
 
-  changeImage (target: string) {
+  changeImage(target: string) {
     if (target == "home") {
       this.homeImg == "/assets/image/home.png" ?
-        this.homeImg="/assets/image/homeHover.png" :
-        this.homeImg="/assets/image/home.png" ;
+        this.homeImg = "/assets/image/homeHover.png" :
+        this.homeImg = "/assets/image/home.png";
     }
 
     if (target == "information") {
       this.informationImg == "/assets/image/information.png" ?
-        this.informationImg="/assets/image/informationHover.png" :
-        this.informationImg="/assets/image/information.png" ;
+        this.informationImg = "/assets/image/informationHover.png" :
+        this.informationImg = "/assets/image/information.png";
     }
 
     if (target == "relation") {
       this.relationImg == "/assets/image/relation.png" ?
-        this.relationImg="/assets/image/relationHover.png" :
-        this.relationImg="/assets/image/relation.png" ;
+        this.relationImg = "/assets/image/relationHover.png" :
+        this.relationImg = "/assets/image/relation.png";
     }
   }
 

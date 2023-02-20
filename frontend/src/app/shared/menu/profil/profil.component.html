@@ -9,7 +9,8 @@
 
   <div [class]="linkInformation">
     <img [src]="informationImg" alt="home">
-    <a (click)="menuChoose('information')" (mouseenter)="changeImage('information')" (mouseleave)="changeImage('information')">
+    <a (click)="menuChoose('information')" (mouseenter)="changeImage('information')"
+      (mouseleave)="changeImage('information')">
       Informations personnelles
     </a>
   </div>
@@ -18,6 +19,13 @@
     <img [src]="relationImg" alt="relation">
     <a (click)="menuChoose('relation')" (mouseenter)="changeImage('relation')" (mouseleave)="changeImage('relation')">
       Mes relations
+    </a>
+  </div>
+
+  <div [class]="linkGroup">
+    <img [src]="relationImg" alt="relation">
+    <a (click)="menuChoose('group')" (mouseenter)="changeImage('relation')" (mouseleave)="changeImage('relation')">
+      Mes groupes
     </a>
   </div>
 
