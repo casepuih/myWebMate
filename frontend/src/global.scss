@@ -33,7 +33,87 @@
 #6BDBCB Pearl Aqua
  */
 
-a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, fieldset, figcaption, figure, font, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, hr, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, p, pre, q, s, samp, section, small, span, strike, strong, sub, summary, sup, svg, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
+a,
+abbr,
+acronym,
+address,
+applet,
+article,
+aside,
+audio,
+b,
+big,
+blockquote,
+body,
+canvas,
+caption,
+center,
+cite,
+code,
+dd,
+del,
+details,
+dfn,
+div,
+dl,
+dt,
+em,
+fieldset,
+figcaption,
+figure,
+font,
+footer,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header,
+hgroup,
+hr,
+html,
+i,
+iframe,
+img,
+ins,
+kbd,
+label,
+legend,
+li,
+mark,
+menu,
+nav,
+object,
+ol,
+p,
+pre,
+q,
+s,
+samp,
+section,
+small,
+span,
+strike,
+strong,
+sub,
+summary,
+sup,
+svg,
+table,
+tbody,
+td,
+tfoot,
+th,
+thead,
+time,
+tr,
+tt,
+u,
+ul,
+var,
+video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -43,14 +123,16 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
   font-weight: 400;
   color: #3A406E;
 }
+
 mark {
   background-color: transparent;
 }
 
 a {
-  color:#3793AF;
-  &:hover{
-    color:#6BDBCB;
+  color: #3793AF;
+
+  &:hover {
+    color: #6BDBCB;
   }
 }
 
@@ -59,76 +141,84 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
-.b{
+.b {
   font-weight: bold;
 }
-.pointer{
-  cursor:pointer;
+
+.pointer {
+  cursor: pointer;
 }
 
 .flex {
-  display:flex;
+  display: flex;
 }
 
-.red{
-  color:#CA4E70;
+.red {
+  color: #CA4E70;
 }
 
 button {
-  background-color: #3A406E ;
-  color:#6BDBCB;
-  height:3rem;
+  background-color: #3A406E;
+  color: #6BDBCB;
+  height: 3rem;
   border-radius: 10px;
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  &:disabled{
-    color:#3a3a3a;
-    background-color: #3A406EAA ;
+
+  &:disabled {
+    color: #3a3a3a;
+    background-color: #3A406EAA;
   }
 }
 
-.scrollingMenu{
-  position:absolute;
-  right:5px;
-  top:30px;
-  padding:0.5rem;
+.scrollingMenu {
+  position: absolute;
+  right: 5px;
+  top: 30px;
+  padding: 0.5rem;
   background-color: white;
   border-radius: 5px;
-  box-shadow: 0px -1px 7px 0 rgba(0,0,0,0.75);
+  box-shadow: 0px -1px 7px 0 rgba(0, 0, 0, 0.75);
   z-index: 1000;
-  li{
+
+  li {
     list-style: none;
     margin-bottom: 0.4rem;
     cursor: pointer;
     font-weight: bold;
+
     &:hover {
       background-color: #6BDBCB;
     }
+
     &:first-child {
       margin-top: 0.4rem;
     }
   }
 }
 
-.scrollingMenu2{
-  position:absolute;
-  right:5px;
-  top:50px;
-  padding:0.5rem;
+.scrollingMenu2 {
+  position: absolute;
+  right: 5px;
+  top: 50px;
+  padding: 0.5rem;
   background-color: white;
   border-radius: 5px;
-  box-shadow: 0px -1px 7px 0 rgba(0,0,0,0.75);
+  box-shadow: 0px -1px 7px 0 rgba(0, 0, 0, 0.75);
   z-index: 1000;
-  li{
+
+  li {
     list-style: none;
     margin-bottom: 0.4rem;
     cursor: pointer;
     font-weight: bold;
     text-align: left;
+
     &:hover {
       background-color: #6BDBCB;
     }
+
     &:first-child {
       margin-top: 0.4rem;
     }
@@ -137,14 +227,17 @@ button {
 
 .alerte {
   background-color: #3A406E99;
+
   .alert-wrapper {
-    width:50%;
+    width: 50%;
     min-width: 50%;
     max-width: 80%;
-    color:#3A406E;
+    color: #3A406E;
+
     h2 {
       font-size: 25px;
     }
+
     .alert-message {
       font-size: 20px;
     }
@@ -167,33 +260,36 @@ li {
 
 .modalFullScreen {
   position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100vh;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
   z-index: 1500;
   background-color: #3A406EAA;
-  .contentModalFullScreen{
+
+  .contentModalFullScreen {
     margin: 3vh 1.5rem;
     background-color: white;
     border-radius: 10px;
     height: 94vh;
-    border:1px solid white;
+    border: 1px solid white;
+
     .topBar {
       height: 30px;
       line-height: 30px;
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      background-color: #3A406E ;
+      background-color: #3A406E;
       border-radius: 10px 10px 0 0;
+
       span {
         margin-right: 1rem;
-        color:white;
+        color: white;
         background-color: #3a3a3a;
         border-radius: 50%;
-        height:20px;
-        width:20px;
+        height: 20px;
+        width: 20px;
         text-align: center;
         display: flex;
         justify-content: center;
@@ -205,13 +301,14 @@ li {
 
 .modalMiddleScreen {
   position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100vh;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
   z-index: 1500;
   background-color: #3A406EAA;
-  .contentModalMiddleScreen{
+
+  .contentModalMiddleScreen {
     @media (min-width: 0) {
       margin-top: 2vh;
       margin-bottom: 2vh;
@@ -219,6 +316,7 @@ li {
       margin-left: 1px;
       height: 96vh;
     }
+
     @media (min-width: 330px) {
       margin-top: 4vh;
       margin-bottom: 4vh;
@@ -226,6 +324,7 @@ li {
       margin-left: 4%;
       height: 92vh;
     }
+
     @media (min-width: 440px) {
       margin-top: 8vh;
       margin-bottom: 8vh;
@@ -233,6 +332,7 @@ li {
       margin-left: 8%;
       height: 84vh;
     }
+
     @media (min-width: 740px) {
       margin-top: 14vh;
       margin-bottom: 14vh;
@@ -240,6 +340,7 @@ li {
       margin-left: 15%;
       height: 72vh;
     }
+
     @media (min-width: 1600px) {
       margin-top: 20vh;
       margin-bottom: 20vh;
@@ -247,24 +348,27 @@ li {
       margin-left: 20%;
       height: 60vh;
     }
+
     background-color: white;
     border-radius: 10px;
     border:1px solid white;
+
     .topBar {
       height: 30px;
       line-height: 30px;
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      background-color: #3A406E ;
+      background-color: #3A406E;
       border-radius: 10px 10px 0 0;
+
       span {
         margin-right: 1rem;
-        color:white;
+        color: white;
         background-color: #3a3a3a;
         border-radius: 50%;
-        height:20px;
-        width:20px;
+        height: 20px;
+        width: 20px;
         text-align: center;
         display: flex;
         justify-content: center;
@@ -276,37 +380,40 @@ li {
 
 .modalFriendsPicker {
   position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100vh;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
   z-index: 5000;
   background-color: #3A406EAA;
   display: flex;
   justify-content: center;
-  .contentModalFriendsPicker{
+
+  .contentModalFriendsPicker {
     margin-top: 5vh;
     margin-bottom: 5vh;
     height: 90vh;
-    width:365px;
+    width: 365px;
     background-color: white;
     border-radius: 10px;
-    border:1px solid white;
+    border: 1px solid white;
+
     .topBar {
       height: 30px;
       line-height: 30px;
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      background-color: #3A406E ;
+      background-color: #3A406E;
       border-radius: 10px 10px 0 0;
+
       span {
         margin-right: 1rem;
-        color:white;
+        color: white;
         background-color: #3a3a3a;
         border-radius: 50%;
-        height:20px;
-        width:20px;
+        height: 20px;
+        width: 20px;
         text-align: center;
         display: flex;
         justify-content: center;
@@ -315,8 +422,3 @@ li {
     }
   }
 }
-
-
-
-
-
