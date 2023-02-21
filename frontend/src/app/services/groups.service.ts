@@ -11,6 +11,7 @@ import { GroupsMembers } from "../models/groupsMembersModel";
 export class GroupsService {
   api: string = environment.api;
   private groupsUpdated = new Subject<any>();
+  private groupsMembersUpdated = new Subject<any>();
 
   constructor(
     private _client: HttpClient
@@ -37,18 +38,18 @@ export class GroupsService {
     }))
   }
 
-  createGroupMember(isAdmin: string, tier: number, groupId: number, memberId: number): Observable<any> {
+  createGroupMember(isAdmin: boolean, tier: number, groupId: number, memberId: number): Observable<any> {
     return this._client.post<any>(this.api + "groupsMembers", {
       "isAdmin": isAdmin,
       "tier": tier,
-      "groupId": groupId,
-      "memberId": memberId,
-    }).pipe(tap(updatedGroups => {
-      this.groupsUpdated.next(updatedGroups);
+      "group_id": groupId,
+      "member_id": memberId,
+    }).pipe(tap(updatedGroupsMembers => {
+      this.groupsMembersUpdated.next(updatedGroupsMembers);
     }))
   }
 
-  updateLink(id: number, name: string, description: string): Observable<any> {
+  updateGroup(id: number, name: string, description: string): Observable<any> {
     return this._client.put<any>(this.api + "groups/" + id, {
       "name": name,
       "description": description
@@ -57,7 +58,7 @@ export class GroupsService {
     }))
   }
 
-  deleteLink(id: number): Observable<any> {
+  deleteGroup(id: number): Observable<any> {
     return this._client.delete<any>(this.api + "groups/" + id).pipe(tap(updatedGroups => {
       this.groupsUpdated.next(updatedGroups);
     }))
