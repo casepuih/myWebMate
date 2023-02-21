@@ -4,7 +4,7 @@ export interface LinksGroup {
   description: string;
 }
 
-export interface LinksGroupArray{
+export interface LinksGroupArray {
   linksGroup: LinksGroup[];
 }
 
