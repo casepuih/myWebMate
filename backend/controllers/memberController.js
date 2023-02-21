@@ -1,7 +1,12 @@
 const memberService = require('../services/memberService');
-const {SuccessResponse} = require("../api-responses/successResponse");
+const { SuccessResponse } = require("../api-responses/successResponse");
 
 const memberController = {
+    getAll: async (req, res) => {
+        const members = await memberService.getAll();
+
+        res.status(200).json(new SuccessResponse(members));
+    },
     getOne: async (req, res) => {
         const member = await memberService.getOne(req.user.id);
 

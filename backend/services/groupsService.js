@@ -4,23 +4,7 @@ const db = require('../models');
 const groupsService = {
 
     getAll: async (userId) => {
-        const group = await db.Groups.findAll({
-            where: {
-                MemberId: userId
-            }
-        });
-
-        return {
-            groups: group.map(a => new GroupsDTO(a))
-        };
-    },
-
-    getGroupFromOneGroupsProjects: async (id) => {
-        const group = await db.Groups.findAll({
-            where: {
-                groupsGroupId: id
-            }
-        });
+        const group = await db.Groups.findAll();
 
         return {
             groups: group.map(a => new GroupsDTO(a))
@@ -28,18 +12,6 @@ const groupsService = {
     },
 
     getOne: async (id) => {
-        const group = await db.Groups.findOne({
-            where: {
-                id: id
-            }
-        });
-
-        return {
-            groups: new GroupsDTO(group)
-        };
-    },
-
-    getMemberIdFromOneLink: async (id) => {
         const group = await db.Groups.findOne({
             where: {
                 id: id

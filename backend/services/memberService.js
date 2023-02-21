@@ -4,6 +4,14 @@ const notepadService = require('./notepadService');
 const sql = require("../utils/sql.utils");
 
 const memberService = {
+    getAll: async () => {
+        const member = await db.Member.findAll();
+
+        return {
+            members: member.map(a => new MemberDTO(a))
+        };
+    },
+
     getOne: async (userId) => {
         const member = await db.Member.findOne({
             where: {
@@ -29,7 +37,7 @@ const memberService = {
         return new MemberDTO(member);
     },
 
-    getHashPassword: async(email) => {
+    getHashPassword: async (email) => {
         const member = await db.Member.findOne({
             where: {
                 email
