@@ -40,15 +40,10 @@ export class ProfilGroupComponent implements OnInit {
     this.getGroupList();
   }
 
-  // ListGroupMember
-  listGM() {
-    console.log(this.groupList);
-  }
 
   //groupName
   gName() {
-    console.log(this.groupsMembersList);
-
+    this._groupsService.createGroup(this.groupName).subscribe({})
     this.groupName = ""
   }
 
@@ -122,11 +117,6 @@ export class ProfilGroupComponent implements OnInit {
     console.log(tier);
     console.log(id);
     this._groupsService.updateGroupMember(id, isAdmin, tier).subscribe({})
-  }
-
-  updateIsAdmin(isAdmin: boolean) {
-    console.log(isAdmin);
-
   }
 
 }
