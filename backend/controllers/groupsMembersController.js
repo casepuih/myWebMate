@@ -40,9 +40,10 @@ const groupsMembersController = {
         const id = req.params.id;
         const data = req.validateData;
 
-        const member = await groupsMembersService.getMemberIdFromOneGroupsMembers(id);
+        console.log(data);
+        const member = await groupsMembersService.getOneGroupsMembers(id);
 
-        if (member.groupsMembers.member_id !== req.user.id) {
+        if (member.groupsMembers.member_id !== req.user.id && req.user.isAdmin == false) {
             res.status(403).json(new ErrorResponse(
                 `This is not your group !!`
             ))

@@ -58,6 +58,15 @@ export class GroupsService {
     }))
   }
 
+  updateGroupMember(id: number, isAdmin: boolean, tier: number): Observable<any> {
+    return this._client.put<any>(this.api + "groupsMembers/" + id, {
+      "isAdmin": isAdmin,
+      "tier": tier
+    }).pipe(tap(updatedGroupsMembers => {
+      this.groupsMembersUpdated.next(updatedGroupsMembers);
+    }))
+  }
+
   deleteGroup(id: number): Observable<any> {
     return this._client.delete<any>(this.api + "groups/" + id).pipe(tap(updatedGroups => {
       this.groupsUpdated.next(updatedGroups);

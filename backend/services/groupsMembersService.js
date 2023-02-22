@@ -11,10 +11,10 @@ const groupsMembersService = {
         };
     },
 
-    getOne: async (group_id) => {
+    getOne: async (id) => {
         const groupsMembers = await db.GroupsMembers.findOne({
             where: {
-                group_id: id
+                id: id
             }
         });
 
@@ -38,11 +38,10 @@ const groupsMembersService = {
         })
     },
 
-    getMemberIdFromOneGroupsMembers: async (group_id, member_id) => {
+    getOneGroupsMembers: async (id) => {
         const groupsMembers = await db.GroupsMembers.findOne({
             where: {
-                group_id: group_id,
-                member_id: member_id
+                id: id,
             }
         });
 
