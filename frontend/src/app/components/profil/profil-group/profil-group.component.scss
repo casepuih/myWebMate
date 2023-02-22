@@ -1,6 +1,7 @@
 .container {
     margin: 0 auto;
     margin-top: 1rem;
+    margin-bottom: 5rem;
 
     @media (min-width:0) {
         width: 90%;
@@ -25,31 +26,22 @@
         }
     }
 
-    .nameInformation {
+    .group-update {
         display: flex;
-        flex-direction: column;
-        border: 1px solid #3a3a3a;
+        width: 100%;
+    }
 
-        div {
-            margin-top: 1rem;
-            margin-bottom: 2rem;
-            padding-left: 2rem;
-            padding-right: 2rem;
-            font-size: 1.3rem;
+    .card {
+        width: 30%;
+        margin: 1% 1%;
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid #3A406E;
 
-            &:first-child {
-                margin-top: 3rem;
-            }
-        }
-
-        input {
-            margin-left: 2rem;
-            margin-right: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        button {
-            border-radius: 0;
+        h2 {
+            margin-bottom: 0.5rem;
         }
     }
+
+
 }

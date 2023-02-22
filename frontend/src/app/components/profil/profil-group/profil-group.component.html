@@ -38,9 +38,33 @@
 
   <div>
     <h1>Viewer</h1>
-
-    <div *ngFor="let groupMember of groupsMembersList">
-      <h2>{{groupMember.group_id}}</h2>
+    <div class="group-update">
+      <div *ngFor="let group of groupList" class="card">
+        <h2 class="card-title">{{group.name}}</h2>
+        <div class="card-content">
+          <div *ngFor="let groupMember of groupsMembersList">
+            <div *ngIf="groupMember.group_id == group.id">
+              <div *ngFor="let member of memberList">
+                <div *ngIf="member.id == groupMember.member_id">
+                  <div>
+                    {{member.firstname | titlecase}} {{member.lastname |
+                    uppercase}}
+                  </div>
+                  <div>
+                    <select name="tiers" id="tier-select" [(ngModel)]="selectTier">
+                      <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10]" [ngValue]="number">{{number}}</option>
+                    </select>
+                  </div>
+                  <div>
+                    Admin :
+                    <input type="checkbox" name="isAdmin" id="isAdmin">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
