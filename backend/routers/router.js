@@ -12,6 +12,7 @@ const labelsRouter = require("./labelsRouter");
 const boardsRouter = require("./boardsRouter");
 const groupsRouter = require("./groupsRouter");
 const groupsMembersRouter = require("./groupsMembersRouter");
+const commentariesRouter = require("./commentariesRouter");
 
 const router = require('express').Router();
 
@@ -29,5 +30,6 @@ router.use('/labels', labelsRouter);
 router.use('/boards', boardsRouter);
 router.use('/groups', groupsRouter);
 router.use('/groupsMembers', groupsMembersRouter);
+router.use('/commentaries', commentariesRouter);
 
 module.exports = router;

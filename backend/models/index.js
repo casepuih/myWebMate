@@ -24,6 +24,7 @@ db.Labels = require('./labelsModel')(sequelize); //
 db.Boards = require('./boardsModel')(sequelize); //
 db.Groups = require('./groupsModel')(sequelize); //
 db.GroupsMembers = require('./groupsMembersModel')(sequelize); //
+db.Commentaries = require('./commentariesModel')(sequelize); //
 
 db.Tasks.belongsToMany(db.Member, { through: 'MemberTasks' });
 db.Member.belongsToMany(db.Tasks, { through: 'MemberTasks' });
@@ -69,7 +70,8 @@ db.Member.hasMany(db.LinksGroup, {
 db.Member.hasOne(db.Notepad);
 db.Notepad.belongsTo(db.Member);
 
-db.Projects.belongsTo(db.Member); // Creator
+//
+db.Projects.belongsTo(db.Member);
 db.Member.hasMany(db.Projects, {
     foreignKey: {
         allowNull: false
@@ -82,7 +84,7 @@ db.Projects.hasMany(db.Labels, {
     foreignKey: {
         allowNull: false
     },
-    onDelete: 'cascade'
+    onDelete: 'NO ACTION'
 });
 
 db.Labels.belongsTo(db.Member);
@@ -96,24 +98,15 @@ db.Member.hasMany(db.Labels, {
 db.Boards.belongsTo(db.Member);
 db.Projects.belongsTo(db.Boards);
 
-
-// db.Member.belongsToMany(db.Groups, {
-//     through: "members_groups",
-//     foreignKey: {
-//         allowNull: false
-//     },
-//     onDelete: 'NO ACTION'
-// });
-
-db.Groups.belongsToMany(db.Projects, {
-    through: "groups_projects",
-    as: "projects",
-    foreignKey: "group_id",
-});
-db.Projects.belongsToMany(db.Groups, {
-    through: "groups_projects",
+db.Boards.belongsToMany(db.Groups, {
+    through: "groups_boards",
     as: "groups",
-    foreignKey: "project_id",
+    foreignKey: "boardId",
+});
+db.Groups.belongsToMany(db.Boards, {
+    through: "groups_boards",
+    as: "boards",
+    foreignKey: "groupId",
 });
 
 db.GroupsMembers.belongsTo(db.Member, {
@@ -121,6 +114,17 @@ db.GroupsMembers.belongsTo(db.Member, {
 });
 db.GroupsMembers.belongsTo(db.Groups, {
     foreignKey: "group_id",
+});
+
+db.Commentaries.belongsTo(db.Member, {
+    foreignKey: "memberId",
+})
+
+db.Projects.hasMany(db.Commentaries, {
+    foreignKey: {
+        allowNull: false
+    },
+    onDelete: 'NO ACTION'
 });
 
 module.exports = db;
