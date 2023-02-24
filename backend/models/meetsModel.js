@@ -6,7 +6,7 @@ const { DataTypes, Sequelize, ModelCtor } = require('sequelize');
  * @returns {ModelCtor<any>}
  */
 module.exports = (sequelize) => {
-    const Meets = sequelize.define('tasks', {
+    const Meets = sequelize.define('meets', {
         title: {
             type: DataTypes.STRING(100),
             allowNull: false,

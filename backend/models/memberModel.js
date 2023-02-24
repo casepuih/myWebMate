@@ -1,4 +1,4 @@
-const { DataTypes, Sequelize, ModelCtor} = require('sequelize');
+const { DataTypes, Sequelize, ModelCtor } = require('sequelize');
 
 /**
  * Constructeur du modele "Member"
@@ -6,7 +6,7 @@ const { DataTypes, Sequelize, ModelCtor} = require('sequelize');
  * @returns {ModelCtor<any>}
  */
 module.exports = (sequelize) => {
-    const Member = sequelize.define('Member', {
+    const Member = sequelize.define('member', {
         email: {
             type: DataTypes.STRING(200),
             allowNull: false,
@@ -37,7 +37,7 @@ module.exports = (sequelize) => {
         }
     }, {
         tableName: 'member',
-        timestamps:true,
+        timestamps: true,
         indexes: [
             {
                 name: 'UK_Member__Email',

@@ -1,0 +1,54 @@
+.board-title {
+    width: 95%;
+    margin: 1rem auto;
+    font-size: 22px;
+}
+
+.board-bottom {
+    width: 95%;
+    margin: 1rem auto;
+    text-align: center;
+}
+
+.button {
+    display: flex;
+}
+
+span {
+    border-radius: 15%;
+    padding: 5px;
+    margin: 5px;
+}
+
+.projectCard {
+    display: flex;
+    flex-direction: column;
+    min-height: 150px;
+    width: 95%;
+    margin: 1rem auto;
+    padding: 2.5%;
+    border: 1px solid #3A406E;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.project-title {
+    margin-bottom: 5%;
+    font-size: 33px;
+}
+
+.labels {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.project-description {
+    margin-top: 5%;
+    margin-bottom: 2.5%;
+}
+
+.project-date {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2.5%;
+}

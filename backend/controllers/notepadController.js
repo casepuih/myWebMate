@@ -1,6 +1,6 @@
 const { SuccessResponse } = require('../api-responses/successResponse');
 const notepadService = require('../services/notepadService');
-const {InvalidBodyErrorResponse} = require("../api-responses/errorResponse");
+const { InvalidBodyErrorResponse } = require("../api-responses/errorResponse");
 
 const notepadController = {
     getOne: async (req, res) => {
@@ -12,7 +12,7 @@ const notepadController = {
         const userId = req.user.id;
         const data = req.validateData;
 
-        if (!data.content && data.content!=="") {
+        if (!data.content && data.content !== "") {
             res.status(422).json(new InvalidBodyErrorResponse(
                 'Invalid Data',
                 {

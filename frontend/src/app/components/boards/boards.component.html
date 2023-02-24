@@ -1,0 +1,41 @@
+<div class="board-top">
+  <div class="board-title">
+    <h4>{{board.title}}</h4>
+  </div>
+  <div>
+    <select name="boards" id="boards">
+      <option *ngFor="let group of groupsList" value="{{group.id}}">{{group.name}}</option>
+    </select>
+  </div>
+</div>
+<div class="board-content">
+  <div *ngFor="let project of projectsList" class="projectCard" (click)="goToProject(project.id)">
+    <div class="project-title">
+      <h3>{{project.title}}</h3>
+    </div>
+    <div class="labels">
+      <div *ngFor="let label of labels">
+        <span [ngStyle]="{'background-color':label.color}" *ngIf="label.projectId == project.id"
+          class="labels">{{label.title}}</span>
+      </div>
+    </div>
+    <div class="project-description">
+      <p>{{project.description}}</p>
+    </div>
+    <div class="project-date">
+      <span>
+        {{project.dateBegin | date:"longDate"}}
+      </span>
+      <span *ngIf="project.dateEnding">
+        {{project.dateEnding | date:"longDate"}}
+      </span>
+    </div>
+  </div>
+</div>
+<div class="board-bottom">
+  <button *ngIf="!isCreateForm" (click)="createForm()">Ajouter un projet</button>
+  <div *ngIf="isCreateForm">
+    <input type="text" [(ngModel)]="createProjectTitle">
+    <button (click)="createProject()">Send</button>
+  </div>
+</div>

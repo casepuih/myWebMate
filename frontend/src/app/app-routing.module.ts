@@ -13,36 +13,46 @@ const routes: Routes = [
   },
   {
     path: 'inscription',
-    loadChildren: () => import('./pages/inscription/inscription.module').then( m => m.InscriptionPageModule)
+    loadChildren: () => import('./pages/inscription/inscription.module').then(m => m.InscriptionPageModule)
   },
   {
     path: 'connexion',
-    loadChildren: () => import('./pages/connexion/connexion.module').then( m => m.ConnexionPageModule)
+    loadChildren: () => import('./pages/connexion/connexion.module').then(m => m.ConnexionPageModule)
   },
   {
     path: 'about',
-    loadChildren: () => import('./pages/about/about.module').then( m => m.AboutPageModule)
+    loadChildren: () => import('./pages/about/about.module').then(m => m.AboutPageModule)
   },
   {
     path: 'notes',
-    loadChildren: () => import('./pages/notes/notes.module').then( m => m.NotesPageModule)
+    loadChildren: () => import('./pages/notes/notes.module').then(m => m.NotesPageModule)
   },
   {
     path: 'notes/:id',
-    loadChildren: () => import('./pages/notes/notes.module').then( m => m.NotesPageModule)
+    loadChildren: () => import('./pages/notes/notes.module').then(m => m.NotesPageModule)
   },
   {
     path: 'links-group/:id',
-    loadChildren: () => import('./pages/links-group/links-group.module').then( m => m.LinksGroupPageModule)
+    loadChildren: () => import('./pages/links-group/links-group.module').then(m => m.LinksGroupPageModule)
   },
   {
     path: 'my-links',
-    loadChildren: () => import('./pages/my-links/my-links.module').then( m => m.MyLinksPageModule)
+    loadChildren: () => import('./pages/my-links/my-links.module').then(m => m.MyLinksPageModule)
   },
   {
     path: 'profil',
-    loadChildren: () => import('./pages/profil/profil.module').then( m => m.ProfilPageModule)
+    loadChildren: () => import('./pages/profil/profil.module').then(m => m.ProfilPageModule)
   },
+  {
+    path: 'project/:id',
+    loadChildren: () => import('./pages/projects-manager/project-details/project-details.module').then(m => m.ProjectDetailsPageModule)
+  },
+  {
+    path: 'projects-boards',
+    loadChildren: () => import('./pages/projects-manager/projects-views/projects-views.module').then(m => m.ProjectsViewsPageModule)
+  },
+
+
 ];
 
 @NgModule({

@@ -18,14 +18,13 @@ const meetsService = {
         const meetsClear = meets.map(a => new MeetsDTO(a));
 
         let meetArray = [];
-        meetsClear.forEach( meet => meetArray.push(meet.id));
+        meetsClear.forEach(meet => meetArray.push(meet.id));
 
         if (meetArray.length === 0) {
             meetArray.push(0);
         }
 
-        const [meetsId] = await (await sql).query(`SELECT taskId, MemberId FROM membermeets
-                                                   WHERE taskId IN (?)`, [meetArray]);
+        const [meetsId] = await (await sql).query(`SELECT taskId, MemberId FROM membermeets WHERE taskId IN (?)`, [meetArray]);
 
         const grouped = {};
 
@@ -61,7 +60,7 @@ const meetsService = {
         const meetsClear = meets.map(a => new MeetsDTO(a));
 
         let meetArray = [];
-        meetsClear.forEach( meet => meetArray.push(meet.id));
+        meetsClear.forEach(meet => meetArray.push(meet.id));
 
         if (meetArray.length === 0) {
             meetArray.push(0);
@@ -104,9 +103,9 @@ const meetsService = {
         const newMeet = await db.Meets.create(data);
         newMeet.MemberId = data.MemberIdArray;
 
-        newMeet.MemberId.forEach( async (id)=> {
-                const relation = await newMeet.addMember(id);
-            }
+        newMeet.MemberId.forEach(async (id) => {
+            const relation = await newMeet.addMember(id);
+        }
         )
 
         return new MeetsDTO(newMeet);
@@ -122,7 +121,7 @@ const meetsService = {
         };
     },
 
-    update : async (id, data, userId) => {
+    update: async (id, data, userId) => {
         if (!data) {
             throw new Error('Data is required !');
         }
@@ -136,11 +135,11 @@ const meetsService = {
 
         const newGuest = data.MemberIdArray.filter(x => !dataUpdatedReturning.meet[0].MemberId.includes(x));
 
-        newGuest.forEach( async (idMember)=> {
-                const relation = await (await sql).query(`INSERT INTO membermeets
+        newGuest.forEach(async (idMember) => {
+            const relation = await (await sql).query(`INSERT INTO membermeets
                                                               (createdAt, updatedAt, taskId, MemberId)
                                                               VALUES (NOW(), NOW(), ?, ?)`, [id, idMember]);
-            }
+        }
         )
 
         if (dataUpdatedReturning.meet[0].id !== Number(id)) {
@@ -150,7 +149,7 @@ const meetsService = {
         return dataUpdatedReturning.meet;
     },
 
-    delete : async (id, userId) => {
+    delete: async (id, userId) => {
         await (await sql).query(`DELETE FROM membermeets
                                      WHERE taskId = ? AND MemberId = ?`, [id, userId]);
 

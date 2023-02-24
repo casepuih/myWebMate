@@ -1,0 +1,48 @@
+.container {
+    margin: 0 auto;
+    margin-top: 1rem;
+    margin-bottom: 5rem;
+
+    @media (min-width:0) {
+        width: 90%;
+    }
+
+    @media (min-width:900px) {
+        width: 70%;
+    }
+
+    h1 {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+        text-align: center;
+
+        @media (min-width:0) {
+            font-size: 1.6rem;
+        }
+
+        @media (min-width:700px) {
+            font-size: 2rem;
+        }
+    }
+
+    .group-update {
+        display: flex;
+        width: 100%;
+    }
+
+    .card {
+        width: 30%;
+        margin: 1% 1%;
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid #3A406E;
+        border-radius: 5px;
+
+        h2 {
+            margin-bottom: 0.5rem;
+        }
+    }
+
+
+}

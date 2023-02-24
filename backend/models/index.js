@@ -20,14 +20,20 @@ db.Tasks = require('./tasksModel')(sequelize);
 db.Meets = require('./meetsModel')(sequelize);
 db.Invitation = require('./invitationModel')(sequelize);
 db.Mine = require('./mineModel')(sequelize);
+db.Projects = require('./projectsModel')(sequelize); //
+db.Labels = require('./labelsModel')(sequelize); //
+db.Boards = require('./boardsModel')(sequelize); //
+db.Groups = require('./groupsModel')(sequelize); //
+db.GroupsMembers = require('./groupsMembersModel')(sequelize); //
+db.Commentaries = require('./commentariesModel')(sequelize); //
 
-db.Tasks.belongsToMany(db.Member, {through: 'MemberTasks'});
-db.Member.belongsToMany(db.Tasks, {through: 'MemberTasks'});
+db.Tasks.belongsToMany(db.Member, { through: 'MemberTasks' });
+db.Member.belongsToMany(db.Tasks, { through: 'MemberTasks' });
 
-db.Meets.belongsToMany(db.Member, {through: 'MemberMeets'});
-db.Member.belongsToMany(db.Meets, {through: 'MemberMeets'});
+db.Meets.belongsToMany(db.Member, { through: 'MemberMeets' });
+db.Member.belongsToMany(db.Meets, { through: 'MemberMeets' });
 
-db.Member.belongsToMany(db.Member, {through: 'Friends', as: 'Friendship'});
+db.Member.belongsToMany(db.Member, { through: 'Friends', as: 'Friendship' });
 
 db.Mine.belongsTo(db.Member);
 db.Member.hasMany(db.Mine, {
@@ -73,4 +79,62 @@ db.Member.hasMany(db.LinksGroup, {
 db.Member.hasOne(db.Notepad);
 db.Notepad.belongsTo(db.Member);
 
+//
+db.Projects.belongsTo(db.Member);
+db.Member.hasMany(db.Projects, {
+    foreignKey: {
+        allowNull: false
+    },
+    onDelete: 'NO ACTION'
+});
+
+db.Labels.belongsTo(db.Projects);
+db.Projects.hasMany(db.Labels, {
+    foreignKey: {
+        allowNull: false
+    },
+    onDelete: 'NO ACTION'
+});
+
+db.Labels.belongsTo(db.Member);
+db.Member.hasMany(db.Labels, {
+    foreignKey: {
+        allowNull: false
+    },
+    onDelete: 'NO ACTION'
+});
+
+db.Boards.belongsTo(db.Member);
+db.Projects.belongsTo(db.Boards);
+
+db.Boards.belongsToMany(db.Groups, {
+    through: "groups_boards",
+    as: "groups",
+    foreignKey: "boardId",
+});
+db.Groups.belongsToMany(db.Boards, {
+    through: "groups_boards",
+    as: "boards",
+    foreignKey: "groupId",
+});
+
+db.GroupsMembers.belongsTo(db.Member, {
+    foreignKey: "member_id",
+});
+db.GroupsMembers.belongsTo(db.Groups, {
+    foreignKey: "group_id",
+});
+
+db.Commentaries.belongsTo(db.Member, {
+    foreignKey: "memberId",
+})
+
+db.Projects.hasMany(db.Commentaries, {
+    foreignKey: {
+        allowNull: false
+    },
+    onDelete: 'NO ACTION'
+});
+
 module.exports = db;
+

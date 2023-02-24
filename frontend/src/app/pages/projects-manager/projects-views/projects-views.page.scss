@@ -1,0 +1,47 @@
+.title {
+    display: flex;
+    justify-content: center;
+    font-size: 35px;
+}
+
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1rem auto;
+    width: 95%;
+    min-height: 1000px;
+    border: 2px solid #3A406E;
+    border-radius: 5px;
+    padding: 0.5rem;
+}
+
+.board {
+    margin: 0.5rem 0.5%;
+    width: 24%;
+    min-height: 400px;
+    height: 100%;
+    border: 2px solid #3A406E;
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 500px) {
+    .board {
+        margin: 0.5rem 2%;
+        width: 46%;
+        min-height: 200px;
+        height: 100%;
+        border: 2px solid #3A406E;
+        border-radius: 5px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .board {
+        margin: 0.5rem 1.5%;
+        width: 47%;
+        min-height: 300px;
+        height: 100%;
+        border: 2px solid #3A406E;
+        border-radius: 5px;
+    }
+}

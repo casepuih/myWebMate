@@ -1,0 +1,69 @@
+<div class="container">
+  <h1>Gestion des groupes</h1>
+  <div>
+    <label for="groupName">Créer un groupe</label>
+    <input type="text" name="groupName" id="groupName" [(ngModel)]="groupName">
+    <button (click)="gName()">Créer</button>
+  </div>
+
+  <div>
+    <h1>Formulaire</h1>
+
+    <label for="group-select">Selectionner un groupe</label>
+    <select name="groups" id="group-select" [(ngModel)]="selectGroupId">
+      <option *ngFor="let group of groupList" [ngValue]="group.id">{{group.name}}</option>
+    </select>
+    <br>
+
+    <label for="member-select">Selectionner un membre</label>
+    <select name="members" id="member-select" [(ngModel)]="selectMemberId">
+      <option *ngFor="let member of memberList" [ngValue]="member.id">{{member.id}} -
+        {{member.lastname | uppercase}} {{member.firstname |
+        titlecase}}</option>
+    </select>
+    <br>
+
+    <label for="tier-select">Selectionner un tier</label>
+    <select name="tiers" id="tier-select" [(ngModel)]="selectTier">
+      <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10]" [ngValue]="number">{{number}}</option>
+    </select>
+    <br>
+
+    <label for="isAdmin">Administrateur ?</label>
+    <input type="checkbox" name="isAdmin" id="isAdmin" [(ngModel)]="selectIsAdmin">
+    <br>
+
+    <button (click)="createGroupMember()">Lier</button>
+  </div>
+
+  <div>
+    <h1>Viewer</h1>
+    <div class="group-update">
+      <div *ngFor="let group of listGroupMembers" class="card">
+        <h2 class="card-title">{{group.name}}</h2>
+        <div class="card-content">
+          <div *ngFor="let member of group.members">
+            <div>
+              {{member.firstname | titlecase}} {{member.lastname |
+              uppercase}}
+            </div>
+            <div>
+              <select name="tiers" id="tier-select" [(ngModel)]="member.tier"
+                (ngModelChange)="updateGroupMember(member.groupMember_id, member.groupAdmin,member.tier)">
+                <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10]" [ngValue]="number">{{number}}</option>
+              </select>
+            </div>
+            <div>
+              Admin :
+              <input type="checkbox" name="isAdmin" id="isAdmin" [(ngModel)]="member.groupAdmin"
+                (ngModelChange)="updateGroupMember(member.groupMember_id, member.groupAdmin,member.tier)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>

@@ -5,6 +5,14 @@ const sql = require("../utils/sql.utils");
 const argon2 = require("argon2");
 
 const memberService = {
+    getAll: async () => {
+        const member = await db.Member.findAll();
+
+        return {
+            members: member.map(a => new MemberDTO(a))
+        };
+    },
+
     getOne: async (userId) => {
         const member = await db.Member.findOne({
             where: {
@@ -16,8 +24,7 @@ const memberService = {
     },
 
     update: async (data, userId) => {
-        return await (await sql).query(`UPDATE member SET lastname = ?, firstname = ?
-                                     WHERE id = ?`, [data.lastname, data.firstname, userId]);
+        return await (await sql).query(`UPDATE member SET lastname = ?, firstname = ? WHERE id = ?`, [data.lastname, data.firstname, userId]);
     },
 
     add: async (data) => {
@@ -30,7 +37,7 @@ const memberService = {
         return new MemberDTO(member);
     },
 
-    getHashPassword: async(email) => {
+    getHashPassword: async (email) => {
         const member = await db.Member.findOne({
             where: {
                 email
@@ -51,10 +58,10 @@ const memberService = {
         return new MemberDTO(member);
     },
 
-    updatePassword : async(data, userId) => {
+    updatePassword: async (data, userId) => {
         const member = await db.Member.findOne({
             where: {
-                id : userId
+                id: userId
             }
         })
 
@@ -62,7 +69,7 @@ const memberService = {
 
         if (!isValid) {
             return {
-                message : "old password not good"
+                message: "old password not good"
             };
         }
 
@@ -76,35 +83,35 @@ const memberService = {
         return memberService.getOne(userId);
     },
 
-    updateEmail : async (data, userId) => {
+    updateEmail: async (data, userId) => {
         const member = await db.Member.findOne({
-          where : {
-              email : data.newEmail
-          }
+            where: {
+                email: data.newEmail
+            }
         })
 
         if (member) {
             return {
-                message : "user allready exist"
+                message: "user allready exist"
             }
         }
 
         const memberInvitateHimself = await db.Invitation.findOne({
-            where : {
-                senderInvitationId : userId,
-                reiceverInvitationEmail : data.newEmail
+            where: {
+                senderInvitationId: userId,
+                reiceverInvitationEmail: data.newEmail
             }
         })
 
         if (memberInvitateHimself) {
             return {
-                message : "You have invitation for this email, cancel it before change your email"
+                message: "You have invitation for this email, cancel it before change your email"
             }
         }
 
         const memberUpdated = await db.Member.findOne({
-            where : {
-                id : userId
+            where: {
+                id: userId
             }
         })
 
