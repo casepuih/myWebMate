@@ -31,4 +31,14 @@ export class MembersController {
   remove(@Param('id') id: string) {
     return this.membersService.remove(+id);
   }
+
+  @Patch(':id')
+  updatePassword(@Param('id') id: string){
+    // TODO: implement password update
+  }
+
+  @Patch(':id')
+  updateEmail(@Param('id') id: string){
+    // TODO: implement Email update
+  }
 }
