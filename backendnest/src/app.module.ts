@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MembersModule } from './members/members.module';
 import { TasksModule } from './tasks/tasks.module';
 import { NotesModule } from './notes/notes.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { NotesModule } from './notes/notes.module';
     MembersModule,
     TasksModule,
     NotesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
