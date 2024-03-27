@@ -22,8 +22,8 @@ export class ConnexionPage implements OnInit {
   makeConnexion() {
     this._memberService.connexion(this.email, this.password).subscribe({
       next : (data : any) => {
-        this._memberService.connexionDone(data.data.email, data.data.firstname, data.data.lastname, data.data.id,
-        data.data.isAdmin, data.token);
+        this._memberService.connexionDone(data.email, data.firstname, data.lastname, data.id,
+        data.isAdmin, data.token);
       },
       error : (error : any) => {
         this._errorService.errorHandler(error);

@@ -32,4 +32,9 @@ export class MembersService {
   remove(id: number) {
     return `This action removes a #${id} member`;
   }
+
+  async findByEmail(email: string): Promise<Member | null> {
+    return await this.membersRepository.findOne({ where: { email } })
+  }
+
 }

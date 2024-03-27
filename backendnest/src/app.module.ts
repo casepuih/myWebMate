@@ -7,6 +7,7 @@ import { MembersModule } from './members/members.module';
 import { TasksModule } from './tasks/tasks.module';
 import { NotesModule } from './notes/notes.module';
 import { AuthModule } from './auth/auth.module';
+import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [

@@ -11,7 +11,7 @@ export class Member {
     @Column()
     hashPassword: string;
 
-    @Column()
+    @Column({ default: false })
     isAdmin: boolean;
 
     @Column()
