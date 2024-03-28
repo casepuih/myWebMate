@@ -3,7 +3,7 @@ import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Member } from './entities/member.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -23,6 +23,10 @@ export class MembersService {
 
   async findOne(id: number): Promise<Member> {
     return await this.membersRepository.findOne({ where: {id} })
+  }
+
+  async findSubsetById(memberIds: number[]): Promise<Member[]> {
+    return await this.membersRepository.findBy({ id: In(memberIds) })
   }
 
   update(id: number, updateMemberDto: UpdateMemberDto) {

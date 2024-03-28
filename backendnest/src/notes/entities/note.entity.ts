@@ -1,5 +1,5 @@
 import { Member } from "src/members/entities/member.entity";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Note {
@@ -12,10 +12,11 @@ export class Note {
     @Column({ type: "text", nullable: true })
     content: string;
 
-    @Column()
+    @ManyToOne(() => Member)
     member: Member;
 
-    @Column()
+    @ManyToMany(() => Member)
+    @JoinTable()
     sharedWith: Member[];
 
     @CreateDateColumn()
