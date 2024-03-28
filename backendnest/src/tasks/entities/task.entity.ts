@@ -1,5 +1,5 @@
 import { Member } from "src/members/entities/member.entity";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export enum Recurrence {
     NONE="",
@@ -33,10 +33,11 @@ export class Task {
     })
     recurrence: Recurrence;
 
-    @Column()
+    @ManyToOne(() => Member)
     member: Member;
 
-    @Column()
+    @ManyToMany(() => Member)
+    @JoinTable()
     sharedWith: Member[];
 
     @CreateDateColumn()
