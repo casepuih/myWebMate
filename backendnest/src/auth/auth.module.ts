@@ -5,6 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { MembersService } from 'src/members/members.service';
 import { MembersModule } from 'src/members/members.module';
+import { TokenGeneratorService } from './token-generator.service';
 
 @Module({
   imports: [
@@ -12,10 +13,10 @@ import { MembersModule } from 'src/members/members.module';
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s'},
+      signOptions: { expiresIn: '1h'},
     })
   ],
   controllers: [AuthController],
-  providers: [AuthService, MembersService],
+  providers: [AuthService, MembersService, TokenGeneratorService],
 })
 export class AuthModule {}

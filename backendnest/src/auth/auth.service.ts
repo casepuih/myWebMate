@@ -21,7 +21,7 @@ export class AuthService {
             throw new NotFoundException(`User with email '${email}' not found`);
         }
 
-        if (!(bcrypt.compare(password, member.hashPassword))){
+        if (!(await bcrypt.compare(password, member.hashPassword))){
             throw new UnauthorizedException();
         }
 
@@ -31,4 +31,11 @@ export class AuthService {
         }
     }
 
+    validateToken(token: string): any {
+        try {
+            return this.jwtService.verify(token)
+        } catch (error) {
+            return null
+        } 
+    }
 }
