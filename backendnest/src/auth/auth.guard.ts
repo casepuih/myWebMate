@@ -1,22 +1,29 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
+  // private readonly logger = new Logger(AuthGuard.name)
+
   constructor(private readonly authService: AuthService){}
 
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest()
-    const token = request.headers.authorization?.split(' ')[1]
-
-    if (!token){
-      return false
+    const tokenParts = request.headers.authorization?.split(' ')
+    if (!tokenParts || tokenParts.length !== 2 || tokenParts[0].toLowerCase() !== 'bearer') {
+      return false;
     }
 
-    return this.authService.validateToken(token)
+    const token = tokenParts[1]
+    try {
+      const decoded = this.authService.validateToken(token)
+      request.user = decoded
+      return true
+    } catch (error) {
+      return false
+    }
   }
 }

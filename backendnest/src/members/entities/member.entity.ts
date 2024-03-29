@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Note } from 'src/notes/entities/note.entity';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Member {
@@ -19,6 +20,9 @@ export class Member {
 
     @Column()
     lastname: string;
+
+    @OneToMany(() => Note, note => note.member)
+    notes: Note[]
 
     @CreateDateColumn()
     readonly created_at: Date 

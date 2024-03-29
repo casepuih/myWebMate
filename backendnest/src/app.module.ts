@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,7 +7,6 @@ import { MembersModule } from './members/members.module';
 import { TasksModule } from './tasks/tasks.module';
 import { NotesModule } from './notes/notes.module';
 import { AuthModule } from './auth/auth.module';
-import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -24,12 +23,12 @@ import { RouterModule } from '@nestjs/core';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    MembersModule,
+    MembersModule,  
     TasksModule,
     NotesModule,
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, Logger],
 })
 export class AppModule {}

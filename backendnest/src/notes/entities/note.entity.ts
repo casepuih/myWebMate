@@ -12,7 +12,7 @@ export class Note {
     @Column({ type: "text", nullable: true })
     content: string;
 
-    @ManyToOne(() => Member)
+    @ManyToOne(() => Member, member => member.notes)
     member: Member;
 
     @ManyToMany(() => Member)
