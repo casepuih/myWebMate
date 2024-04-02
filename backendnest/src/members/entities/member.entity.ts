@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Note } from 'src/notes/entities/note.entity';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
@@ -9,6 +10,7 @@ export class Member {
     @Column({ unique: true })
     email: string;
 
+    @Exclude()
     @Column()
     hashPassword: string;
 

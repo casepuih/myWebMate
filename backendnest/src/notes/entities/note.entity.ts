@@ -20,7 +20,7 @@ export class Note {
     @Exclude()
     @ManyToMany(() => Member)
     @JoinTable()
-    sharedWith: Member[];
+    sharedWith?: Member[];
 
     @Exclude()
     @CreateDateColumn()

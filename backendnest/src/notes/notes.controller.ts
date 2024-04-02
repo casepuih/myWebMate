@@ -1,20 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Request, UseGuards, HttpStatus, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, UseGuards, HttpStatus, UseInterceptors, ClassSerializerInterceptor, Logger, BadRequestException } from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { MembersService } from 'src/members/members.service';
-import { FormatResponseInterceptor } from './interceptors/format-response/format-response.interceptor';
+import { NotesResponseInterceptor } from './interceptors/notes-response.interceptor';
+import { BaseResponseInterceptor } from './interceptors/base-response.interceptor';
 
+// @UseInterceptors(BaseResponseInterceptor)
 @Controller('notes')
 export class NotesController {
+  private logger = new Logger()
   constructor(
     private readonly notesService: NotesService,
     private readonly membersService: MembersService,
   ) {}
 
+  @UseGuards(AuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
-  create(@Body() createNoteDto: CreateNoteDto) {
+  create(@Body() createNoteDto: CreateNoteDto, @Request() req) {
+    const userId = req.user.id
+    if (!userId){
+      throw new Response('Not Found',{ 'status': HttpStatus.NOT_FOUND})
+    }
+    createNoteDto.member = userId
+    this.logger.debug(createNoteDto)
     return this.notesService.create(createNoteDto);
   }
 
@@ -27,7 +38,7 @@ export class NotesController {
 
   // Get notes of the authenticated user
   @UseGuards(AuthGuard)
-  @UseInterceptors(FormatResponseInterceptor, ClassSerializerInterceptor)
+  @UseInterceptors(NotesResponseInterceptor, ClassSerializerInterceptor)
   @Get()
   findAllNotesByMemberId(@Request() req){
     try {

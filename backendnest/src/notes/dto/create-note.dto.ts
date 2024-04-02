@@ -1,20 +1,19 @@
-import { Optional } from "@nestjs/common"
-import { ArrayNotEmpty, IsArray, IsInt, IsNotEmpty, IsString } from "class-validator"
+import { ArrayNotEmpty, IsArray, IsInt, IsNotEmpty, IsOptional, IsString, Length } from "class-validator"
 
 export class CreateNoteDto {
     @IsNotEmpty()
     @IsString()
+    @Length(2, 255)
     title: string
 
-    @IsNotEmpty()
     @IsString()
     content: string
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsInt()
-    member: number
+    member?: number
 
-    @Optional()
+    @IsOptional()
     @IsArray()
     @ArrayNotEmpty()
     @IsInt({ each: true })

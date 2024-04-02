@@ -4,13 +4,10 @@ import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class TokenGeneratorService {
-    constructor(
-        private readonly authService: AuthService,
-        private readonly jwtService: JwtService
-    ){}
+    constructor(private readonly authService: AuthService,    ){}
 
     async generateToken(email: string, password: string): Promise<string>{
         const signInResponse = await this.authService.signIn(email, password)
-        return signInResponse.access_token
+        return signInResponse.token
     }
 }

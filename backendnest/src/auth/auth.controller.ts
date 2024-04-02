@@ -21,9 +21,9 @@ export class AuthController {
   }
 
   @Post('jwt')
-  async generateToken(@Body() credentials: { email: string, password: string}): Promise<{ access_token: string}> {
+  async generateToken(@Body() credentials: { email: string, password: string}): Promise<string> {
     const { email, password } = credentials;
     const token = await this.tokenGeneratorService.generateToken(email, password)
-    return { access_token: token }
+    return token
   }
 }

@@ -48,7 +48,7 @@ export class MembersService {
   async findUserNotes(id: number): Promise<Note[]>{
     const user = await this.membersRepository.findOne({
       relations: ['notes'], 
-      where: {id}
+      where: {id},
     })
     if (!user){
       throw new NotFoundException(`User with ID ${id} not found`)

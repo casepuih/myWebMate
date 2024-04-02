@@ -14,7 +14,7 @@ export class NotesService {
     private readonly membersService: MembersService
   ){}
 
-  async create(createNoteDto: CreateNoteDto) {
+  async create(createNoteDto: CreateNoteDto): Promise<Note> {
     const { member, sharedWith, ...rest } = createNoteDto;
     const note = this.notesRepository.create(rest);
 
