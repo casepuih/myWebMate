@@ -5,7 +5,6 @@ import { UpdateNoteDto } from './dto/update-note.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { MembersService } from 'src/members/members.service';
 import { NotesResponseInterceptor } from './interceptors/notes-response.interceptor';
-import { BaseResponseInterceptor } from './interceptors/base-response.interceptor';
 
 // @UseInterceptors(BaseResponseInterceptor)
 @Controller('notes')
