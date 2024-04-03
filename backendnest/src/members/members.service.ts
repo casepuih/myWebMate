@@ -55,4 +55,15 @@ export class MembersService {
     }
     return user.notes
   }
+
+  async findUserFriends(id: number): Promise<Member[]> {
+    const user = await this.membersRepository.findOne({
+      relations: ['friends'], 
+      where: {id},
+    })
+    if (!user){
+      throw new NotFoundException(`User with ID ${id} not found`)
+    }
+    return user.friends
+  }
 }

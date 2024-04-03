@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { Note } from 'src/notes/entities/note.entity';
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Member {
@@ -25,6 +25,10 @@ export class Member {
 
     @OneToMany(() => Note, note => note.member)
     notes: Note[]
+
+    @ManyToMany(type => Member)
+    @JoinTable()
+    friends: Member[]
 
     @CreateDateColumn()
     readonly created_at: Date 
