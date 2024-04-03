@@ -5,7 +5,6 @@ import { UpdateNoteDto } from './dto/update-note.dto';
 import { MembersService } from 'src/members/members.service';
 import { NotesResponseInterceptor } from './interceptors/notes-response.interceptor';
 
-// @UseInterceptors(BaseResponseInterceptor)
 @Controller('notes')
 export class NotesController {
   private logger = new Logger()
@@ -14,7 +13,6 @@ export class NotesController {
     private readonly membersService: MembersService,
   ) {}
 
-  // @UseGuards(AuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   create(@Body() createNoteDto: CreateNoteDto, @Request() req) {
@@ -28,14 +26,12 @@ export class NotesController {
   }
 
   // Get all notes in the db for control
-  // @UseGuards(AuthGuard)
   @Get('all')
   findAll() {
     return this.notesService.findAll();
   }
 
   // Get notes of the authenticated user
-  // @UseGuards(AuthGuard)
   @UseInterceptors(NotesResponseInterceptor, ClassSerializerInterceptor)
   @Get()
   findAllNotesByMemberId(@Request() req){
