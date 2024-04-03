@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Request, UseGuards, 
 import { NotesService } from './notes.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
 import { MembersService } from 'src/members/members.service';
 import { NotesResponseInterceptor } from './interceptors/notes-response.interceptor';
 
@@ -15,7 +14,7 @@ export class NotesController {
     private readonly membersService: MembersService,
   ) {}
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   create(@Body() createNoteDto: CreateNoteDto, @Request() req) {
@@ -29,14 +28,14 @@ export class NotesController {
   }
 
   // Get all notes in the db for control
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Get('all')
   findAll() {
     return this.notesService.findAll();
   }
 
   // Get notes of the authenticated user
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @UseInterceptors(NotesResponseInterceptor, ClassSerializerInterceptor)
   @Get()
   findAllNotesByMemberId(@Request() req){

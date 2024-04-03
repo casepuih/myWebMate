@@ -6,6 +6,8 @@ import { jwtConstants } from './constants';
 import { MembersService } from 'src/members/members.service';
 import { MembersModule } from 'src/members/members.module';
 import { TokenGeneratorService } from './token-generator.service';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth.guard';
 
 @Module({
   imports: [
@@ -17,6 +19,13 @@ import { TokenGeneratorService } from './token-generator.service';
     })
   ],
   controllers: [AuthController],
-  providers: [AuthService, MembersService, TokenGeneratorService],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard
+    },
+    AuthService, 
+    MembersService, 
+    TokenGeneratorService],
 })
 export class AuthModule {}
