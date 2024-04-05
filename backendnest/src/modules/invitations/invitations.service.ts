@@ -12,7 +12,7 @@ export class InvitationsService {
     private readonly invitationsRepository: Repository<Invitation>
   ){}
 
-  async create(createInvitationDto: CreateInvitationDto) {
+  async create(createInvitationDto: CreateInvitationDto): Promise<Invitation> {
     try {
       const invitation = new Invitation()
       invitation.receiver = createInvitationDto.receiver

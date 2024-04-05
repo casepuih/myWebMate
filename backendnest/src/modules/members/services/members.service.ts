@@ -6,9 +6,11 @@ import { Member } from '../entities/member.entity';
 import { In, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Note } from 'src/modules/notes/entities/note.entity';
+import { Invitation } from 'src/modules/invitations/entities/invitation.entity';
 
 @Injectable()
 export class MembersService {
+  private logger = new Logger()
   constructor( 
     @InjectRepository(Member) 
     private readonly membersRepository: Repository<Member>,
@@ -65,5 +67,27 @@ export class MembersService {
       throw new NotFoundException(`User with ID ${id} not found`)
     }
     return user.friends
+  }
+
+  async findUserSentInvitations(id: number): Promise<Invitation[]> {
+    const user = await this.membersRepository.findOne({
+      relations: ['sentInvitations'], 
+      where: {id},
+    })
+    if (!user){
+      throw new NotFoundException(`User with ID ${id} not found`)
+    }
+    return user.sentInvitations
+  }
+
+  async findUserReceivedInvitations(id: number): Promise<Invitation[]> {
+    const user = await this.membersRepository.findOne({
+      relations: ['receivedInvitations', 'receivedInvitations.receiver'], 
+      where: {id},
+    })
+    if (!user){
+      throw new NotFoundException(`User with ID ${id} not found`)
+    }
+    return user.receivedInvitations
   }
 }

@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { Invitation } from 'src/modules/invitations/entities/invitation.entity';
 import { Note } from 'src/modules/notes/entities/note.entity';
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
@@ -29,6 +30,12 @@ export class Member {
     @ManyToMany(type => Member)
     @JoinTable()
     friends: Member[]
+
+    @OneToMany(() => Invitation, invitation => invitation.receiver)
+    receivedInvitations: Invitation[]
+
+    @OneToMany(() => Invitation, invitation => invitation.sender)
+    sentInvitations: Invitation[]
 
     @CreateDateColumn()
     readonly created_at: Date 
