@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { Note } from 'src/notes/entities/note.entity';
+import { Note } from 'src/modules/notes/entities/note.entity';
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()

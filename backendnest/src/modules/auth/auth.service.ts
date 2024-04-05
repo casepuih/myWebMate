@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { MembersService } from 'src/members/members.service';
+import { MembersService } from 'src/modules/members/members.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { CreateMemberDto } from 'src/members/dto/create-member.dto';
+import { CreateMemberDto } from 'src/modules/members/dto/create-member.dto';
 
 @Injectable()
 export class AuthService {

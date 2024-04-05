@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/commo
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Reflector } from '@nestjs/core';
-import { IS_PUBLIC_KEY } from 'src/shared/decorators/public.decorator';
+import { IS_PUBLIC_KEY } from 'src/decorators/public.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

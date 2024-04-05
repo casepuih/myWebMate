@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Member } from './entities/member.entity';
 import { In, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Note } from 'src/notes/entities/note.entity';
+import { Note } from 'src/modules/notes/entities/note.entity';
 
 @Injectable()
 export class MembersService {

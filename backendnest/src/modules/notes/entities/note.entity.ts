@@ -1,5 +1,5 @@
 import { Exclude } from "class-transformer";
-import { Member } from "src/members/entities/member.entity";
+import { Member } from "src/modules/members/entities/member.entity";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()

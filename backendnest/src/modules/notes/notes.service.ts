@@ -4,7 +4,7 @@ import { UpdateNoteDto } from './dto/update-note.dto';
 import { Note } from './entities/note.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { MembersService } from 'src/members/members.service';
+import { MembersService } from 'src/modules/members/members.service';
 
 @Injectable()
 export class NotesService {
