@@ -1,11 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateInvitationDto } from './dto/create-invitation.dto';
 import { UpdateInvitationDto } from './dto/update-invitation.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Invitation } from './entities/invitation.entity';
 import { Repository } from 'typeorm';
-import { MembersService } from '../members/services/members.service';
 import { Member } from '../members/entities/member.entity';
+import { CreateInvitationDto } from './dto/create-invitation.dto';
 
 @Injectable()
 export class InvitationsService {
@@ -14,18 +13,10 @@ export class InvitationsService {
     private readonly invitationsRepository: Repository<Invitation>
   ){}
 
-  async create(sender: Member, receiver: Member) {
-    // const receiver = await this.membersService.findByEmail(createInvitationDto.receiverInvitationEmail)
-    // if (!receiver) {
-    //   throw new NotFoundException(`User with ID ${(receiver).id} not found`)
-    // }
-    // const sender = await this.membersService.findOne(createInvitationDto.senderId)
-    // if (!sender) {
-    //   throw new NotFoundException(`User with ID ${(sender).id} not found`)
-    // }
+  async create(createInvitationDto: CreateInvitationDto) {
     const invitation = new Invitation()
-    invitation.receiver = receiver
-    invitation.sender = sender
+    invitation.receiver = createInvitationDto.receiver
+    invitation.sender = createInvitationDto.sender
     return await this.invitationsRepository.save(invitation)
   }
 

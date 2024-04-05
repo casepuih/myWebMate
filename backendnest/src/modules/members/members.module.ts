@@ -6,11 +6,12 @@ import { Member } from './entities/member.entity';
 import { FriendsController } from './controllers/friends.controller';
 import { InvitationsModule } from '../invitations/invitations.module';
 import { InvitationsService } from '../invitations/invitations.service';
+import { FriendsService } from './services/friends.service';
 
 @Module({
   imports:[TypeOrmModule.forFeature([Member]), InvitationsModule],
   controllers: [MembersController, FriendsController],
-  providers: [MembersService, InvitationsService],
+  providers: [MembersService, InvitationsService, FriendsService],
   exports: [TypeOrmModule, MembersService]
 })
 export class MembersModule {}
