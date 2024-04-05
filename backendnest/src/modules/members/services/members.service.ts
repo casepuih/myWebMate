@@ -1,8 +1,8 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { CreateMemberDto } from './dto/create-member.dto';
-import { UpdateMemberDto } from './dto/update-member.dto';
+import { CreateMemberDto } from '../dto/create-member.dto';
+import { UpdateMemberDto } from '../dto/update-member.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Member } from './entities/member.entity';
+import { Member } from '../entities/member.entity';
 import { In, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Note } from 'src/modules/notes/entities/note.entity';

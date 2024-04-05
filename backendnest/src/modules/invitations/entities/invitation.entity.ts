@@ -1,10 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Member } from "src/modules/members/entities/member.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Invitation {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ nullable: false})
-    receiverInvitationEmail
+    @ManyToOne(() => Member)
+    receiver : Member
+
+    @ManyToOne(() => Member)
+    sender : Member
+
 }

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Request, UseGuards, 
 import { NotesService } from './notes.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
-import { MembersService } from 'src/modules/members/members.service';
+import { MembersService } from 'src/modules/members/services/members.service';
 import { NotesResponseInterceptor } from './interceptors/notes-response.interceptor';
 
 @Controller('notes')

@@ -1,5 +1,5 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { MembersService } from 'src/modules/members/members.service';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { MembersService } from 'src/modules/members/services/members.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { CreateMemberDto } from 'src/modules/members/dto/create-member.dto';
