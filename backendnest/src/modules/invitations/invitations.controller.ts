@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Request } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Request, UseInterceptors } from "@nestjs/common";
 import { InvitationsService } from "./invitations.service";
 import { MembersService } from "../members/services/members.service";
 import { CreateInvitationDto } from "./dto/create-invitation.dto";
 import { UpdateInvitationDto } from "./dto/update-invitation.dto";
+import { BaseResponseInterceptor } from "src/interceptors/base-response.interceptor";
 
+@UseInterceptors(BaseResponseInterceptor)
 @Controller('friends')
 export class InvitationsController {
     private logger = new Logger()
@@ -17,11 +19,11 @@ export class InvitationsController {
     async getAllFriends(@Request() req){
         try {
             const userId = req.user.id
-            return await this.membersService.findUserFriends(userId)
+            const friends =  await this.membersService.findUserFriends(userId)
+            return { friends: friends}
         } catch (error) {
             throw error
         }
-        
     }
 
     @Delete(':id')
@@ -30,6 +32,13 @@ export class InvitationsController {
     }
 
     // INVITATION RELATED ROUTES
+    @Get('invitation')
+    async findAllInvitations(@Request() req) {
+        //TODO :
+        const userId = req.user.id
+        
+    }
+
     @Post('invitation')
     async sendInvitation(@Request() req, @Body() createInvitationDto: CreateInvitationDto){
         try {
@@ -62,7 +71,6 @@ export class InvitationsController {
             const updateInvitationDto = new UpdateInvitationDto()
             updateInvitationDto.receiverId = userId
             updateInvitationDto.senderId = +id
-            this.logger.debug('invitationDto', updateInvitationDto)
             return await this.invitationsService.refuseInvitation(updateInvitationDto)
         } catch (error) {
             throw error
@@ -71,7 +79,6 @@ export class InvitationsController {
 
     @Delete('invitation/:id')
     async deleteInvitation(@Request() req, @Param('id') id: string) {
-        this.logger.debug('Entering deleteInvitation route')
         const userId = req.user.id
         const updateInvitationDto = new UpdateInvitationDto()
         updateInvitationDto.receiverId = userId

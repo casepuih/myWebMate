@@ -13,7 +13,6 @@ export class NotesController {
     private readonly membersService: MembersService,
   ) {}
 
-  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   create(@Body() createNoteDto: CreateNoteDto, @Request() req) {
     const userId = req.user.id
@@ -32,7 +31,7 @@ export class NotesController {
   }
 
   // Get notes of the authenticated user
-  @UseInterceptors(NotesResponseInterceptor, ClassSerializerInterceptor)
+  @UseInterceptors(NotesResponseInterceptor)
   @Get()
   findAllNotesByMemberId(@Request() req){
     try {

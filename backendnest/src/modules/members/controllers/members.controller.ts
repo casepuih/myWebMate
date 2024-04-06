@@ -1,21 +1,28 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, ClassSerializerInterceptor, Request } from '@nestjs/common';
 import { MembersService } from '../services/members.service';
 import { CreateMemberDto } from '../dto/create-member.dto';
 import { UpdateMemberDto } from '../dto/update-member.dto';
+import { BaseResponseInterceptor } from 'src/interceptors/base-response.interceptor';
 
-@UseInterceptors(ClassSerializerInterceptor)
-@Controller('members')
+@UseInterceptors(BaseResponseInterceptor)
+@Controller('member')
 export class MembersController {
   constructor(private readonly membersService: MembersService) {}
 
   @Post()
-  create(@Body() createMemberDto: CreateMemberDto) {
-    return this.membersService.create(createMemberDto);
+  async create(@Body() createMemberDto: CreateMemberDto) {
+    return await this.membersService.create(createMemberDto);
   }
 
   @Get()
-  findAll() {
-    return this.membersService.findAll();
+  async findAuthenticatedMember(@Request() req) {
+    const userId = req.user.id
+    return await this.membersService.findOne(userId);
+  }
+
+  @Post('email/:id')
+  updateEmail(@Param('id') id: string){
+    // TODO: implement Email update
   }
 
   @Get(':id')
@@ -23,23 +30,13 @@ export class MembersController {
     return this.membersService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMemberDto: UpdateMemberDto) {
-    return this.membersService.update(+id, updateMemberDto);
-  }
-
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.membersService.remove(+id);
   }
 
-  @Patch(':id')
+  @Post(':id')
   updatePassword(@Param('id') id: string){
     // TODO: implement password update
-  }
-
-  @Patch(':id')
-  updateEmail(@Param('id') id: string){
-    // TODO: implement Email update
   }
 }
