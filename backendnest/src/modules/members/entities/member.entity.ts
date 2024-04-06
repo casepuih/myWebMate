@@ -1,4 +1,4 @@
-import { Exclude } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
 import { Invitation } from 'src/modules/invitations/entities/invitation.entity';
 import { Note } from 'src/modules/notes/entities/note.entity';
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
@@ -27,9 +27,14 @@ export class Member {
     @OneToMany(() => Note, note => note.member)
     notes: Note[]
 
+    @Exclude()
     @ManyToMany(type => Member)
     @JoinTable()
     friends: Member[]
+
+    @Transform(({ value }) => value.map(member => member.id))
+    friendIds: number[]
+
 
     @OneToMany(() => Invitation, invitation => invitation.receiver)
     receivedInvitations: Invitation[]

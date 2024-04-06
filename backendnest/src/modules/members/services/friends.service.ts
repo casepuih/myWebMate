@@ -1,6 +1,5 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { MembersService } from './members.service';
-import { Member } from '../entities/member.entity';
 import { CreateInvitationDto } from 'src/modules/invitations/dto/create-invitation.dto';
 
 @Injectable()

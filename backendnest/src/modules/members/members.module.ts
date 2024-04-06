@@ -9,9 +9,9 @@ import { InvitationsService } from '../invitations/invitations.service';
 import { FriendsService } from './services/friends.service';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Member]), InvitationsModule],
+  imports:[TypeOrmModule.forFeature([Member])],
   controllers: [MembersController, FriendsController],
-  providers: [MembersService, InvitationsService, FriendsService],
+  providers: [MembersService, FriendsService],
   exports: [TypeOrmModule, MembersService]
 })
 export class MembersModule {}

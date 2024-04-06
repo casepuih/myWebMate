@@ -7,6 +7,7 @@ import { In, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Note } from 'src/modules/notes/entities/note.entity';
 import { Invitation } from 'src/modules/invitations/entities/invitation.entity';
+import { UpdateInvitationDto } from 'src/modules/invitations/dto/update-invitation.dto';
 
 @Injectable()
 export class MembersService {
@@ -30,9 +31,18 @@ export class MembersService {
   async findOne(id: number): Promise<Member> {
     return await this.membersRepository.findOne({ where: {id} })
   }
+  
+  async findOneWithFriends(id: number): Promise<Member> {
+    return await this.membersRepository.findOne({ 
+      where: {id: id}, 
+      relations: ['friends'] })
+  }
 
   async findSubsetById(memberIds: number[]): Promise<Member[]> {
-    return await this.membersRepository.findBy({ id: In(memberIds) })
+    return await this.membersRepository.find({ 
+      relations: ['friends'],
+      where: { id: In(memberIds) },
+    })
   }
 
   update(id: number, updateMemberDto: UpdateMemberDto) {
@@ -52,7 +62,7 @@ export class MembersService {
       relations: ['notes'], 
       where: {id},
     })
-    if (!user){
+    if (!user){ 
       throw new NotFoundException(`User with ID ${id} not found`)
     }
     return user.notes
@@ -67,6 +77,26 @@ export class MembersService {
       throw new NotFoundException(`User with ID ${id} not found`)
     }
     return user.friends
+  }
+
+  async addFriendship(updateInvitationDto: UpdateInvitationDto): Promise<boolean> {
+    const [member1, member2] = await this.findSubsetById(Object.values(updateInvitationDto))
+    if (!member1 || !member2){
+      throw new NotFoundException(`Cannot create friendship`)
+    }
+    this.logger.debug(member1.friends.map(i => i.id))
+    member1.friends.push(member2)
+    member2.friends.push(member1)
+    this.logger.debug(member1.friends.map(i => i.id))
+
+    try {
+      await this.membersRepository.save([member1, member2])
+      this.logger.debug('Friendship saved in DB')
+      return true
+    } catch (error) {
+      this.logger.debug('Error saving friendship: ', error)
+      return false
+    }
   }
 
   async findUserSentInvitations(id: number): Promise<Invitation[]> {
