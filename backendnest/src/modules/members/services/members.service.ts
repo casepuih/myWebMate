@@ -128,15 +128,24 @@ export class MembersService {
    * @returns 
    */
   async deleteFriendship(updateInvitationDto: UpdateInvitationDto): Promise<boolean> {
-    const [member1, member2] = await this.findSubsetById(Object.values(updateInvitationDto))
-    if (!(this.isFriendsWith(member1.id, member2.id))) {
+    const member1 = await this.findOneWithFriends(updateInvitationDto.receiverId)
+    if (!member1) {
+      throw new NotFoundException(`User with ID ${updateInvitationDto.receiverId} not found`)
+    }
+    const member2 = await this.findOneWithFriends(updateInvitationDto.senderId)
+    if (!member2) {
+      throw new NotFoundException(`User with ID ${updateInvitationDto.senderId} not found`)
+    }
+
+    const isFriendsWith = await this.isFriendsWith(member1.id, member2.id)
+    if (!isFriendsWith) {
       throw new NotFoundException('The friendship cannot be deleted because it does not exist !')
     }
 
     try {
       // Delete member from the friends list of the other member
-      member1.friends = member1.friends.filter(friend => friend !== member2)
-      member2.friends = member2.friends.filter(friend => friend !== member1)
+      member1.friends = member1.friends.filter(friend => friend.id !== member2.id)
+      member2.friends = member2.friends.filter(friend => friend.id !== member1.id)
       await this.membersRepository.save([member1, member2])
       return true
     } catch (error) {
