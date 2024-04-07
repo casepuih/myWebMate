@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateMemberDto } from '../dto/create-member.dto';
 import { UpdateMemberDto } from '../dto/update-member.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,7 +18,7 @@ export class MembersService {
   ){}
 
   async create(createMemberDto: CreateMemberDto): Promise<Member> {
-    const hashPassword = await bcrypt.hash(createMemberDto.password, 10);
+    const hashPassword = await bcrypt.hash(createMemberDto.password, 10)
     const member = this.membersRepository.create(createMemberDto)
     member.hashPassword = hashPassword
     return await this.membersRepository.save(member)
@@ -45,8 +45,26 @@ export class MembersService {
     })
   }
 
-  update(id: number, updateMemberDto: UpdateMemberDto) {
-    return `This action updates a #${id} member`;
+  async update(id: number, updateMemberDto: UpdateMemberDto) {
+    const member = await this.membersRepository.findOne({ where: {id} })
+    if (!member) {
+      throw new NotFoundException('Member not found')
+    }
+
+    member.firstname = updateMemberDto?.firstname ?? member.firstname
+    member.lastname = updateMemberDto?.lastname ?? member.lastname
+
+    if (updateMemberDto?.oldPassword && updateMemberDto?.newPassword) {
+      if (!(await bcrypt.compare(updateMemberDto.oldPassword, member.hashPassword))) {
+        throw new BadRequestException('Wrong old password')
+      }
+      const hashPassword = await bcrypt.hash(updateMemberDto.newPassword, 10)
+      member.hashPassword = hashPassword
+    }
+
+    member.email = updateMemberDto?.newEmail ?? member.email
+
+    return this.membersRepository.save(member)
   }
 
   remove(id: number) {

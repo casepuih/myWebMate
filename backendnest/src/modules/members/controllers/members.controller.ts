@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, UseInterceptors, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseInterceptors, Request, Put } from '@nestjs/common';
 import { MembersService } from '../services/members.service';
 import { CreateMemberDto } from '../dto/create-member.dto';
 import { UpdateMemberDto } from '../dto/update-member.dto';
@@ -20,23 +20,30 @@ export class MembersController {
     return await this.membersService.findOne(userId);
   }
 
-  @Post('email/:id')
-  updateEmail(@Param('id') id: string){
-    // TODO: implement Email update
+  @Put('email/:id')
+  async updateEmail(@Param('id') id: string, @Body() updateMemberDto: UpdateMemberDto){
+    return await this.membersService.update(+id, updateMemberDto)
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.membersService.findOne(+id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.membersService.remove(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.membersService.findOne(+id);
   }
 
   @Post(':id')
-  updatePassword(@Param('id') id: string){
-    // TODO: implement password update
+  async updatePassword(@Param('id') id: string, @Body() updateMemberDto: UpdateMemberDto){
+    return await this.membersService.update(+id, updateMemberDto)
   }
+
+  @Put(':id')
+  async updateName(@Param('id') id: string, @Body() updateMemberDto: UpdateMemberDto){
+    return await this.membersService.update(+id, updateMemberDto)
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    return await this.membersService.remove(+id);
+  }
+
+
 }
