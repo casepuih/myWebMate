@@ -104,6 +104,11 @@ export class InvitationsService {
     }
   }
 
+  /**
+   * Deletes invitation received by user
+   * @param updateInvitationDto 
+   * @returns 
+   */
   async refuseInvitation(updateInvitationDto: UpdateInvitationDto): Promise<Invitation> {
     try {
       const invitation = await this.findByReceiverAndSender(updateInvitationDto)
@@ -116,6 +121,10 @@ export class InvitationsService {
     }
   }
 
+  /**
+   * Deletes the invitation the user sent to another user
+   * @param updateInvitationDto receiverId, senderId
+   */
   async deleteInvitation(updateInvitationDto: UpdateInvitationDto): Promise<void> {
     try {
       const invitation = await this.findByReceiverAndSender(updateInvitationDto)

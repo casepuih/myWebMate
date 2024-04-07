@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Request, UseGuards, HttpStatus, UseInterceptors, ClassSerializerInterceptor, Logger, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, HttpStatus, UseInterceptors, Logger, Put } from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { MembersService } from 'src/modules/members/services/members.service';
 import { NotesResponseInterceptor } from './interceptors/notes-response.interceptor';
+import { BaseResponseInterceptor } from 'src/interceptors/base-response.interceptor';
 
+// @UseInterceptors(BaseResponseInterceptor)
 @Controller('notes')
 export class NotesController {
   private logger = new Logger()
@@ -14,14 +16,14 @@ export class NotesController {
   ) {}
 
   @Post()
-  create(@Body() createNoteDto: CreateNoteDto, @Request() req) {
+  async create(@Body() createNoteDto: CreateNoteDto, @Request() req) {
     const userId = req.user.id
     if (!userId){
       throw new Response('Not Found',{ 'status': HttpStatus.NOT_FOUND})
     }
     createNoteDto.member = userId
     this.logger.debug(createNoteDto)
-    return this.notesService.create(createNoteDto);
+    return await this.notesService.create(createNoteDto);
   }
 
   // Get all notes in the db for control
@@ -33,10 +35,10 @@ export class NotesController {
   // Get notes of the authenticated user
   @UseInterceptors(NotesResponseInterceptor)
   @Get()
-  findAllNotesByMemberId(@Request() req){
+  async findAllNotesByMemberId(@Request() req){
     try {
       const userId = req.user.id
-      const notes = this.membersService.findUserNotes(userId)
+      const notes = await this.membersService.findUserNotes(userId)
       if (!notes){
         return new Response('Not Found',{ 'status': HttpStatus.NOT_FOUND})
       }
@@ -46,18 +48,20 @@ export class NotesController {
     }
   }
 
+  @UseInterceptors(NotesResponseInterceptor)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.notesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const note = await this.notesService.findOne(+id)
+    return note 
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNoteDto: UpdateNoteDto) {
-    return this.notesService.update(+id, updateNoteDto);
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() updateNoteDto: UpdateNoteDto) {
+    return await this.notesService.update(+id, updateNoteDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.notesService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.notesService.remove(+id);
   }
 }

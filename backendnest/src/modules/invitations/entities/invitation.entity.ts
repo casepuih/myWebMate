@@ -1,3 +1,4 @@
+import { Exclude, Expose, Transform } from "class-transformer";
 import { Member } from "src/modules/members/entities/member.entity";
 import { Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 
@@ -5,12 +6,29 @@ import { Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 @Unique(['sender', 'receiver'])
 export class Invitation {
     @PrimaryGeneratedColumn()
-    id: number
+    idPrimary: number
 
-    @ManyToOne(() => Member)
+    @Exclude()
+    @ManyToOne(() => Member, { eager: true })
     receiver : Member
 
-    @ManyToOne(() => Member)
+    @Exclude()
+    @ManyToOne(() => Member, { eager: true })
     sender : Member
+
+    @Expose()
+    get reiceverInvitationEmail(): string {
+        return this.receiver.email
+    }
+
+    @Expose()
+    get senderInvitationId(): number {
+        return this.sender.id
+    }
+
+    @Expose()
+    get id(): number {
+        return this.receiver.id
+    }
 
 }

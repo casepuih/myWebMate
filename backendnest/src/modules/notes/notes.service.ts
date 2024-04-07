@@ -43,11 +43,14 @@ export class NotesService {
     return await this.notesRepository.findOne({ where: {id} })
   }
 
-  update(id: number, updateNoteDto: UpdateNoteDto) {
-    return `This action updates a #${id} note`;
+  async update(id: number, updateNoteDto: UpdateNoteDto): Promise<Note> {
+    const note = await this.notesRepository.findOne({ where: {id} })
+    note.title = updateNoteDto.title
+    note.content = updateNoteDto.content
+    return await this.notesRepository.save(note)
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<Note> {
     const note = await this.notesRepository.findOne({ where: {id} })
     if (!note){
       throw new NotFoundException(`Note with ID ${id} not found`)

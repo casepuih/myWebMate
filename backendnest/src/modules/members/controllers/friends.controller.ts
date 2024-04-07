@@ -14,19 +14,4 @@ export class FriendsController {
         // private readonly invitationsService: InvitationsService
     ) {}
 
-    @Get('invitation')
-    async getAllReceivedAndSentInvitations(@Request() req) {
-        try {
-            const userId = req.user.id
-            const sentInvitations:Invitation[] = await this.membersService.findUserSentInvitations(userId)
-            const receivedInvitations: Invitation[] = await this.membersService.findUserReceivedInvitations(userId)
-            return {
-                receive: receivedInvitations.map(i => i.receiver),
-                send: sentInvitations,
-            }            
-        } catch (error) {
-            throw error
-        }
-    }    
-
 }

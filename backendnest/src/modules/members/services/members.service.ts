@@ -79,6 +79,11 @@ export class MembersService {
     return user.friends
   }
 
+  async isFriendsWith(id: number, friendId: number): Promise<boolean> {
+    const member = await this.findOneWithFriends(id)
+    return member.friends.some(friend => friend.id === friendId)
+  }
+
   async addFriendship(updateInvitationDto: UpdateInvitationDto): Promise<boolean> {
     const [member1, member2] = await this.findSubsetById(Object.values(updateInvitationDto))
     if (!member1 || !member2){
@@ -99,6 +104,29 @@ export class MembersService {
     }
   }
 
+  /**
+   * Deletes member2 from member1.friends list and vice versa
+   * @param updateInvitationDto 
+   * @returns 
+   */
+  async deleteFriendship(updateInvitationDto: UpdateInvitationDto): Promise<boolean> {
+    const [member1, member2] = await this.findSubsetById(Object.values(updateInvitationDto))
+    if (!(this.isFriendsWith(member1.id, member2.id))) {
+      throw new NotFoundException('The friendship cannot be deleted because it does not exist !')
+    }
+
+    try {
+      // Delete member from the friends list of the other member
+      member1.friends = member1.friends.filter(friend => friend !== member2)
+      member2.friends = member2.friends.filter(friend => friend !== member1)
+      await this.membersRepository.save([member1, member2])
+      return true
+    } catch (error) {
+      this.logger.debug('Error deleting friendship: ', error)
+      throw error
+    }
+  }
+
   async findUserSentInvitations(id: number): Promise<Invitation[]> {
     const user = await this.membersRepository.findOne({
       relations: ['sentInvitations'], 
@@ -112,7 +140,7 @@ export class MembersService {
 
   async findUserReceivedInvitations(id: number): Promise<Invitation[]> {
     const user = await this.membersRepository.findOne({
-      relations: ['receivedInvitations', 'receivedInvitations.receiver'], 
+      relations: ['receivedInvitations', 'receivedInvitations.sender'], 
       where: {id},
     })
     if (!user){
