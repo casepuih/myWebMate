@@ -25,7 +25,7 @@ export class TasksService {
       const sharewWithMembers = await this.membersService.findSubsetById(MemberIdArray)
       task.sharedWith = sharewWithMembers
     }
-    
+
     return await this.tasksRepository.save(task)
   }
 
@@ -37,11 +37,16 @@ export class TasksService {
     return await this.tasksRepository.findOne({ where: {id} })
   }
 
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
+  async update(id: number, updateTaskDto: UpdateTaskDto): Promise<Task> {
+    const task = await this.tasksRepository.findOne({ where: {id} })
+    if(!task){
+      throw new NotFoundException(`Task with ID ${id} not found`)
+    }
+    Object.assign(task, updateTaskDto)
+    return await this.tasksRepository.save(task)
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<Task> {
     const task = await this.tasksRepository.findOne({ where:{id} })
     if(!task){
       throw new NotFoundException(`Task with ID ${id} not found`)

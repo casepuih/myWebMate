@@ -1,6 +1,4 @@
-import { Type } from "class-transformer";
 import { IsArray, IsBoolean, IsDateString, IsEnum, IsInt, isInt, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateIf } from "class-validator";
-import { Member } from "src/modules/members/entities/member.entity";
 import { Recurrence } from "../entities/task.entity";
 
 export class CreateTaskDto {

@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
 import { MeetsService } from './meets.service';
 import { CreateMeetDto } from './dto/create-meet.dto';
 import { UpdateMeetDto } from './dto/update-meet.dto';
+import { BaseResponseInterceptor } from 'src/interceptors/base-response.interceptor';
 
+@UseInterceptors(BaseResponseInterceptor)
 @Controller('meets')
 export class MeetsController {
   constructor(private readonly meetsService: MeetsService) {}
@@ -14,7 +16,7 @@ export class MeetsController {
 
   @Get()
   findAll() {
-    return this.meetsService.findAll();
+    return { meets: []}
   }
 
   @Get(':id')
