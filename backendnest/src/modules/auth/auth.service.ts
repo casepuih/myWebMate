@@ -22,7 +22,7 @@ export class AuthService {
         }
 
         if (!(await bcrypt.compare(password, member.hashPassword))){
-            throw new UnauthorizedException();
+            throw new UnauthorizedException('Bad Credential');
         }
 
         const payload = { id: member.id, email: member.email}
