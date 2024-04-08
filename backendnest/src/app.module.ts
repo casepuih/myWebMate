@@ -8,6 +8,7 @@ import { TasksModule } from './modules/tasks/tasks.module';
 import { NotesModule } from './modules/notes/notes.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { InvitationsModule } from './modules/invitations/invitations.module';
+import { MeetsModule } from './modules/meets/meets.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { InvitationsModule } from './modules/invitations/invitations.module';
     NotesModule,
     AuthModule,
     InvitationsModule,
+    MeetsModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger],
