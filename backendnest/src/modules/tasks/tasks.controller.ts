@@ -1,25 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, UseInterceptors } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { MembersService } from '../members/services/members.service';
+import { BaseResponseInterceptor } from 'src/interceptors/base-response.interceptor';
 
+@UseInterceptors(BaseResponseInterceptor)
 @Controller('tasks')
 export class TasksController {
-  constructor(private readonly tasksService: TasksService) {}
+  constructor(
+    private readonly tasksService: TasksService,
+    private readonly membersService: MembersService
+  ) {}
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
+  create(@Request() req, @Body() createTaskDto: CreateTaskDto) {
+    const userId = req.user.id
+    createTaskDto.member = userId
     return this.tasksService.create(createTaskDto);
   }
 
   @Get()
-  findAll() {
-    return this.tasksService.findAll();
+  async findAll(@Request() req) {
+    const userId = req.user.id
+    const tasks = await this.membersService.findUserTasks(userId)
+    return {tasks: tasks}
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tasksService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const task = await this.tasksService.findOne(+id)
+    return [task]
   }
 
   @Patch(':id')

@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsBoolean, IsDateString, IsEnum, IsInt, isInt, IsNotEmpty, IsOptional, IsString, ValidateIf } from "class-validator";
+import { IsArray, IsBoolean, IsDateString, IsEnum, IsInt, isInt, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateIf } from "class-validator";
 import { Member } from "src/modules/members/entities/member.entity";
 import { Recurrence } from "../entities/task.entity";
 
@@ -29,6 +29,10 @@ export class CreateTaskDto {
       ANNUAL: "annual",
     })
     recurrence?: Recurrence;
+
+    @IsArray()
+    @IsNumber({}, { each: true })
+    MemberIdArray: number[]
 
     member: number;
 }

@@ -1,3 +1,4 @@
+import { Expose } from "class-transformer";
 import { Member } from "src/modules/members/entities/member.entity";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -36,9 +37,14 @@ export class Task {
     @ManyToOne(() => Member)
     member: Member;
 
-    @ManyToMany(() => Member)
+    @ManyToMany(() => Member, { eager: true})
     @JoinTable()
     sharedWith: Member[];
+
+    @Expose()
+    get MemberId(): number[] {
+        return this.sharedWith.map(member => member.id)
+    }
 
     @CreateDateColumn()
     readonly created_at: Date 

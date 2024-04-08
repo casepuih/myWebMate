@@ -8,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { Note } from 'src/modules/notes/entities/note.entity';
 import { Invitation } from 'src/modules/invitations/entities/invitation.entity';
 import { UpdateInvitationDto } from 'src/modules/invitations/dto/update-invitation.dto';
+import { Task } from 'src/modules/tasks/entities/task.entity';
 
 @Injectable()
 export class MembersService {
@@ -95,6 +96,17 @@ export class MembersService {
       throw new NotFoundException(`User with ID ${id} not found`)
     }
     return user.friends
+  }
+
+  async findUserTasks(id: number): Promise<Task[]> {
+    const user = await this.membersRepository.findOne({
+      relations: ['tasks'], 
+      where: {id},
+    })
+    if (!user){
+      throw new NotFoundException(`User with ID ${id} not found`)
+    }
+    return user.tasks
   }
 
   async isFriendsWith(id: number, friendId: number): Promise<boolean> {

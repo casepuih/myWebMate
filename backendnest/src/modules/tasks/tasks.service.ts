@@ -14,17 +14,19 @@ export class TasksService {
     private readonly membersService: MembersService
   ){}
 
-  async create(createTaskDto: CreateTaskDto) {
-    const { member, ...rest } = createTaskDto;
+  async create(createTaskDto: CreateTaskDto): Promise<Task> {
+    const { member, MemberIdArray, ...rest } = createTaskDto;
     const task = this.tasksRepository.create(rest);
-    // const member = this.membersService.findOne(createTaskDto.member)
-    // const task = this.tasksRepository.create({...createTaskDto, member: member})
     if (member) {
       const memberInstance = await this.membersService.findOne(member); 
       task.member = memberInstance;
     }
-
-    return this.tasksRepository.save(task)
+    if (MemberIdArray){
+      const sharewWithMembers = await this.membersService.findSubsetById(MemberIdArray)
+      task.sharedWith = sharewWithMembers
+    }
+    
+    return await this.tasksRepository.save(task)
   }
 
   async findAll(): Promise<Task[]> {

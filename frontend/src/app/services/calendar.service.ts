@@ -614,6 +614,14 @@ export class CalendarService {
   }
 
   private _dateConstructorForAPI(date:DateEvent) {
+    // Ensure leading zeros for single-digit values
+    const month = String(date.month).padStart(2, '0');
+    const day = String(date.day).padStart(2, '0');
+    const hours = String(date.hours).padStart(2, '0');
+    const minutes = String(date.minutes).padStart(2, '0');
+
+    // Construct the date string
+    return `${date.year}-${month}-${day}T${hours}:${minutes}:00`;
     return date.year + "-" + date.month + "-" + date.day + " " + date.hours + ":" + date.minutes + ":00";
   }
 

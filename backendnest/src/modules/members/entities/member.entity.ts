@@ -1,6 +1,7 @@
 import { Exclude, Transform } from 'class-transformer';
 import { Invitation } from 'src/modules/invitations/entities/invitation.entity';
 import { Note } from 'src/modules/notes/entities/note.entity';
+import { Task } from 'src/modules/tasks/entities/task.entity';
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
@@ -26,6 +27,9 @@ export class Member {
 
     @OneToMany(() => Note, note => note.member)
     notes: Note[]
+
+    @OneToMany(() => Task, task => task.member)
+    tasks: Task[]
 
     @Exclude()
     @ManyToMany(type => Member)
