@@ -1,8 +1,9 @@
 import { Exclude, Transform } from 'class-transformer';
 import { Invitation } from 'src/modules/invitations/entities/invitation.entity';
+import { Notepad } from 'src/modules/notepad/entities/notepad.entity';
 import { Note } from 'src/modules/notes/entities/note.entity';
 import { Task } from 'src/modules/tasks/entities/task.entity';
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Member {
@@ -45,6 +46,9 @@ export class Member {
 
     @OneToMany(() => Invitation, invitation => invitation.sender)
     sentInvitations: Invitation[]
+
+    @OneToOne(() => Notepad, notepad => notepad.member)
+    notepad: Notepad
 
     @CreateDateColumn()
     readonly created_at: Date 

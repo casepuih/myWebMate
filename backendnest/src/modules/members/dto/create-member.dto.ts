@@ -15,5 +15,5 @@ export class CreateMemberDto {
     password: string;
 
     @IsBoolean()
-    isAdmin: boolean;
+    isAdmin: boolean = false;
 }

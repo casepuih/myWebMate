@@ -8,10 +8,13 @@ import { MembersModule } from 'src/modules/members/members.module';
 import { TokenGeneratorService } from './token-generator.service';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth.guard';
+import { NotepadModule } from '../notepad/notepad.module';
+import { NotepadService } from '../notepad/notepad.service';
 
 @Module({
   imports: [
     MembersModule,
+    NotepadModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
@@ -25,7 +28,8 @@ import { AuthGuard } from './auth.guard';
       useClass: AuthGuard
     },
     AuthService, 
-    MembersService, 
+    MembersService,
+    NotepadService, 
     TokenGeneratorService],
 })
 export class AuthModule {}

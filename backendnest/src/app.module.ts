@@ -9,6 +9,7 @@ import { NotesModule } from './modules/notes/notes.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { InvitationsModule } from './modules/invitations/invitations.module';
 import { MeetsModule } from './modules/meets/meets.module';
+import { NotepadModule } from './modules/notepad/notepad.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { MeetsModule } from './modules/meets/meets.module';
     AuthModule,
     InvitationsModule,
     MeetsModule,
+    NotepadModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger],

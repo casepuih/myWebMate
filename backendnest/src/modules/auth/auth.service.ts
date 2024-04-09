@@ -1,18 +1,20 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { MembersService } from 'src/modules/members/services/members.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { CreateMemberDto } from 'src/modules/members/dto/create-member.dto';
+import { NotepadService } from '../notepad/notepad.service';
 
 @Injectable()
 export class AuthService {
+    private logger = new Logger()
     constructor(
         private readonly membersService: MembersService,
-        private readonly jwtService: JwtService
+        private readonly jwtService: JwtService,
     ){}
 
     async register(createMemberDto: CreateMemberDto){
-        return this.membersService.create(createMemberDto)
+        return await this.membersService.create(createMemberDto)
     }
 
     async signIn(email: string, password: string): Promise<any> {
