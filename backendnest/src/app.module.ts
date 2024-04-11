@@ -10,6 +10,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { InvitationsModule } from './modules/invitations/invitations.module';
 import { MeetsModule } from './modules/meets/meets.module';
 import { NotepadModule } from './modules/notepad/notepad.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { NotepadModule } from './modules/notepad/notepad.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    PassportModule.register({ session: true }),
     MembersModule,  
     TasksModule,
     NotesModule,

@@ -10,6 +10,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth.guard';
 import { NotepadModule } from '../notepad/notepad.module';
 import { NotepadService } from '../notepad/notepad.service';
+import { GoogleStrategy } from './strategies/google.strategy';
+import { SessionSerializer } from './serializers/session.serializer';
 
 @Module({
   imports: [
@@ -27,7 +29,9 @@ import { NotepadService } from '../notepad/notepad.service';
       provide: APP_GUARD,
       useClass: AuthGuard
     },
+    SessionSerializer,
     AuthService, 
+    GoogleStrategy,
     MembersService,
     NotepadService, 
     TokenGeneratorService],

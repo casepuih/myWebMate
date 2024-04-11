@@ -3,9 +3,10 @@ import { Invitation } from 'src/modules/invitations/entities/invitation.entity';
 import { Notepad } from 'src/modules/notepad/entities/notepad.entity';
 import { Note } from 'src/modules/notes/entities/note.entity';
 import { Task } from 'src/modules/tasks/entities/task.entity';
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm';
 
 @Entity()
+@Unique(['email'])
 export class Member {
     @PrimaryGeneratedColumn()
     id: number;

@@ -1,9 +1,10 @@
-import { Body, Controller, Logger, Post } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Req, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateMemberDto } from 'src/modules/members/dto/create-member.dto';
 import { TokenGeneratorService } from './token-generator.service';
 import { Public } from 'src/decorators/public.decorator';
 import { NotepadService } from '../notepad/notepad.service';
+import { GoogleAuthGuard } from './guards/google-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -36,5 +37,29 @@ export class AuthController {
     const { email, password } = credentials;
     const token = await this.tokenGeneratorService.generateToken(email, password)
     return token
+  }
+
+  @Public()
+  @Get('google/login')
+  @UseGuards(GoogleAuthGuard)
+  handleLogin(@Request() req) {
+    return this.authService.handlerLogin()
+  }
+
+  @Public()
+  @Get('google/callback')
+  @UseGuards(GoogleAuthGuard)
+  handleRedirect() {
+    return this.authService.handlerRedirect()
+  }
+
+  @Public()
+  @Get('status')
+  user(@Request() req) {
+    if (req.user) {
+      return { message: 'Authenticated', user: req.user }
+    } else {
+      return { message: 'Not Authenticated' }
+    }
   }
 }

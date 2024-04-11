@@ -3,7 +3,7 @@ import { MembersService } from 'src/modules/members/services/members.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { CreateMemberDto } from 'src/modules/members/dto/create-member.dto';
-import { NotepadService } from '../notepad/notepad.service';
+import { Member } from '../members/entities/member.entity';
 
 @Injectable()
 export class AuthService {
@@ -40,5 +40,31 @@ export class AuthService {
         } catch (error) {
             return null
         } 
+    }
+
+    async validateUser(email: string, displayName: string): Promise<Member> {
+        const user = await this.membersService.findByEmail(email)
+        if (user) {
+            return user
+        }
+    }
+
+    async findUser(id: number): Promise<Member> {
+        return await this.membersService.findOne(id)
+    }
+
+    handlerLogin() {
+        return 'Coucou google'
+        // if (!req.user){
+        //     return 'No user from Google'
+        // }
+        // return {
+        //     message: 'User information from google',
+        //     user: req.user
+        // }
+    }
+
+    handlerRedirect() {
+        return 'handlerRedirect'
     }
 }
