@@ -42,6 +42,12 @@ export class TasksService {
     if(!task){
       throw new NotFoundException(`Task with ID ${id} not found`)
     }
+    // Participants are added to the task
+    const sharedWith = updateTaskDto.MemberIdArray
+    if (sharedWith) {
+      const sharewWithMembers = await this.membersService.findSubsetById(sharedWith)
+      task.sharedWith = sharewWithMembers
+    }
     Object.assign(task, updateTaskDto)
     return await this.tasksRepository.save(task)
   }
