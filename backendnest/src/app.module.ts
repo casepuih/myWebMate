@@ -11,6 +11,7 @@ import { InvitationsModule } from './modules/invitations/invitations.module';
 import { MeetsModule } from './modules/meets/meets.module';
 import { NotepadModule } from './modules/notepad/notepad.module';
 import { PassportModule } from '@nestjs/passport';
+import { LinksModule } from './modules/links/links.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { PassportModule } from '@nestjs/passport';
     InvitationsModule,
     MeetsModule,
     NotepadModule,
+    LinksModule,
   ],
   controllers: [AppController],
   providers: [AppService, Logger],

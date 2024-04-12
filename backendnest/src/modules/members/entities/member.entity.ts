@@ -1,5 +1,6 @@
 import { Exclude, Transform } from 'class-transformer';
 import { Invitation } from 'src/modules/invitations/entities/invitation.entity';
+import { Link } from 'src/modules/links/entities/link.entity';
 import { Notepad } from 'src/modules/notepad/entities/notepad.entity';
 import { Note } from 'src/modules/notes/entities/note.entity';
 import { Task } from 'src/modules/tasks/entities/task.entity';

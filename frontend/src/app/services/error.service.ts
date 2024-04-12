@@ -11,6 +11,12 @@ export class ErrorService {
   ) { }
 
   errorHandler(error:any) {
+    if (error.error.message !== undefined) {
+      this._alert.alerte(error.error.statusCode, error.error.message);
+      
+      return;
+    }
+
     if (error.error.fieldErrors !== undefined) {
       if (error.error.fieldErrors.email) {
         this._alert.alerte("Erreur d'email", "Votre email doit être un email valide");
