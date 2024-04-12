@@ -49,8 +49,8 @@ export class AuthController {
   @Public()
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
-  handleRedirect() {
-    return this.authService.handlerRedirect()
+  handleRedirect(@Req() req) {
+    return req.user 
   }
 
   @Public()
