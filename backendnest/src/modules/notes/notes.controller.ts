@@ -23,7 +23,8 @@ export class NotesController {
     }
     createNoteDto.member = userId
     this.logger.debug(createNoteDto)
-    return await this.notesService.create(createNoteDto);
+    const note = await this.notesService.create(createNoteDto)
+    return { result: note }
   }
 
   // Get all notes in the db for control
