@@ -12,6 +12,9 @@ import { MeetsModule } from './modules/meets/meets.module';
 import { NotepadModule } from './modules/notepad/notepad.module';
 import { PassportModule } from '@nestjs/passport';
 import { LinksModule } from './modules/links/links.module';
+import { GoogleCalendarService } from './modules/google-calendar/google-calendar.service';
+import { GoogleCalendarController } from './modules/google-calendar/google-calendar.controller';
+import { GoogleCalendarModule } from './modules/google-calendar/google-calendar.module';
 
 @Module({
   imports: [
@@ -37,8 +40,9 @@ import { LinksModule } from './modules/links/links.module';
     MeetsModule,
     NotepadModule,
     LinksModule,
+    GoogleCalendarModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, Logger],
+  controllers: [AppController, GoogleCalendarController],
+  providers: [AppService, Logger, GoogleCalendarService],
 })
 export class AppModule {}

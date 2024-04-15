@@ -10,7 +10,13 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
             clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
             clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
             callbackURL: process.env.GOOGLE_OAUTH_REDIRECT_URI,
-            scope: ['email', 'profile', 'https://www.googleapis.com/auth/calendar.events.readonly']
+            scope: ['email', 'profile', 'https://www.googleapis.com/auth/calendar.events.readonly'],
+            refreshToken: true,
+            accessType: 'offline',
+            prompt: 'consent',
+            // authorizationParams: {
+            //     access_type: 'offline',
+            // },
         })
     }
 
@@ -21,10 +27,12 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
             firstname: name.givenName,
             lastname: name.familyName,
             picture: photos[0].value,
-            accessToken,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
         }
         this.logger.debug(user)
         this.logger.debug(accessToken)
+        this.logger.debug(refreshToken)
         done(null, user)
     }
 }
