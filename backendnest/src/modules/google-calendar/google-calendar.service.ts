@@ -10,7 +10,7 @@ export class GoogleCalendarService {
     constructor() {
         const auth = new google.auth.OAuth2()
         auth.setCredentials({
-            access_token: 'ya29.a0Ad52N3_SnF6Qf6OcWzADjB5F5oy5nnRziahMXLheJca94mLK_79HYby1U280J3dUTNcZkQj4JAUR9BTSrpo7dNC41dl68kM9RNQ2a9TQO0djGLr2Dzsx3uHyu-BVZQt3zlwN9xHy3z-ixfTUL0DcrqVVPhTIJ1qlg18-aCgYKAfwSARMSFQHGX2Miogp3Uy4dJ8W5QfliTg1p3Q0171'
+            access_token: 'ya29.a0Ad52N39obeNrseF8tNOh6SgSUua-1BNn1aWDph2-NQxzHuJBk9O6fCdIOT7EYz2l40u9ZB2XRBwICqYz0aLTaPnGqgdw8dBj-EzahIKw24M-isBhCEibgz6o9lHcXI0scyS0oiluqSczsdoZoo-m7TWHZ_yQlJw7HwaCgYKAWESARMSFQHGX2Mitd9A2L-6yBy6y6kvu-laoQ0169'
         })
         this.calendar = google.calendar({ version: 'v3', auth})
     }

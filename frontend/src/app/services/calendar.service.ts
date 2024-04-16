@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {forkJoin, Observable, of, Subject, tap} from "rxjs";
-import {Meet, ResAllMeet, ResAllTask, ResOneMeet, ResOneTask, Task} from "../models/calendarModel";
+import {Meet, ResAllGoogleEvent, ResAllMeet, ResAllTask, ResOneMeet, ResOneTask, Task} from "../models/calendarModel";
 import {environment} from "../../environments/environment";
 import {DateEvent, Day} from "../models/dateModel";
 import {Relation} from "../models/relationModel";
@@ -45,6 +45,13 @@ export class CalendarService {
     this.calendarDateChange.next(!this.calendarDateChange);
   }
 
+  initiateGoogleLogin() : Observable<any> {
+    const options = {
+      observe: 'response' as const
+    }
+    return this._client.get<any>(this.api + "auth/google/login", options)
+  }
+
   createTask(title:string, description:string, dateBeginObjet:DateEvent, recurrence:string, participant:Relation[]) :Observable<any> {
     const dateBegin : string = this._dateConstructorForAPI(dateBeginObjet);
     const isRecurring = recurrence !== "";
@@ -85,6 +92,10 @@ export class CalendarService {
 
   getAllPlanned() : Observable<[ResAllTask, ResAllMeet]> {
     return forkJoin([this._getAllTasks(), this._getAllMeets()]);
+  }
+
+  getAllGoogleEvents() : Observable<ResAllGoogleEvent> {
+    return this._client.get<ResAllGoogleEvent>(this.api + "/google/events")
   }
 
   getOneTask(id : number) : Observable<ResOneTask> {

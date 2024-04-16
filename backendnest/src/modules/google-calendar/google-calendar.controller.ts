@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { GoogleCalendarService } from './google-calendar.service';
 
 @Controller('google')
@@ -9,6 +9,10 @@ export class GoogleCalendarController {
 
     @Get('events')
     async getEvents() {
-        return await this.googleCalendarService.getEvents('primary')
+        const events = await this.googleCalendarService.getEvents('primary')
+        return { 
+            result: events,
+            status: HttpStatus.OK
+        }
     }
 }

@@ -469,4 +469,29 @@ export class CalendarComponent implements OnInit {
   showFriendsPicker() {
     this.displayFriendsPicker = true;
   }
+
+  initiateGoogleCalendarAddition() {
+    this._calendarService.initiateGoogleLogin().subscribe({
+      next: (response) => {
+        if (response.status === 302) {
+          const redirectUrl = response.headers.get('Location')
+          if (redirectUrl) {
+            const popupWindow = window.open(redirectUrl, 'GoogleAuthPopup', 'width=600,height=600')
+            if (popupWindow) {
+              console.log('Successful redirection')
+            } else {
+              console.log('Failed to open popup windows')
+            }
+          } else {
+            console.log('No redirection URL found in response')
+          }
+        } else {
+          console.log('Error in Google redirection');
+        }
+      },
+      error: (error) => {
+        this._errorService.errorHandler(error);
+      }
+    })
+  }
 }

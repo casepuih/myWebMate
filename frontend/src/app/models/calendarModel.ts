@@ -54,3 +54,28 @@ export interface ResOneMeet {
   result: ResultOneMeet;
   status: number;
 }
+
+export interface GoogleEvent {
+  id?: string;
+  summary?: string;
+  description?: string;
+  start?: {
+      date?: string;
+      dateTime?: string;
+      timeZone?: string;
+  }
+  end?: {
+      date?: string;
+      dateTime?: string;
+      timeZone?: string;
+  }
+}
+
+export interface GoogleEvents {
+  meets: GoogleEvent[];
+}
+
+export interface ResAllGoogleEvent {
+  result: GoogleEvents;
+  status: number;
+}

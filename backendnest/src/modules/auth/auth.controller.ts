@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Post, Req, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Logger, Post, Redirect, Req, Request, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateMemberDto } from 'src/modules/members/dto/create-member.dto';
 import { TokenGeneratorService } from './token-generator.service';
@@ -39,18 +39,26 @@ export class AuthController {
     return token
   }
 
+    // @Redirect('https://accounts.google.com/o/oauth2/v2/auth', 302)
   @Public()
   @Get('google/login')
   @UseGuards(GoogleAuthGuard)
-  handleLogin(@Request() req) {
-    return this.authService.handlerLogin()
+  handleLogin(@Res() res) {
+    // this.logger.debug('Google Login route')
+    // this.logger.debug(res.headers)
+    // return {
+    //   response_type: 'code',
+    //   redirect_uri: process.env.GOOGLE_OAUTH_REDIRECT_URI,
+    //   scope: 'email profile https://www.googleapis.com/auth/calendar.events.readonly',
+    //   client_id: process.env.GOOGLE_OAUTH_CLIENT_ID
+    // }
   }
 
   @Public()
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
-  handleRedirect(@Req() req) {
-    return req.user 
+  handleRedirect(@Req() req, @Res() res) {
+    res.status(HttpStatus.OK).json({ access_token: req.user.accessToken}).redirect('http://localhost:4200')
   }
 
   @Public()
