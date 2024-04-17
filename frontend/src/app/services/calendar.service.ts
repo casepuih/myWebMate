@@ -45,13 +45,6 @@ export class CalendarService {
     this.calendarDateChange.next(!this.calendarDateChange);
   }
 
-  initiateGoogleLogin() : Observable<any> {
-    const options = {
-      observe: 'response' as const
-    }
-    return this._client.get<any>(this.api + "auth/google/login", options)
-  }
-
   createTask(title:string, description:string, dateBeginObjet:DateEvent, recurrence:string, participant:Relation[]) :Observable<any> {
     const dateBegin : string = this._dateConstructorForAPI(dateBeginObjet);
     const isRecurring = recurrence !== "";

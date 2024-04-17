@@ -5,6 +5,7 @@ import { TokenGeneratorService } from './token-generator.service';
 import { Public } from 'src/decorators/public.decorator';
 import { NotepadService } from '../notepad/notepad.service';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { GoogleStrategy } from './strategies/google.strategy';
 
 @Controller('auth')
 export class AuthController {
@@ -12,7 +13,8 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly tokenGeneratorService: TokenGeneratorService,
-    private readonly notepadService: NotepadService
+    private readonly notepadService: NotepadService,
+    private readonly googleStrategy: GoogleStrategy
   ) {}
 
   @Public()
@@ -39,26 +41,17 @@ export class AuthController {
     return token
   }
 
-    // @Redirect('https://accounts.google.com/o/oauth2/v2/auth', 302)
   @Public()
   @Get('google/login')
   @UseGuards(GoogleAuthGuard)
-  handleLogin(@Res() res) {
-    // this.logger.debug('Google Login route')
-    // this.logger.debug(res.headers)
-    // return {
-    //   response_type: 'code',
-    //   redirect_uri: process.env.GOOGLE_OAUTH_REDIRECT_URI,
-    //   scope: 'email profile https://www.googleapis.com/auth/calendar.events.readonly',
-    //   client_id: process.env.GOOGLE_OAUTH_CLIENT_ID
-    // }
-  }
+  handleLogin(@Res() res) {}
 
   @Public()
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
+  @Redirect('http://localhost:4200')
   handleRedirect(@Req() req, @Res() res) {
-    res.status(HttpStatus.OK).json({ access_token: req.user.accessToken}).redirect('http://localhost:4200')
+    // res.status(HttpStatus.OK).json({ access_token: req.user.accessToken}).redirect('http://localhost:4200')
   }
 
   @Public()

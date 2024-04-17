@@ -14,25 +14,27 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
             refreshToken: true,
             accessType: 'offline',
             prompt: 'consent',
-            // authorizationParams: {
-            //     access_type: 'offline',
-            // },
         })
     }
 
     async validate(accessToken: string, refreshToken: string, profile: Profile, done: VerifyCallback): Promise<any> {
-        const { id, name, emails, photos } = profile
-        const user = {
-            email: emails[0].value,
-            firstname: name.givenName,
-            lastname: name.familyName,
-            picture: photos[0].value,
-            accessToken: accessToken,
-            refreshToken: refreshToken,
+        try {
+            // TODO: ajouter en base le refreshToken
+            const { name, emails, photos } = profile
+            const user = {
+                email: emails[0].value,
+                firstname: name.givenName,
+                lastname: name.familyName,
+                picture: photos[0].value,
+                accessToken: accessToken,
+                refreshToken: refreshToken,
+            }
+            this.logger.debug(user)
+            this.logger.debug(accessToken)
+            this.logger.debug(refreshToken)
+            done(null, user)
+        } catch (error) {
+            done(error, null)
         }
-        this.logger.debug(user)
-        this.logger.debug(accessToken)
-        this.logger.debug(refreshToken)
-        done(null, user)
     }
 }
