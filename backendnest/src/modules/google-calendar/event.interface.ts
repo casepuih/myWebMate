@@ -1,5 +1,6 @@
 export interface Event {
     id?: string
+    status?: string
     summary?: string
     description?: string
     start?: {
@@ -12,4 +13,6 @@ export interface Event {
         dateTime?: string
         timeZone?: string
     }
+    recurrence?: string[]
+
 }

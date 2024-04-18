@@ -34,6 +34,7 @@ export interface Meet {
   dateEnding: Date;
   isRecurring: boolean;
   recurrence: string;
+  source: string;
   MemberId?:number[];
 }
 

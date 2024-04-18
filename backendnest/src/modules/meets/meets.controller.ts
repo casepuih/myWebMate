@@ -24,7 +24,9 @@ export class MeetsController {
   @Get()
   async findAllByMemberId(@Request() req) {
     const userId = req.user.id
-    const meets = await this.membersService.findUserMeets(userId)
+    // const meets = await this.membersService.findUserMeets(userId)
+    const meets = await this.meetsService.findAllMeets(userId)
+
     return { meets: meets }
   }
 

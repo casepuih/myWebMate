@@ -46,7 +46,6 @@ export class Member {
     @Transform(({ value }) => value.map(member => member.id))
     friendIds: number[]
 
-
     @OneToMany(() => Invitation, invitation => invitation.receiver)
     receivedInvitations: Invitation[]
 
@@ -61,4 +60,7 @@ export class Member {
   
     @UpdateDateColumn()
     readonly updated_at: Date 
+
+    @Column()
+    googleAccessToken?: string
 }

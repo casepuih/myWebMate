@@ -1,4 +1,4 @@
-export class Meet {
+export class UnifiedMeet {
     id: number
     title: string
     description: string
