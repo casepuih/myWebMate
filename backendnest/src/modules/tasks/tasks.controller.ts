@@ -14,10 +14,10 @@ export class TasksController {
   ) {}
 
   @Post()
-  create(@Request() req, @Body() createTaskDto: CreateTaskDto) {
+  async create(@Request() req, @Body() createTaskDto: CreateTaskDto) {
     const userId = req.user.id
     createTaskDto.member = userId
-    return this.tasksService.create(createTaskDto);
+    return await this.tasksService.create(createTaskDto);
   }
 
   @Get()
@@ -34,12 +34,12 @@ export class TasksController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.tasksService.update(+id, updateTaskDto);
+  async update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
+    return await this.tasksService.update(+id, updateTaskDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tasksService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.tasksService.remove(+id);
   }
 }

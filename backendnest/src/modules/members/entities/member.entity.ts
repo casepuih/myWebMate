@@ -1,6 +1,7 @@
 import { Exclude, Transform } from 'class-transformer';
 import { Invitation } from 'src/modules/invitations/entities/invitation.entity';
 import { Link } from 'src/modules/links/entities/link.entity';
+import { Meet } from 'src/modules/meets/entities/meet.entity';
 import { Notepad } from 'src/modules/notepad/entities/notepad.entity';
 import { Note } from 'src/modules/notes/entities/note.entity';
 import { Task } from 'src/modules/tasks/entities/task.entity';
@@ -33,6 +34,9 @@ export class Member {
 
     @OneToMany(() => Task, task => task.member)
     tasks: Task[]
+
+    @OneToMany(() => Meet, meet => meet.member)
+    meets: Meet[]
 
     @Exclude()
     @ManyToMany(type => Member)

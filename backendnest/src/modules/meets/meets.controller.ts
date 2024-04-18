@@ -1,36 +1,46 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Request, Logger, Put } from '@nestjs/common';
 import { MeetsService } from './meets.service';
 import { CreateMeetDto } from './dto/create-meet.dto';
 import { UpdateMeetDto } from './dto/update-meet.dto';
 import { BaseResponseInterceptor } from 'src/interceptors/base-response.interceptor';
+import { MembersService } from '../members/services/members.service';
 
 @UseInterceptors(BaseResponseInterceptor)
 @Controller('meets')
 export class MeetsController {
-  constructor(private readonly meetsService: MeetsService) {}
+  private logger = new Logger()
+  constructor(
+    private readonly meetsService: MeetsService,
+    private readonly membersService: MembersService
+  ) {}
 
   @Post()
-  create(@Body() createMeetDto: CreateMeetDto) {
-    return this.meetsService.create(createMeetDto);
+  async create(@Request() req, @Body() createMeetDto: CreateMeetDto) {
+    const userId = req.user.id
+    createMeetDto.member = userId
+    return await this.meetsService.create(createMeetDto);
   }
 
   @Get()
-  findAll() {
-    return { meets: []}
+  async findAllByMemberId(@Request() req) {
+    const userId = req.user.id
+    const meets = await this.membersService.findUserMeets(userId)
+    return { meets: meets }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.meetsService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const meet = await this.meetsService.findOne(+id)
+    return { meet: [meet] }
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMeetDto: UpdateMeetDto) {
-    return this.meetsService.update(+id, updateMeetDto);
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() updateMeetDto: UpdateMeetDto) {
+    return await this.meetsService.update(+id, updateMeetDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.meetsService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.meetsService.remove(+id);
   }
 }

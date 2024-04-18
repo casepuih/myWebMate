@@ -9,6 +9,7 @@ import { Note } from 'src/modules/notes/entities/note.entity';
 import { Invitation } from 'src/modules/invitations/entities/invitation.entity';
 import { UpdateInvitationDto } from 'src/modules/invitations/dto/update-invitation.dto';
 import { Task } from 'src/modules/tasks/entities/task.entity';
+import { Meet } from 'src/modules/meets/entities/meet.entity';
 
 @Injectable()
 export class MembersService {
@@ -107,6 +108,17 @@ export class MembersService {
       throw new NotFoundException(`User with ID ${id} not found`)
     }
     return user.tasks
+  }
+
+  async findUserMeets(id: number): Promise<Meet[]> {
+    const user = await this.membersRepository.findOne({
+      relations: ['meets'], 
+      where: {id},
+    })
+    if (!user){
+      throw new NotFoundException(`User with ID ${id} not found`)
+    }
+    return user.meets
   }
 
   async isFriendsWith(id: number, friendId: number): Promise<boolean> {

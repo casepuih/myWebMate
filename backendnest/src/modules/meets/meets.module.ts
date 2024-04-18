@@ -1,9 +1,17 @@
 import { Module } from '@nestjs/common';
 import { MeetsService } from './meets.service';
 import { MeetsController } from './meets.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Meet } from './entities/meet.entity';
+import { MembersModule } from '../members/members.module';
+import { MembersService } from '../members/services/members.service';
+import { GoogleCalendarService } from '../google-calendar/google-calendar.service';
+import { GoogleCalendarModule } from '../google-calendar/google-calendar.module';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([Meet]), MembersModule, GoogleCalendarModule],
   controllers: [MeetsController],
-  providers: [MeetsService],
+  providers: [MeetsService, MembersService, GoogleCalendarService],
+  exports: [TypeOrmModule]
 })
 export class MeetsModule {}
