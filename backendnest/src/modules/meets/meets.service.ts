@@ -44,13 +44,7 @@ export class MeetsService {
 
     this.logger.debug(dbMeets)
     const dbMeetsWithSource: UnifiedMeet[] = dbMeets.map(dbMeet => {
-      const unifiedMeetKeys = Object.keys(UnifiedMeet)
-      const mappedMeet: Partial<UnifiedMeet> = {}
-
-      unifiedMeetKeys.forEach(key => {
-        mappedMeet[key] = dbMeet[key]
-      })
-      mappedMeet.source = 'local'
+      const mappedMeet: Partial<UnifiedMeet> = {...dbMeet, source:'local'}
       return mappedMeet as UnifiedMeet
     })
 
