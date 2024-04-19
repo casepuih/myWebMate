@@ -73,6 +73,15 @@ export class MembersService {
     return `This action removes a #${id} member`;
   }
 
+  async addGoogleAccessToken(member: Member, accessToken: string): Promise<void> {
+    try {
+      member.googleAccessToken = accessToken
+      await this.membersRepository.save(member)
+    } catch (error) {
+      throw new Error('Failed to add Google access token')
+    }
+  }
+
   async findByEmail(email: string): Promise<Member | null> {
     return await this.membersRepository.findOne({ where: { email } })
   }

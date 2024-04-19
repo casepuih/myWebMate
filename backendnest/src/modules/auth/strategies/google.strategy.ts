@@ -1,11 +1,14 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Profile, Strategy, VerifyCallback } from "passport-google-oauth20";
+import { MembersService } from "src/modules/members/services/members.service";
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     private logger = new Logger()
-    constructor(){
+    constructor(
+        private readonly membersService: MembersService
+    ){
         super({
             clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
             clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
@@ -29,6 +32,12 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
                 accessToken: accessToken,
                 refreshToken: refreshToken,
             }
+            const member = await this.membersService.findByEmail(user.email)
+            if (!member) {
+                throw new UnauthorizedException('Cannot authenticate google acount')
+            }
+            await this.membersService.addGoogleAccessToken(member, user.accessToken)
+            
             this.logger.debug(user)
             this.logger.debug(accessToken)
             this.logger.debug(refreshToken)
