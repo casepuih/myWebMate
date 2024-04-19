@@ -61,6 +61,6 @@ export class Member {
     @UpdateDateColumn()
     readonly updated_at: Date 
 
-    @Column()
-    googleAccessToken?: string
+    @Column({ default: '' })
+    googleAccessToken: string
 }

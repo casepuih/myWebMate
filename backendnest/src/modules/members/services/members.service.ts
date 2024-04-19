@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateMemberDto } from '../dto/create-member.dto';
 import { UpdateMemberDto } from '../dto/update-member.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Member } from '../entities/member.entity';
-import { In, Repository } from 'typeorm';
+import { In, QueryFailedError, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Note } from 'src/modules/notes/entities/note.entity';
 import { Invitation } from 'src/modules/invitations/entities/invitation.entity';
@@ -20,10 +20,18 @@ export class MembersService {
   ){}
 
   async create(createMemberDto: CreateMemberDto): Promise<Member> {
-    const hashPassword = await bcrypt.hash(createMemberDto.password, 10)
-    const member = this.membersRepository.create(createMemberDto)
-    member.hashPassword = hashPassword
-    return await this.membersRepository.save(member)
+    try {
+      const hashPassword = await bcrypt.hash(createMemberDto.password, 10)
+      const member = this.membersRepository.create(createMemberDto)
+      member.hashPassword = hashPassword
+      return await this.membersRepository.save(member)
+    } catch (error) {
+      if (error instanceof QueryFailedError) {
+        throw new ConflictException('Email address already exists')
+        this.logger.debug(error.detail)
+      }
+      throw error
+    }
   }
 
   async findAll(): Promise<Member[]> {
