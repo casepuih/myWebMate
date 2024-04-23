@@ -81,8 +81,11 @@ export class MeetsService {
   async getGoogleMeets(userId: number): Promise<UnifiedMeet[]> {
     const user = await this.membersService.findOne(userId)
     const googleAccessToken = user.googleAccessToken
+
+    // User has not synced google calendar
     if (!googleAccessToken) {
-      throw new UnauthorizedException('Cannot fetch Google Meets of the user')
+      return
+      // throw new UnauthorizedException('Cannot fetch Google Meets of the user')
     }
     const events = await this.googleCalendarService.getEvents(googleAccessToken)
     

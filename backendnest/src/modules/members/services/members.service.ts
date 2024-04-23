@@ -105,6 +105,17 @@ export class MembersService {
     return user.notes
   }
 
+  async findNotesSharedWithMe(id: number): Promise<Note[]> {
+    const user = await this.membersRepository.findOne({
+      relations: ['notesSharedWithMe'], 
+      where: {id},
+    })
+    if (!user){ 
+      throw new NotFoundException(`User with ID ${id} not found`)
+    }
+    return user.notesSharedWithMe
+  }
+
   async findUserFriends(id: number): Promise<Member[]> {
     const user = await this.membersRepository.findOne({
       relations: ['friends'], 

@@ -32,6 +32,10 @@ export class Member {
     @OneToMany(() => Note, note => note.member)
     notes: Note[]
 
+    @ManyToMany(() => Note, note => note.sharedWith)
+    @JoinTable()
+    notesSharedWithMe: Note[]
+
     @OneToMany(() => Task, task => task.member)
     tasks: Task[]
 
@@ -63,4 +67,7 @@ export class Member {
 
     @Column({ default: '' })
     googleAccessToken: string
+
+    @Column({ default: '' })
+    googleRefreshToken: string
 }

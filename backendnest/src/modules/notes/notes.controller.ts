@@ -49,6 +49,13 @@ export class NotesController {
     }
   }
 
+  @Get('shared')
+  async findAllNotesSharedWithMe(@Request() req) {
+    const userId = req.user.id
+    const notes = await this.membersService.findNotesSharedWithMe(userId)
+    return notes
+  }
+
   @UseInterceptors(NotesResponseInterceptor)
   @Get(':id')
   async findOne(@Param('id') id: string) {
