@@ -49,8 +49,10 @@ export class NotesController {
     }
   }
 
+  @UseInterceptors(NotesResponseInterceptor)
   @Get('shared')
   async findAllNotesSharedWithMe(@Request() req) {
+    this.logger.debug('Notes shared with me')
     const userId = req.user.id
     const notes = await this.membersService.findNotesSharedWithMe(userId)
     return notes

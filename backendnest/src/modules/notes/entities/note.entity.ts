@@ -1,4 +1,4 @@
-import { Exclude } from "class-transformer";
+import { Exclude, Expose, Transform } from "class-transformer";
 import { Member } from "src/modules/members/entities/member.entity";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -18,9 +18,15 @@ export class Note {
     member: Member;
 
     @Exclude()
-    @ManyToMany(() => Member)
+    @ManyToMany(() => Member, { eager: true })
     @JoinTable()
     sharedWith?: Member[];
+
+    @Expose()
+    get sharedWithIds(): number[] {
+        const ids = this.sharedWith.map(member => member.id)
+        return ids
+    }
 
     @Exclude()
     @CreateDateColumn()

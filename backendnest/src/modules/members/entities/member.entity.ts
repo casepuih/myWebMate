@@ -32,8 +32,8 @@ export class Member {
     @OneToMany(() => Note, note => note.member)
     notes: Note[]
 
-    @ManyToMany(() => Note, note => note.sharedWith)
     @JoinTable()
+    @ManyToMany(() => Note, note => note.sharedWith)
     notesSharedWithMe: Note[]
 
     @OneToMany(() => Task, task => task.member)

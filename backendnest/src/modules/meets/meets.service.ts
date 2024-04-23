@@ -84,7 +84,7 @@ export class MeetsService {
 
     // User has not synced google calendar
     if (!googleAccessToken) {
-      return
+      return []
       // throw new UnauthorizedException('Cannot fetch Google Meets of the user')
     }
     const events = await this.googleCalendarService.getEvents(googleAccessToken)
