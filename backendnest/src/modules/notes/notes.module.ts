@@ -11,5 +11,6 @@ import { AuthService } from 'src/modules/auth/auth.service';
   imports: [TypeOrmModule.forFeature([Note]), MembersModule],
   controllers: [NotesController],
   providers: [NotesService, MembersService, AuthService],
+  exports: [TypeOrmModule]
 })
 export class NotesModule {}
