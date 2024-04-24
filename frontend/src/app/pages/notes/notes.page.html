@@ -1,0 +1,21 @@
+<ion-content>
+  <app-header></app-header>
+  <br/>
+  <a routerLink="/home">Retour à l'accueil</a>
+
+  <div class="titleContainer">
+    Titre :
+    <input *ngIf="note" [(ngModel)]="note.title" (ngModelChange)="changeNote()">
+  </div>
+
+  <div class="textContainer">
+    Contenu :
+    <textarea *ngIf="note" [(ngModel)]="note.content" (ngModelChange)="changeNote()"></textarea>
+  </div>
+
+  <div class="deleteNote">
+    <button (click)="deleteNote()">Supprimer définitivement cette note</button>
+  </div>
+
+  <app-footer></app-footer>
+</ion-content>
