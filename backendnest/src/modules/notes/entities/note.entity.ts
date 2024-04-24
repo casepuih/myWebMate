@@ -1,6 +1,7 @@
 import { Exclude, Expose, Transform } from "class-transformer";
 import { Member } from "src/modules/members/entities/member.entity";
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Permission } from "src/modules/permissions/entities/permission.entity";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Note {
@@ -21,6 +22,9 @@ export class Note {
     @ManyToMany(() => Member, { eager: true })
     @JoinTable()
     sharedWith?: Member[];
+
+    @OneToMany(() => Permission, permission => permission.note)
+    permissions: Permission[]
 
     @Exclude()
     @CreateDateColumn()

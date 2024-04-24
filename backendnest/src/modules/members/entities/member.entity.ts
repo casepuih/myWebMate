@@ -4,6 +4,7 @@ import { Link } from 'src/modules/links/entities/link.entity';
 import { Meet } from 'src/modules/meets/entities/meet.entity';
 import { Notepad } from 'src/modules/notepad/entities/notepad.entity';
 import { Note } from 'src/modules/notes/entities/note.entity';
+import { Permission } from 'src/modules/permissions/entities/permission.entity';
 import { Task } from 'src/modules/tasks/entities/task.entity';
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm';
 
@@ -35,6 +36,9 @@ export class Member {
     @JoinTable()
     @ManyToMany(() => Note, note => note.sharedWith)
     notesSharedWithMe: Note[]
+
+    @OneToMany(() => Permission, permission => permission.member)
+    permissions: Permission[]
 
     @OneToMany(() => Task, task => task.member)
     tasks: Task[]
