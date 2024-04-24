@@ -22,12 +22,6 @@ export class Note {
     @JoinTable()
     sharedWith?: Member[];
 
-    @Expose()
-    get sharedWithIds(): number[] {
-        const ids = this.sharedWith.map(member => member.id)
-        return ids
-    }
-
     @Exclude()
     @CreateDateColumn()
     readonly created_at: Date 

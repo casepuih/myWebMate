@@ -15,6 +15,7 @@ import { LinksModule } from './modules/links/links.module';
 import { GoogleCalendarService } from './modules/google-calendar/google-calendar.service';
 import { GoogleCalendarController } from './modules/google-calendar/google-calendar.controller';
 import { GoogleCalendarModule } from './modules/google-calendar/google-calendar.module';
+import { PermissionsModule } from './modules/permissions/permissions.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { GoogleCalendarModule } from './modules/google-calendar/google-calendar.
     NotepadModule,
     LinksModule,
     GoogleCalendarModule,
+    PermissionsModule,
   ],
   controllers: [AppController, GoogleCalendarController],
   providers: [AppService, Logger, GoogleCalendarService],
